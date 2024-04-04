@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="InterestComponent">
-        <attr name="text" format="boolean" />
-        <attr name="icon" format="enum">
-            <enum name="left" value="0"/>
-            <enum name="right" value="1"/>
-        </attr>
+        <attr name="imageSrc" format="string" />
+        <attr name="labelText" format="string" />
+        <attr name="labelColor" format="color"/>
     </declare-styleable>
 </resources>
