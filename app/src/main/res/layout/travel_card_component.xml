@@ -1,28 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="380dp"
+    android:layout_height="310dp"
+    android:layout_gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/rounded_card_corners"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/rounded_user_corners"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/user" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User 1"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/travelImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="180dp"
+            android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/travelName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="Travel Name"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/title"
+            android:textAlignment="center"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -30,26 +65,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="left">
+
+                <ImageView
+                    android:id="@+id/affinityImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingRight="10dp"
+                    app:srcCompat="@drawable/affinity" />
 
                 <TextView
                     android:id="@+id/affinityPerc"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="80%" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="right">
 
                 <TextView
                     android:id="@+id/likesNumber"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1008" />
+
+                <ImageView
+                    android:id="@+id/likesImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    app:srcCompat="@drawable/heart_not_selected" />
+
             </LinearLayout>
 
         </LinearLayout>
