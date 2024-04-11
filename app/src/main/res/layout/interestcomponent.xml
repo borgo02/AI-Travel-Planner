@@ -7,45 +7,56 @@
     android:padding="8dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="3dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/black">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    app:checkedIconTint="#FFFFFF"
+    app:strokeColor="@color/black"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <!-- Icona -->
-        <ImageView
-            android:id="@+id/iconImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="39dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_home_black_24dp" />
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <!-- Nome della Categoria -->
-        <TextView
-            android:id="@+id/categoryNameTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Nome Categoria" />
-    </LinearLayout>
-    <!-- Slider -->
-    <SeekBar
-        android:id="@+id/slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:max="100" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <!-- Icona -->
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_home_black_24dp" />
 
-</LinearLayout>
+            <!-- Nome della Categoria -->
+            <TextView
+                android:id="@+id/label_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="Nome Categoria" />
+        </LinearLayout>
+        <!-- Slider -->
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#FFFF"
+            android:foregroundTint="#FFFF"
+            android:valueFrom="0.0"
+            android:valueTo="10.0"
+            app:haloColor="#FFFF"
+            app:thumbColor="#FFFF"
+            app:thumbStrokeColor="#000000"
+            app:tickColor="#FFFF"
+            app:tickColorActive="#1B4965"
+            app:tickColorInactive="#FFFF" />
+
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
