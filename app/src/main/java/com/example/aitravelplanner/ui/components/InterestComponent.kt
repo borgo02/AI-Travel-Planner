@@ -29,7 +29,6 @@ class InterestComponent @JvmOverloads constructor(
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.InterestComponent)
         val imageRes = typedArray.getResourceId(R.styleable.InterestComponent_imageSrc, 0)
         val labelText = typedArray.getString(R.styleable.InterestComponent_labelText)
-        val labelColor = typedArray.getColor(R.styleable.InterestComponent_labelColor, Color.BLACK)
         typedArray.recycle()
 
         if (imageRes != 0) {
@@ -39,7 +38,5 @@ class InterestComponent @JvmOverloads constructor(
         if (labelText != null) {
             this.labelText.text = labelText
         }
-
-        this.labelText.setTextColor(labelColor)
     }
 }
