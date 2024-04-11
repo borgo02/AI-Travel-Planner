@@ -15,13 +15,27 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var travelCardsRecyclerView: RecyclerView
-    private lateinit var travelCardsList: List<CardTravel>
-    lateinit var usernames : List<String>
-    lateinit var userImages : List<Int>
-    lateinit var travelImages : List<Int>
-    lateinit var travelNames : List<String>
-    lateinit var travelAffinities : List<String>
-    lateinit var travelLikes : List<String>
+    private lateinit var travelCardsList: ArrayList<CardTravel>
+    lateinit var usernames : ArrayList<String>
+    lateinit var userImages : ArrayList<Int>
+    lateinit var travelImages : ArrayList<Int>
+    lateinit var travelNames : ArrayList<String>
+    lateinit var travelAffinities : ArrayList<String>
+    lateinit var travelLikes : ArrayList<String>
+
+    //get data method for storing data into travelCardsList
+    private fun getTravelCards(){
+
+        for(i in (travelCardsList.indices)){
+            val card = CardTravel(  usernames[i], userImages[i],
+                travelImages[i], travelNames[i],
+                travelAffinities[i], travelLikes[i])
+            travelCardsList.add(card)
+        }
+
+        travelCardsRecyclerView.adapter = CardAdapter(travelCardsList)
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,25 +43,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        travelCardsList = listOf(
+        travelCardsList = arrayListOf(
             //insert elements here
         )
-        usernames = listOf(
+        usernames = arrayListOf(
             //insert elements here
         )
-        userImages = listOf(
+        userImages = arrayListOf(
             //insert elements here
         )
-        travelImages = listOf(
+        travelImages = arrayListOf(
             //insert elements here
         )
-        travelNames = listOf(
+        travelNames = arrayListOf(
             //insert elements here
         )
-        travelAffinities = listOf(
+        travelAffinities = arrayListOf(
             //insert elements here
         )
-        travelLikes = listOf(
+        travelLikes = arrayListOf(
             //insert elements here
         )
 
@@ -55,9 +69,10 @@ class MainActivity : AppCompatActivity() {
         travelCardsRecyclerView.layoutManager = LinearLayoutManager(this)
         travelCardsRecyclerView.setHasFixedSize(true)
 
-        travelCardsList = listOf<CardTravel>()
+        travelCardsList = arrayListOf<CardTravel>()
 
-        //get data method for storing data into travelCardsList
+        // populate cards
+        getTravelCards()
 
         val navView: BottomNavigationView = binding.navView
 

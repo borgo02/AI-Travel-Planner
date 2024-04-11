@@ -5,4 +5,13 @@
         <attr name="labelText" format="string" />
         <attr name="labelColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="TravelCard">
+        <attr name="userImage" format="integer" />
+        <attr name="username" format="string" />
+        <attr name="travelImage" format="integer" />
+        <attr name="travelName" format="string" />
+        <attr name="affinityPerc" format="string" />
+        <attr name="likesNumber" format="string"/>
+    </declare-styleable>
 </resources>
