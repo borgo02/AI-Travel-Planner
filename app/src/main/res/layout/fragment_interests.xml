@@ -18,7 +18,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_story"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_art"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_party"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +51,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_nature"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_enterteinment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_sport"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +84,7 @@
             android:layout_marginTop="0dp"
             app:imageSrc="@drawable/ic_home_black_24dp"
             app:labelColor="#FF0000"
-            app:labelText="My Image"
+            app:labelText="@string/interest_shopping"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
