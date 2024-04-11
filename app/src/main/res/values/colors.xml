@@ -4,7 +4,7 @@
     <color name="title">#1B4965</color>
     <color name="input_text">#EEF8FF</color>
     <color name="background">#CAE9FF</color>
-    <color name="black">#000000</color>
+    <color name="text">#000000</color>
     <color name="icons_not_selected">#5FA8D3</color>
     <color name="card_background">#FFFFFF</color>
     <color name="icon_selected">#FFFFFF</color>
