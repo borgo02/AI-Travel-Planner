@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:autofillHints="@string/app_name"
+    android:contentDescription="@string/app_name"
     tools:context=".ui.interests.InterestsFragment">
 
     <LinearLayout
@@ -16,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_story"
             app:labelText="@string/interest_story"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_art"
             app:labelText="@string/interest_art"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_party"
             app:labelText="@string/interest_party"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_nature"
             app:labelText="@string/interest_nature"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
-            app:labelText="@string/interest_enterteinment"
+            app:imageSrc="@drawable/interest_entertainment"
+            app:labelText="@string/interest_entertainment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_sport"
             app:labelText="@string/interest_sport"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:imageSrc="@drawable/ic_home_black_24dp"
+            app:imageSrc="@drawable/interest_shopping"
             app:labelText="@string/interest_shopping"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

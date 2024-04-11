@@ -13,7 +13,6 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         app:imageSrc="@drawable/ic_home_black_24dp"
-        app:labelColor="#FF0000"
         app:labelText="My Image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
