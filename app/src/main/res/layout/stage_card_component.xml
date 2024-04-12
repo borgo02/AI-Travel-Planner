@@ -4,31 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="230dp"
     android:layout_height="310dp"
-    android:orientation="vertical"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/rounded_card_corners">
+    android:background="@drawable/style_rounded_corners"
+    android:backgroundTint="@color/lighter_lighter_blue"
+    android:orientation="vertical">
 
-
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/stageImage"
             android:layout_width="match_parent"
             android:layout_height="235dp"
-            android:
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
-
 
         <TextView
             android:id="@+id/stageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Nome Tappa"
+            android:textAlignment="center"
+            android:textColor="@color/dark_blue"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stageImage" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/stageAffinityImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stageName"
+            app:srcCompat="@drawable/dashboard_affinity" />
+
+        <TextView
+            android:id="@+id/affinityPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:text="00%"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/stageAffinityImage"
+            app:layout_constraintTop_toBottomOf="@+id/stageName" />
+
+        <ImageView
+            android:id="@+id/addStageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stageName"
+            app:srcCompat="@drawable/modify_travel_plus" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>
