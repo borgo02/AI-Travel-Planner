@@ -21,7 +21,7 @@ class InterestComponent @JvmOverloads constructor(
     init {
         inflate(context, R.layout.interestcomponent, this)
         imageView = findViewById(R.id.image_view)
-        labelText = findViewById(R.id.label_text)
+        labelText = findViewById(R.id.label_text)   
         attrs?.let { setAttributes(context, it) }
     }
 
