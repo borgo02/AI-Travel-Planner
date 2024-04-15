@@ -6,7 +6,7 @@
         <attr name="labelColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="TravelCard">
+    <declare-styleable name="CardTravel">
         <attr name="userImage" format="integer" />
         <attr name="username" format="string" />
         <attr name="travelImage" format="integer" />

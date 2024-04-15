@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.ActivityMainBinding
+import com.example.aitravelplanner.ui.components.CardTravel
 
 class MainActivity : AppCompatActivity() {
 
