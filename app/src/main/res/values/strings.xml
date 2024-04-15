@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_travel">Genera viaggio</string>
     <string name="title_profile">Il tuo profilo</string>
+    <string name="title_activity_login">login_activity</string>
+    <string name="login_text">Bentornato!</string>
+    <string name="login_button_text">Accedi con Google</string>
 </resources>

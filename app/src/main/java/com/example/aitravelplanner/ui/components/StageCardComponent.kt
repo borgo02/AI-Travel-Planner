@@ -30,7 +30,7 @@ class StageCardComponent @JvmOverloads constructor(
         val imageRes = typedArray.getResourceId(R.styleable.StageCardComponent_stageImage, 0)
         val labelText = typedArray.getString(R.styleable.StageCardComponent_stageName)
         val percentage = typedArray.getString(R.styleable.StageCardComponent_stageAffinity)
-        val labelColor = typedArray.getColor(R.styleable.InterestComponent_labelColor, Color.BLACK)
+        val labelColor = typedArray.getColor(R.styleable.StageCardComponent_labelColor1, Color.BLACK)
         typedArray.recycle()
 
         if (imageRes != 0) {

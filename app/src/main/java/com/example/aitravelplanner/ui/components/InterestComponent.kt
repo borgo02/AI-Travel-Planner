@@ -1,5 +1,4 @@
 package com.example.aitravelplanner.ui.components
-
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
