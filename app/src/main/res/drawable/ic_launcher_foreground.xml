@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
-android:viewportWidth="3300"
-android:viewportHeight="3200"
+android:viewportWidth="4200"
+android:viewportHeight="4400"
 android:width="200dp"
-android:height="200dp">
-
-<path
+android:height="200dp"
+android:layout_gravity="center">
+    <group android:translateX="850" android:translateY="850">
+    <path
     android:pathData="M1347.5 2L1349.5 3L1361.5 3L1362.5 4L1374.5 4L1375.5 5L1387.5 5L1388.5 6L1399 6.5L1387.5 7L1386.5 6L1374.5 6L1373.5 5L1348.5 4L1347.5 2Z"
     android:fillColor="#FFFFFF"
     android:fillAlpha="0.9529412"
@@ -3241,4 +3242,5 @@ android:height="200dp">
     android:fillColor="#FFFFFF"
     android:strokeColor="#FFFFFF"
     android:strokeWidth="1" />
+</group>
 </vector>
