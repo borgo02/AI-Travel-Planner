@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/rounded_card_corners"
+        android:background="@drawable/style_rounded_corners"
         android:paddingBottom="10dp"
         android:paddingTop="10dp" >
 
@@ -22,14 +22,14 @@
             android:layout_height="30dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@drawable/rounded_user_corners"
+            android:background="@drawable/style_rounded_corners"
             android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/userImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/user" />
+                app:srcCompat="@drawable/profile_user" />
 
             <TextView
                 android:id="@+id/username"
@@ -54,7 +54,7 @@
             android:text="Travel Name"
             android:textSize="24dp"
             android:textStyle="bold"
-            android:textColor="@color/title"
+            android:textColor="@color/blue"
             android:textAlignment="center"/>
 
         <LinearLayout
@@ -75,7 +75,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingRight="10dp"
-                    app:srcCompat="@drawable/affinity" />
+                    app:srcCompat="@drawable/dashboard_affinity" />
 
                 <TextView
                     android:id="@+id/affinityPerc"
@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingLeft="10dp"
-                    app:srcCompat="@drawable/heart_not_selected" />
+                    app:srcCompat="@drawable/dashboard_heart_not_selected" />
 
             </LinearLayout>
 
