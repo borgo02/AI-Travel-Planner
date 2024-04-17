@@ -8,139 +8,210 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/lighter_blue">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingTop="@dimen/travel_form_items_margin_bottom"
+            android:paddingBottom="@dimen/travel_form_items_margin_bottom"
+            android:paddingLeft="@dimen/travel_form_padding_dx_sx"
+            android:paddingRight="@dimen/travel_form_padding_dx_sx"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/style_rounded_corners"
+            android:backgroundTint="@color/white">
 
             <TextView
                 android:id="@+id/source_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sourceText"/>
+                android:text="@string/sourceText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_font_size"
+                android:layout_marginBottom="5dp"/>
 
             <EditText
                 android:id="@+id/source_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:background="@drawable/style_rounded_corners"
+                android:backgroundTint="@color/lighter_lighter_blue"
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom"
+                android:padding="@dimen/edit_text_padding"
+                android:textSize="@dimen/text_font_size"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom">
 
                 <TextView
                     android:id="@+id/actual_position_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/actualPosText" />
+                    android:layout_weight="1"
+                    android:text="@string/actualPosText"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_font_size"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/actual_position_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="10dp"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"
+                    app:trackTint="@drawable/track_color_selector" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/destination_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/destText" />
+                android:text="@string/destText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_font_size"
+                android:layout_marginBottom="5dp"/>
 
             <EditText
                 android:id="@+id/dest_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom"
+                android:background="@drawable/style_rounded_corners"
+                android:backgroundTint="@color/lighter_lighter_blue"
+                android:inputType="text"
+                android:padding="@dimen/edit_text_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_font_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom">
 
                 <TextView
                     android:id="@+id/automatic_dest_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/autoDestText" />
+                    android:layout_weight="1"
+                    android:text="@string/autoDestText"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_font_size"/>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/automatic_dest_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:paddingStart="20dp"
+                    android:paddingEnd="10dp"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"
+                    app:trackTint="@drawable/track_color_selector" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/days_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/daysText" />
+                android:text="@string/daysText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_font_size"
+                android:layout_marginBottom="5dp"/>
 
             <EditText
                 android:id="@+id/days_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom"
+                android:background="@drawable/style_rounded_corners"
+                android:backgroundTint="@color/lighter_lighter_blue"
+                android:padding="@dimen/edit_text_padding"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/travel_form_items_margin_bottom">
 
                 <TextView
                     android:id="@+id/hotel_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/hotelText" />
+                    android:text="@string/hotelText"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_font_size"/>
 
                 <CheckBox
                     android:id="@+id/hotel_check"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"
+                    android:textSize="@dimen/text_font_size" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/budget_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/economicBudgetText" />
+                android:text="@string/budgetText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_font_size"/>
 
             <RadioGroup
                 android:id="@+id/budget_radio_group"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" >
 
                 <RadioButton
                     android:id="@+id/small_budget_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/economicBudgetText" />
+                    android:text="@string/economicBudgetText"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_font_size" />
 
                 <RadioButton
                     android:id="@+id/medium_budget_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/middleBudgetText" />
+                    android:text="@string/middleBudgetText"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_font_size"/>
 
                 <RadioButton
                     android:id="@+id/high_budget_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/highBudgetText" />
+                    android:text="@string/highBudgetText"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_font_size"/>
             </RadioGroup>
 
             <Button
                 android:id="@+id/submit_button"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="@string/generateTravelBtn" />
+                android:text="@string/generateTravelBtn"
+                android:backgroundTint="@color/light_blue"
+                android:layout_marginTop="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="@dimen/button_text_font_size"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
