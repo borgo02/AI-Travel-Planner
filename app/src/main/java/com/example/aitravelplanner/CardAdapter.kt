@@ -16,6 +16,8 @@ class CardAdapter(val cards: List<CardTravel>) : RecyclerView.Adapter<CardAdapte
         val affinityPerc = row.findViewById<TextView>(R.id.affinityPerc)
         val likesNumber = row.findViewById<TextView>(R.id.likesNumber)
         val likesImage = row.findViewById<TextView>(R.id.likesImage)
+        //val shareImage = row.findViewById<TextView>(R.id.shareImage)
+        //val timestamp = row.findViewById<TextView>(R.id.timestamp)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
@@ -35,6 +37,8 @@ class CardAdapter(val cards: List<CardTravel>) : RecyclerView.Adapter<CardAdapte
         holder.travelName.text = currentCard.travelName
         holder.affinityPerc.text = currentCard.affinityPerc
         holder.likesNumber.text = currentCard.likesNumber
+        //holder.shareImage.setImageResource(currentCard.shareImage)
+        //holder.timestamp.setImageResource(currentCard.timestamp)
     }
 
     override fun getItemCount(): Int = cards.size

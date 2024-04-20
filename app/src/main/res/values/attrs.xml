@@ -7,11 +7,15 @@
     </declare-styleable>
 
     <declare-styleable name="TravelCard">
-        <attr name="userImage" format="integer" />
+        <attr name="userImage" format="string" />
         <attr name="username" format="string" />
-        <attr name="travelImage" format="integer" />
+        <attr name="travelImage" format="string" />
         <attr name="travelName" format="string" />
         <attr name="affinityPerc" format="string" />
-        <attr name="likesNumber" format="string"/>
+        <attr name="affinityPercImage" format="string" />
+        <attr name="likesNumber" format="integer"/>
+        <attr name="likesImage" format="string"/>
+        <attr name="shareImage" format="string"/>
+        <attr name="timestamp" format="string"/>
     </declare-styleable>
 </resources>
