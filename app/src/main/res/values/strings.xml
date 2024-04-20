@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="logout">Esci</string>
+    <string name="profile_travel">I tuoi viaggi</string>
+    <string name="shared_travels"><u>Viaggi pubblicati</u></string>
 </resources>

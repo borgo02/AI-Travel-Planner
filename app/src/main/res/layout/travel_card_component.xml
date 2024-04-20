@@ -78,6 +78,13 @@
                     app:srcCompat="@drawable/dashboard_affinity" />
 
                 <TextView
+                    android:id="@+id/timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="" />
+
+                <TextView
                     android:id="@+id/affinityPerc"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -105,8 +112,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     app:srcCompat="@drawable/dashboard_heart_not_selected" />
+
+                <ImageView
+                    android:id="@+id/shareImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    app:srcCompat="@drawable/profile_share" />
 
             </LinearLayout>
 
