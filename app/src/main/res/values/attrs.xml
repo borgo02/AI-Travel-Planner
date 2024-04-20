@@ -17,5 +17,6 @@
         <attr name="likesImage" format="string"/>
         <attr name="shareImage" format="string"/>
         <attr name="timestamp" format="string"/>
+        <attr name="test" format="string"/>
     </declare-styleable>
 </resources>
