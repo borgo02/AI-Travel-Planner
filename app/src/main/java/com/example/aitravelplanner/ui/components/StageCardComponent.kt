@@ -2,6 +2,7 @@ package com.example.aitravelplanner.ui.components
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,7 +12,7 @@ class StageCardComponent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val stageImage: ImageView
     private val stageName: TextView
