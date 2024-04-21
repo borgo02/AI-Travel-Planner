@@ -73,19 +73,19 @@
             app:layout_constraintStart_toEndOf="@+id/stageAffinityImage"
             app:layout_constraintTop_toBottomOf="@+id/stageName" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/addStageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stageName"
-            app:srcCompat="@drawable/modify_travel_plus" />
+            app:srcCompat="@drawable/modify_travel_plus"
+            android:background="?android:selectableItemBackground"/>
 
         <Button
             android:id="@+id/deleteStageButton"
