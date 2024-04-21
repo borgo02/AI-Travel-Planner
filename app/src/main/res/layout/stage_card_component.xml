@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="230dp"
     android:layout_height="310dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
     android:background="@drawable/style_rounded_corners"
     android:backgroundTint="@color/lighter_lighter_blue"
     android:orientation="vertical">
@@ -87,6 +86,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stageName"
             app:srcCompat="@drawable/modify_travel_plus" />
+
+        <Button
+            android:id="@+id/deleteStageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/style_rounded_corners"
+            android:backgroundTint="@color/light_blue"
+            android:drawableStart="@drawable/ic_xmark"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/stage_button_delete"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stageName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
