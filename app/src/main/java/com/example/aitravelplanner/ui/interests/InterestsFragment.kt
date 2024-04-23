@@ -40,4 +40,9 @@ class InterestsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun confirmClicked(view: View) {
+        // Il tuo codice da eseguire quando il bottone viene premuto
+        println("Bottone premuto!")
+    }
 }
