@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.ui.interests
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,4 +19,9 @@ class InterestsViewModel : ViewModel() {
     val entertainmentValue = MutableLiveData(10.0f)
     val sportValue = MutableLiveData(10.0f)
     val shoppingValue = MutableLiveData(10.0f)
+
+    fun confirmClicked() {
+        // Il tuo codice da eseguire quando il bottone viene premuto
+        println("Bottone premuto!")
+    }
 }
