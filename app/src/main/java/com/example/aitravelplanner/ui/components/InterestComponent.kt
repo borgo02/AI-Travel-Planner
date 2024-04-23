@@ -17,21 +17,22 @@ class InterestComponent @JvmOverloads constructor(
 
     private val imageView: ImageView
     private val labelText: TextView
+    public val slider: Slider
 
-    private var sliderValue: Float = 0f
 
     fun getSliderValue(): Float {
-        return sliderValue
+        return slider.value
     }
 
     fun setSliderValue(newSliderValue: Float) {
-        sliderValue = newSliderValue
+        slider.value = newSliderValue
     }
 
     init {
         inflate(context, com.example.aitravelplanner.R.layout.interestcomponent, this)
         imageView = findViewById(com.example.aitravelplanner.R.id.image_view)
         labelText = findViewById(com.example.aitravelplanner.R.id.label_text)
+        slider = findViewById(com.example.aitravelplanner.R.id.slider)
         attrs?.let { setAttributes(context, it) }
 
         val slider = findViewById<Slider>(com.example.aitravelplanner.R.id.slider)

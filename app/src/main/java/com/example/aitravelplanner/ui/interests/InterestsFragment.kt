@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.aitravelplanner.databinding.FragmentInterestsBinding
 
@@ -21,11 +22,10 @@ class InterestsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(InterestsViewModel::class.java)
+        val interestViewModel: InterestsViewModel by viewModels()
 
         _binding = FragmentInterestsBinding.inflate(inflater, container, false)
-
+        _binding!!.viewmodel = interestViewModel
         val root: View = binding.root
         /*val textView: TextView = binding.textDashboard
         dashboardViewModel.text.observe(viewLifecycleOwner) {

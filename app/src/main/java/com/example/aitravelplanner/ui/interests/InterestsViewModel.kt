@@ -22,6 +22,7 @@ class InterestsViewModel : ViewModel() {
 
     fun confirmClicked() {
         // Il tuo codice da eseguire quando il bottone viene premuto
+        var storV = storyValue.value
         println("Bottone premuto!")
     }
 }
