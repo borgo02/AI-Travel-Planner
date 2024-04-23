@@ -10,4 +10,12 @@ class InterestsViewModel : ViewModel() {
         value = "This is dashboard Fragment"
     }
     val text: LiveData<String> = _text
+
+    val storyValue = MutableLiveData(10.0f)
+    val artValue = MutableLiveData(10.0f)
+    val partyValue = MutableLiveData(10.0f)
+    val natureValue = MutableLiveData(10.0f)
+    val entertainmentValue = MutableLiveData(10.0f)
+    val sportValue = MutableLiveData(10.0f)
+    val shoppingValue = MutableLiveData(10.0f)
 }

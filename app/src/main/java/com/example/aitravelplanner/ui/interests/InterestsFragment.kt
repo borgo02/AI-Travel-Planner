@@ -26,6 +26,7 @@ class InterestsFragment : Fragment() {
             ViewModelProvider(this).get(InterestsViewModel::class.java)
 
         _binding = FragmentInterestsBinding.inflate(inflater, container, false)
+
         val root: View = binding.root
 
         /*val textView: TextView = binding.textDashboard
