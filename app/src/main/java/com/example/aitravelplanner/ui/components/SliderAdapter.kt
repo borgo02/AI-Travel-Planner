@@ -12,7 +12,5 @@ import com.google.android.material.slider.Slider
     fun setSliderListeners(slider: Slider, attrChange: InverseBindingListener) {
         slider.addOnChangeListener { _, _, _ ->
             attrChange.onChange()
-            println("value changed")
-            println(getSliderValue((slider)))
         }
     }

@@ -29,16 +29,11 @@ class InterestComponent @JvmOverloads constructor(
     }
 
     init {
-        inflate(context, com.example.aitravelplanner.R.layout.interestcomponent, this)
+        inflate(context, com.example.aitravelplanner.R.layout.component_interest, this)
         imageView = findViewById(com.example.aitravelplanner.R.id.image_view)
         labelText = findViewById(com.example.aitravelplanner.R.id.label_text)
         slider = findViewById(com.example.aitravelplanner.R.id.slider)
         attrs?.let { setAttributes(context, it) }
-
-        val slider = findViewById<Slider>(com.example.aitravelplanner.R.id.slider)
-
-        /*slider = findViewById(com.example.aitravelplanner.R.id.slider)
-        slider.addOnSliderTouchListener(touchListener)*/
     }
 
     private fun setAttributes(context: Context, attrs: AttributeSet) {

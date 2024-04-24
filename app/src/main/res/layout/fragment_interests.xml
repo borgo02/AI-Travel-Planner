@@ -43,14 +43,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.artValue}" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="@{() -> viewmodel.confirmClicked()}"
-                android:text="Button" />
-
             <com.example.aitravelplanner.ui.components.InterestComponent
                 android:id="@+id/party"
                 android:layout_width="match_parent"
@@ -112,6 +104,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.shoppingValue}" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:onClick="@{() -> viewmodel.confirmClicked()}"
+                android:background="@drawable/style_rounded_corners"
+                android:text="@string/confirm" />
 
         </LinearLayout>
     </ScrollView>

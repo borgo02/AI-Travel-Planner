@@ -15,7 +15,5 @@ fun getSliderValue(slider: InterestComponent): Float {
 fun setSliderCompListeners(slider: InterestComponent, attrChange: InverseBindingListener) {
     slider.slider.addOnChangeListener { _, _, _ ->
         attrChange.onChange()
-        println("value changed")
-        println(getSliderValue(slider))
     }
 }
