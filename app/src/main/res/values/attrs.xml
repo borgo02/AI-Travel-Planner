@@ -3,7 +3,6 @@
     <declare-styleable name="InterestComponent">
         <attr name="imageSrc" format="string" />
         <attr name="labelText" format="string" />
-        <attr name="labelColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="StageCardComponent">
