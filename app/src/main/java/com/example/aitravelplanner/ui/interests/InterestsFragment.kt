@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.aitravelplanner.databinding.FragmentInterestsBinding
 
 class InterestsFragment : Fragment() {
@@ -26,22 +25,12 @@ class InterestsFragment : Fragment() {
 
         _binding = FragmentInterestsBinding.inflate(inflater, container, false)
         _binding!!.viewmodel = interestViewModel
-        val root: View = binding.root
-        /*val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
 
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun confirmClicked(view: View) {
-        // Il tuo codice da eseguire quando il bottone viene premuto
-        println("Bottone premuto!")
     }
 }
