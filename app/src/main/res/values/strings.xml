@@ -3,6 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="confirm">Conferma</string>
+    <string name="interest_story">Storia</string>
+    <string name="interest_art">Arte e Cultura</string>
+    <string name="interest_party">Party</string>
+    <string name="interest_nature">Nature</string>
+    <string name="interest_entertainment">Intrattenimento</string>
+    <string name="interest_sport">Sport</string>
+    <string name="interest_shopping">Shopping</string>
     <string name="sourceText">Scegli la partenza:</string>
     <string name="destText">Scegli la destinazione</string>
     <string name="actualPosText">oppure utilizza posizione attuale</string>
