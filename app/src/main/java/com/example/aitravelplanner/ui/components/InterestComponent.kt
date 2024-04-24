@@ -17,7 +17,7 @@ class InterestComponent @JvmOverloads constructor(
 
     private val imageView: ImageView
     private val labelText: TextView
-    public val slider: Slider
+    val slider: Slider
 
 
     fun getSliderValue(): Float {
