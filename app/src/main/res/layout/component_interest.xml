@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="sliderValue"
+            type="Float" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:checkedIconTint="#FFFFFF"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!-- Icona -->
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_home_black_24dp" />
+
+                <!-- Nome della Categoria -->
+                <TextView
+                    android:id="@+id/label_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+            <!-- Slider -->
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#FFFF"
+                android:foregroundTint="#FFFF"
+                android:valueFrom="0.0"
+                android:stepSize="0.5"
+                android:valueTo="10.0"
+                app:haloColor="#FFFF"
+                app:thumbColor="#FFFF"
+                app:thumbStrokeColor="#000000"
+                app:tickColor="#FFFF"
+                app:tickColorActive="#1B4965"
+                app:tickColorInactive="#FFFF"
+                android:value="@={sliderValue}"/>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
