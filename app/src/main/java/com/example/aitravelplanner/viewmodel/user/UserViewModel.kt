@@ -3,7 +3,7 @@ package com.example.aitravelplanner.viewmodel.user
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.aitravelplanner.data.model.user.User
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
 
 class UserViewModel(

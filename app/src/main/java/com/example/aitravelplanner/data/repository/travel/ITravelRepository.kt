@@ -1,6 +1,6 @@
 package com.example.aitravelplanner.data.repository.travel
 
-import com.example.aitravelplanner.data.model.travel.Travel
+import com.example.aitravelplanner.data.model.Travel
 
 interface ITravelRepository {
 

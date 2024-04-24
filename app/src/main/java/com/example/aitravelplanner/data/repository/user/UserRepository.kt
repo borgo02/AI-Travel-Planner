@@ -1,6 +1,6 @@
 package com.example.aitravelplanner.data.repository.user
 
-import com.example.aitravelplanner.data.model.user.User
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 
 class UserRepository: IUserRepository {
