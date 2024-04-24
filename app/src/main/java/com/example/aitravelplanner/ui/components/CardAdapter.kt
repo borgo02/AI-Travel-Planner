@@ -1,5 +1,4 @@
-package com.example.aitravelplanner
-import android.media.Image
+package com.example.aitravelplanner.ui.components
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +6,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
-import org.checkerframework.checker.index.qual.GTENegativeOne
 
-class CardAdapter(private val cards: List<CardTravel>, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
+class CardAdapter(private val cards: ArrayList<CardTravel>, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
     class CardHolder(private val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: ImageView = row.findViewById(R.id.userImage)
@@ -27,7 +26,7 @@ class CardAdapter(private val cards: List<CardTravel>, private val fragment: Fra
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
-            R.layout.travel_card_component,
+                R.layout.travel_card_component,
             parent, false
         )
         return CardHolder(layout)
