@@ -1,6 +1,5 @@
 package com.example.aitravelplanner.ui.interests
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,17 +11,22 @@ class InterestsViewModel : ViewModel() {
     }
     val text: LiveData<String> = _text
 
-    val storyValue = MutableLiveData(10.0f)
-    val artValue = MutableLiveData(10.0f)
-    val partyValue = MutableLiveData(10.0f)
-    val natureValue = MutableLiveData(10.0f)
-    val entertainmentValue = MutableLiveData(10.0f)
-    val sportValue = MutableLiveData(10.0f)
-    val shoppingValue = MutableLiveData(10.0f)
+    val storyValue = MutableLiveData(5.0f)
+    val artValue = MutableLiveData(5.0f)
+    val partyValue = MutableLiveData(5.0f)
+    val natureValue = MutableLiveData(5.0f)
+    val entertainmentValue = MutableLiveData(5.0f)
+    val sportValue = MutableLiveData(5.0f)
+    val shoppingValue = MutableLiveData(5.0f)
 
     fun confirmClicked() {
-        // Il tuo codice da eseguire quando il bottone viene premuto
-        var storV = storyValue.value
-        println("Bottone premuto!")
+        var interestEntity = mapOf("story" to storyValue.value,
+                                    "art" to artValue.value,
+                                    "party" to partyValue.value,
+                                    "nature" to natureValue.value,
+                                    "entertainment" to entertainmentValue.value,
+                                    "sport" to sportValue.value,
+                                    "shopping" to shoppingValue.value)
+        //chiamata al service per salvare nel db
     }
 }
