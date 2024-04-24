@@ -1,13 +1,13 @@
 package com.example.aitravelplanner.ui.components
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.aitravelplanner.R
+import com.google.android.material.slider.Slider
+
 
 class InterestComponent @JvmOverloads constructor(
     context: Context,
@@ -17,11 +17,22 @@ class InterestComponent @JvmOverloads constructor(
 
     private val imageView: ImageView
     private val labelText: TextView
+    public val slider: Slider
+
+
+    fun getSliderValue(): Float {
+        return slider.value
+    }
+
+    fun setSliderValue(newSliderValue: Float) {
+        slider.value = newSliderValue
+    }
 
     init {
-        inflate(context, R.layout.interestcomponent, this)
-        imageView = findViewById(R.id.image_view)
-        labelText = findViewById(R.id.label_text)
+        inflate(context, com.example.aitravelplanner.R.layout.component_interest, this)
+        imageView = findViewById(com.example.aitravelplanner.R.id.image_view)
+        labelText = findViewById(com.example.aitravelplanner.R.id.label_text)
+        slider = findViewById(com.example.aitravelplanner.R.id.slider)
         attrs?.let { setAttributes(context, it) }
     }
 
@@ -29,7 +40,6 @@ class InterestComponent @JvmOverloads constructor(
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.InterestComponent)
         val imageRes = typedArray.getResourceId(R.styleable.InterestComponent_imageSrc, 0)
         val labelText = typedArray.getString(R.styleable.InterestComponent_labelText)
-        val labelColor = typedArray.getColor(R.styleable.InterestComponent_labelColor, Color.BLACK)
         typedArray.recycle()
 
         if (imageRes != 0) {
@@ -39,7 +49,5 @@ class InterestComponent @JvmOverloads constructor(
         if (labelText != null) {
             this.labelText.text = labelText
         }
-
-        this.labelText.setTextColor(labelColor)
     }
 }
