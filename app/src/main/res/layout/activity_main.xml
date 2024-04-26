@@ -29,6 +29,7 @@
         android:background="@drawable/shape_bottombar"
         app:elevation="4dp"
         app:itemIconTint="@drawable/item_selector"
+        app:itemIconSize="30dp"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
