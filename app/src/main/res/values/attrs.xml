@@ -4,11 +4,4 @@
         <attr name="imageSrc" format="string" />
         <attr name="labelText" format="string" />
     </declare-styleable>
-
-    <declare-styleable name="StageCardComponent">
-        <attr name="stageImage" format="string" />
-        <attr name="stageName" format="string" />
-        <attr name="stageAffinity" format="string" />
-        <attr name="labelColor1" format="color"/>
-    </declare-styleable>
 </resources>
