@@ -48,6 +48,15 @@ class TravelSummaryViewModel: ViewModel() {
         searchedClicked()
     }
 
+    fun deleteStage(stageCard: StageCard){
+        stageSelectedCardList.value?.remove(stageCard)
+    }
+
+    fun addStage(stageCard: StageCard){
+        stageSearchedCardList.value?.remove(stageCard)
+        stageSelectedCardList.value!!.add(stageCard)
+    }
+
     fun searchedClicked(){
         if (searchText.value == "Colosseo") {
             _stageSearchedCardList.value = arrayListOf<StageCard>()

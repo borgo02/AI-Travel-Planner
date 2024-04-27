@@ -25,13 +25,12 @@ class TravelSummaryFragment : Fragment() {
     private lateinit var stageSelectedCardList: ArrayList<StageCard>
     private lateinit var stageSearchedCardRecyclerView: RecyclerView
     private lateinit var stageSearchedCardList: ArrayList<StageCard>
-
+    val viewModel: TravelSummaryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val viewModel: TravelSummaryViewModel by viewModels()
 
         _binding = FragmentTravelSummaryBinding.inflate(inflater,container, false)
         _binding!!.viewmodel = viewModel
@@ -44,7 +43,7 @@ class TravelSummaryFragment : Fragment() {
             stageSelectedCardList = newValue
 
 
-            stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList)}
+            stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, ::deleteStage)}
 
 
         viewModel.stageSearchedCardList.observe(viewLifecycleOwner){newValue ->
@@ -60,6 +59,14 @@ class TravelSummaryFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun deleteStage(stageCard: StageCard){
+        viewModel.deleteStage(stageCard)
+    }
+
+    private fun addStage(stageCard: StageCard){
+        viewModel.addStage(stageCard)
     }
 
     override fun onDestroyView() {
