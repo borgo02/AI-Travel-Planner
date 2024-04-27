@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.squareup.picasso.Picasso
 
-class StageCardAdapter(val data: List<StageCard>) : RecyclerView.Adapter<StageCardAdapter.StageCardHolder>() {
+class StageCardAdapter(val data: MutableList<StageCard>) : RecyclerView.Adapter<StageCardAdapter.StageCardHolder>() {
     class StageCardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val stageName = row.findViewById<TextView>(R.id.stageName)
         val stageImage = row.findViewById<ImageView>(R.id.stageImage)
@@ -20,6 +20,7 @@ class StageCardAdapter(val data: List<StageCard>) : RecyclerView.Adapter<StageCa
         val stageAffinityImage = row.findViewById<ImageView>(R.id.stageAffinityImage)
         val addStageButton = row.findViewById<ImageButton>(R.id.addStageButton)
         val deleteStageButton = row.findViewById<Button>(R.id.deleteStageButton)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StageCardHolder {
@@ -39,6 +40,9 @@ class StageCardAdapter(val data: List<StageCard>) : RecyclerView.Adapter<StageCa
             .get()
             .load(stageData.stageImage)
             .into(holder.stageImage)
+        holder.deleteStageButton.setOnClickListener() {data.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, itemCount)}
     }
 
     override fun getItemCount(): Int {
