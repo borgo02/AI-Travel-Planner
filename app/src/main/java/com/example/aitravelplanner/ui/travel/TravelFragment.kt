@@ -43,9 +43,9 @@ class TravelFragment : Fragment() {
         stageCardList = arrayListOf<StageCard>()
 
         getStageCards()
-        return binding.root
 
         stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
+        return binding.root
     }
 
     override fun onDestroyView() {

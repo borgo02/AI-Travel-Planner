@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighter_blue"
-    tools:context=".TravelSummaryFragment">
+    tools:context=".ui.TravelSummary.TravelSummaryFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/travelSummaryTopBar"
@@ -78,6 +78,7 @@
                 android:id="@+id/selectedStageRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp" />
@@ -139,7 +140,8 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/foundStageRecyclerView"
+                android:id="@+id/searchedStageRecyclerView"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
