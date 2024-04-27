@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
+import com.squareup.picasso.Picasso
 
 class StageCardAdapter(val data: List<StageCard>) : RecyclerView.Adapter<StageCardAdapter.StageCardHolder>() {
     class StageCardHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -28,12 +29,16 @@ class StageCardAdapter(val data: List<StageCard>) : RecyclerView.Adapter<StageCa
 
     override fun onBindViewHolder(holder: StageCardHolder, position: Int) {
         val stageData = data[position]
-        holder.stageAffinityImage.visibility = if (stageData.isSearched) View.GONE else View.VISIBLE
-        holder.addStageButton.visibility = if (stageData.isSearched) View.GONE else View.VISIBLE
+        holder.affinityPercentage.visibility = if (stageData.isSearched) View.VISIBLE else View.GONE
+        holder.stageAffinityImage.visibility = if (stageData.isSearched) View.VISIBLE else View.GONE
+        holder.addStageButton.visibility = if (stageData.isSearched) View.VISIBLE else View.GONE
         holder.deleteStageButton.visibility = if (stageData.isSelected) View.VISIBLE else View.GONE
         holder.affinityPercentage.text = stageData.stageAffinity.toString()
         holder.stageName.text = stageData.stageName
-        holder.stageImage.setImageURI(Uri.parse(stageData.stageImage))
+        Picasso
+            .get()
+            .load(stageData.stageImage)
+            .into(holder.stageImage)
     }
 
     override fun getItemCount(): Int {

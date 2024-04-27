@@ -88,6 +88,7 @@
                     android:id="@+id/usernameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:text="TextView"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -100,6 +101,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/dashboard_affinity"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/affinityPercentageTravel"
@@ -115,14 +118,15 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/likesNumber"
+                    app:layout_constraintStart_toEndOf="@+id/usernameText"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/likesNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:text="TextView"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -172,12 +176,12 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:orientation="horizontal"/>
+                    android:scrollbars="horizontal"/>
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/editTextTextMultiLine2"
+                android:id="@+id/travelDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
