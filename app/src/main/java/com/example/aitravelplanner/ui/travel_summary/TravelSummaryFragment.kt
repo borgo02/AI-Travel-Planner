@@ -1,4 +1,4 @@
-package com.example.aitravelplanner.ui.TravelSummary
+package com.example.aitravelplanner.ui.travel_summary
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.aitravelplanner.R
-import com.example.aitravelplanner.databinding.FragmentTravelBinding
 import com.example.aitravelplanner.databinding.FragmentTravelSummaryBinding
 import com.example.aitravelplanner.ui.components.StageCard
 import com.example.aitravelplanner.ui.components.StageCardAdapter
