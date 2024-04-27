@@ -28,13 +28,9 @@ class TravelFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTravelBinding.inflate(inflater,container, false)
-
-
-
         viewModel.travelName.observe(viewLifecycleOwner){newValue -> binding.travelName.text = newValue}
         viewModel.userName.observe(viewLifecycleOwner){newValue -> binding.usernameText.text = newValue}
         viewModel.affinityPercentage.observe(viewLifecycleOwner){newValue -> binding.affinityPercentageTravel.text = newValue}
-        viewModel.travelImage.observe(viewLifecycleOwner){newValue -> binding.travelImage.setImageURI(newValue)}
         viewModel.likesNumber.observe(viewLifecycleOwner){newValue -> binding.likesNumber.text = newValue}
         viewModel.travelImage.observe(viewLifecycleOwner){newValue -> Picasso
             .get()

@@ -10,7 +10,7 @@ class TravelViewModel : ViewModel() {
     private val _travelName = MutableLiveData<String>("")
     private val _userName = MutableLiveData<String>("")
     private val _affinityPercentage = MutableLiveData<String>("")
-    private val _travelImage = MutableLiveData<Uri>()
+    private val _travelImage = MutableLiveData<String>("")
     private val _likesNumber = MutableLiveData<String>("")
     private val _description = MutableLiveData<String>("")
     private val _stageCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
@@ -21,7 +21,7 @@ class TravelViewModel : ViewModel() {
             get() = _userName
     val affinityPercentage: LiveData<String>
             get() = _affinityPercentage
-    val travelImage: LiveData<Uri>
+    val travelImage: LiveData<String>
             get() = _travelImage
     val likesNumber: LiveData<String>
             get() = _likesNumber
@@ -40,7 +40,7 @@ class TravelViewModel : ViewModel() {
         _travelName.value = "Roma"
         _userName.value = "Daniele Spalazzi"
         _affinityPercentage.value = 10.toString()
-        _travelImage.value = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/1200px-Colosseo_2020.jpg")
+        _travelImage.value = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/1200px-Colosseo_2020.jpg"
         _likesNumber.value = 100.toString()
         _description.value = "Roma  è la capitale d'Italia. È il capoluogo dell'omonima città metropolitana e della regione Lazio. Il comune di Roma è dotato di un ordinamento amministrativo speciale, denominato Roma Capitale e disciplinato dalla legge dello Stato.[7]\n" +
                 "\n" +
