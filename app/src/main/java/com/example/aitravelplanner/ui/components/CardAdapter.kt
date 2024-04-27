@@ -26,7 +26,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val fragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
-                R.layout.travel_card_component,
+                R.layout.component_travel_card,
             parent, false
         )
         return CardHolder(layout)
