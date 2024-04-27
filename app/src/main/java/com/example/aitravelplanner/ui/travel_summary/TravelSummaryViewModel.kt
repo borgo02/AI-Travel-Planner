@@ -49,12 +49,12 @@ class TravelSummaryViewModel: ViewModel() {
     }
 
     fun deleteStage(stageCard: StageCard){
-        stageSelectedCardList.value?.remove(stageCard)
+        _stageSelectedCardList.value!!.remove(stageCard)
     }
 
     fun addStage(stageCard: StageCard){
-        stageSearchedCardList.value?.remove(stageCard)
-        stageSelectedCardList.value!!.add(stageCard)
+        _stageSearchedCardList.value!!.remove(stageCard)
+        _stageSelectedCardList.value!!.add(stageCard)
     }
 
     fun searchedClicked(){
