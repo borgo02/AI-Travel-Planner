@@ -139,7 +139,9 @@
                             android:paddingEnd="10dp"
                             android:paddingBottom="5dp"
                             android:text="@={viewmodel.searchText}"
-                            android:textColor="@color/blue" />
+                            android:textColor="@color/blue"
+                            android:autofillHints="no"
+                            android:inputType="text" />
 
                         <ImageButton
                             android:id="@+id/filterButton"
@@ -149,7 +151,8 @@
                             android:layout_marginStart="5dp"
                             android:background="?android:selectableItemBackground"
                             android:onClick="@{() -> viewmodel.searchedClicked()}"
-                            android:src="@drawable/modify_travel_filter" />
+                            android:src="@drawable/modify_travel_filter"
+                            android:contentDescription="@string/content_description_filter_icon"/>
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -164,7 +167,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/saveTavelButton"
+                    android:id="@+id/saveTravelButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

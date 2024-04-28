@@ -30,6 +30,7 @@
                 android:id="@+id/stageImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_image_stage"
                 tools:srcCompat="@tools:sample/avatars"
                 android:scaleType="centerCrop"/>
         </androidx.cardview.widget.CardView>
@@ -38,7 +39,7 @@
             android:id="@+id/stageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome Tappa"
+            android:text=""
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="24sp"
@@ -53,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/content_description_affinity_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
@@ -65,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="00%"
+            android:text=""
             android:textColor="@color/dark_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/addStageButton"
@@ -85,7 +87,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stageName"
             app:srcCompat="@drawable/modify_travel_plus"
-            android:background="?android:selectableItemBackground"/>
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="@string/content_description_add_stage_button"/>
 
         <Button
             android:id="@+id/deleteStageButton"

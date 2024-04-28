@@ -11,7 +11,6 @@
     <string name="interest_entertainment">Intrattenimento</string>
     <string name="interest_sport">Sport</string>
     <string name="interest_shopping">Shopping</string>
-
     <string name="title_travel">Genera viaggio</string>
     <string name="title_profile">Il tuo profilo</string>
     <string name="title_activity_login">login_activity</string>
@@ -23,4 +22,13 @@
     <string name="travel_summary_found_stage">Aggiungi tappa</string>
     <string name="search_stage">Cerca tappe</string>
     <string name="save_travel">Salva viaggio</string>
+    <string name="content_description_image_stage">Immagine della tappa del viaggio</string>
+    <string name="content_description_affinity_icon">Icona per rappresentare la percentuale di affinità</string>
+    <string name="content_description_add_stage_button">Bottone per aggiungere la tappa al viaggio</string>
+    <string name="content_description_app_icon">Icona dell\'app rappresentante un areoplanino di carta che gira intorno alla Terra con un omino attaccato all\'ala</string>
+    <string name="content_description_filter_icon">Icona con cui cercare che rappresenta un filtro</string>
+    <string name="content_description_travel_image">Immagine che rappresenta il viaggio</string>
+    <string name="content_description_user_icon">Icona che rappresenta un utente</string>
+    <string name="content_description_empty_heart_icon">Icona che rappresenta un cuore vuoto; indica che non è stato messo mi piace al viaggio</string>
+    <string name="content_description_full_heart_icon">Icona che rappresenta un cuore pieno; indica che è stato messo mi piace al viaggio</string>
 </resources>
