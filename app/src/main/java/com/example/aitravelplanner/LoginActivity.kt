@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            REQ_ONE_TAP -> {
+            RC_SIGN_IN -> {
                 try {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                     val account = task.getResult(ApiException::class.java)!!
@@ -99,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                 } catch (e: ApiException) {
+                    Log.d(TAG, "Exception")
                     // ...
                 }
             }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "359954007543",
+    "project_id": "aitravelplanner-72fed",
+    "storage_bucket": "aitravelplanner-72fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359954007543:android:801c453814d2bb7aacdaf2",
+        "android_client_info": {
+          "package_name": "com.example.aitravelplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359954007543-gnrmlbudegqqd9p2dhf7avd639j6sv07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aitravelplanner",
+            "certificate_hash": "f53d1931dd3b5723f2ed29bb6d5926dee55150b9"
+          }
+        },
+        {
+          "client_id": "359954007543-fng9elacp91p4ef35c9u176vobsla7ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyKXYJ-owDTDlkYatWmAjqyDH4H-osRV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359954007543-fng9elacp91p4ef35c9u176vobsla7ku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
