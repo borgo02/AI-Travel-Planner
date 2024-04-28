@@ -50,11 +50,15 @@ class TravelSummaryViewModel: ViewModel() {
 
     fun deleteStage(stageCard: StageCard){
         _stageSelectedCardList.value!!.remove(stageCard)
+        _stageSelectedCardList.notifyObserver()
     }
 
     fun addStage(stageCard: StageCard){
         _stageSearchedCardList.value!!.remove(stageCard)
+        stageCard.isSearched = false
+        stageCard.isSelected = true
         _stageSelectedCardList.value!!.add(stageCard)
+        _stageSelectedCardList.notifyObserver()
     }
 
     fun searchedClicked(){
@@ -104,5 +108,9 @@ class TravelSummaryViewModel: ViewModel() {
 
     }
 
+}
+
+fun <T> MutableLiveData<T>.notifyObserver() {
+    this.value  = this.value
 }
 

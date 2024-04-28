@@ -54,7 +54,7 @@ class TravelSummaryFragment : Fragment() {
             stageSearchedCardList = newValue
 
 
-            stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList)
+            stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, ::addStage)
         }
 
 
