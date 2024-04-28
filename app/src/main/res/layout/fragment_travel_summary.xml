@@ -12,17 +12,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.travel_summary.TravelSummaryFragment">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/travelSummaryTopBar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="?actionBarSize"
             android:background="@drawable/style_top_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:navigationIcon="?homeAsUpIndicator">
+            app:navigationIcon="?homeAsUpIndicator"
+            app:navigationIconTint="@color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -44,136 +45,139 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="731dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/travelSummaryTopBar"
             app:layout_constraintVertical_bias="0.0">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/style_rounded_corners"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/travel_summary_selected_stage"
-                    android:textStyle="bold"
-                    android:textColor="@color/blue"
-                    android:textSize="24sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/selectedStageRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/style_rounded_corners"
-                android:backgroundTint="@color/white"
+                android:gravity="center"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/travel_summary_found_stage"
-                    android:textStyle="bold"
-                    android:textColor="@color/blue"
-                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp">
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:hint="@string/search_stage"
-                        android:text="@={viewmodel.searchText}"
-                        android:textColor="@color/blue"
-                        android:background="@drawable/style_rounded_corners"
-                        android:backgroundTint="@color/lighter_lighter_blue"
-                        android:drawableStart="@drawable/icon_search"/>
+                    android:background="@drawable/style_rounded_corners"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical">
 
-                    <ImageButton
-                        android:layout_marginStart="5dp"
-                        android:id="@+id/filterButton"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="?android:selectableItemBackground"
-                        android:src="@drawable/modify_travel_filter"
-                        android:onClick="@{() -> viewmodel.searchedClicked()}"/>
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/travel_summary_selected_stage"
+                        android:textColor="@color/blue"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/selectedStageRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:scrollbars="horizontal" />
+
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/searchedStageRecyclerView"
-                    android:scrollbars="horizontal"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/style_rounded_corners"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/travel_summary_found_stage"
+                        android:textColor="@color/blue"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/style_rounded_corners"
+                            android:backgroundTint="@color/lighter_lighter_blue"
+                            android:drawableStart="@drawable/icon_search"
+                            android:drawablePadding="10dp"
+                            android:hint="@string/search_stage"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="@={viewmodel.searchText}"
+                            android:textColor="@color/blue" />
+
+                        <ImageButton
+                            android:id="@+id/filterButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:background="?android:selectableItemBackground"
+                            android:onClick="@{() -> viewmodel.searchedClicked()}"
+                            android:src="@drawable/modify_travel_filter" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/searchedStageRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:scrollbars="horizontal" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/saveTavelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="220dp"
+                    android:background="@drawable/style_rounded_corners"
+                    android:backgroundTint="@color/light_blue"
+                    android:onClick="@{() -> viewmodel.savedClicked()}"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:text="@string/save_travel"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/saveTavelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/style_rounded_corners"
-                android:backgroundTint="@color/light_blue"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="220dp"
-                android:paddingStart="40dp"
-                android:paddingEnd="40dp"
-                android:text="@string/save_travel"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                android:onClick="@{() -> viewmodel.savedClicked()}"/>
-        </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
