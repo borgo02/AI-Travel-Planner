@@ -11,9 +11,10 @@ class TravelViewModel : ViewModel() {
     private val _userName = MutableLiveData<String>("")
     private val _affinityPercentage = MutableLiveData<String>("")
     private val _travelImage = MutableLiveData<String>("")
-    private val _likesNumber = MutableLiveData<String>("")
+    private val _likesNumber = MutableLiveData<Int>(0)
     private val _description = MutableLiveData<String>("")
     private val _stageCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
+    private val _likedTravel = MutableLiveData<Boolean>(false)
 
     val travelName: LiveData<String>
             get() = _travelName
@@ -23,7 +24,7 @@ class TravelViewModel : ViewModel() {
             get() = _affinityPercentage
     val travelImage: LiveData<String>
             get() = _travelImage
-    val likesNumber: LiveData<String>
+    val likesNumber: LiveData<Int>
             get() = _likesNumber
     val description: LiveData<String>
             get() = _description
@@ -31,17 +32,20 @@ class TravelViewModel : ViewModel() {
     val stageCardList: LiveData<ArrayList<StageCard>>
         get() = _stageCardList
 
+    val likedTravel: LiveData<Boolean>
+        get() = _likedTravel
 
     private var stageNameList: ArrayList<String> = arrayListOf()
     private var stageImageList: ArrayList<String> = arrayListOf()
     private var stageAffinityList: ArrayList<Int> = arrayListOf()
 
     init{
+        _likedTravel.value = false
         _travelName.value = "Roma"
         _userName.value = "Daniele Spalazzi"
         _affinityPercentage.value = 10.toString()
         _travelImage.value = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/1200px-Colosseo_2020.jpg"
-        _likesNumber.value = 100.toString()
+        _likesNumber.value = 100
         _description.value = "Roma  è la capitale d'Italia. È il capoluogo dell'omonima città metropolitana e della regione Lazio. Il comune di Roma è dotato di un ordinamento amministrativo speciale, denominato Roma Capitale e disciplinato dalla legge dello Stato.[7]\n" +
                 "\n" +
                 "Con 2 754 228 abitanti, è il comune più popoloso d'Italia e il terzo dell'Unione europea dopo Berlino e Madrid, mentre con una superficie di 1287,36 km², è il comune più esteso dell'Unione Europea e il quinto del continente europeo, preceduto da Istanbul, Mosca, Londra e San Pietroburgo. È inoltre il comune europeo con la maggiore superficie di aree verdi.[8]\n" +
@@ -68,5 +72,10 @@ class TravelViewModel : ViewModel() {
             val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i])
             _stageCardList.value!!.add(stageCard)
         }
+    }
+
+    fun likeClicked(){
+        _likedTravel.value = !_likedTravel.value!!
+        if (_likedTravel.value!!) _likesNumber.value = _likesNumber.value?.plus(1) else _likesNumber.value = _likesNumber.value?.minus(1)
     }
 }
