@@ -23,12 +23,12 @@ class SharedTravelsFragment : Fragment() {
     private lateinit var travelCardsRecyclerView: RecyclerView
     private lateinit var travelCardsList: ArrayList<CardTravel>
     private lateinit var usernames : ArrayList<String>
-    private lateinit var userImages : ArrayList<Int>
-    private lateinit var travelImages : ArrayList<Int>
+    private lateinit var userImages : ArrayList<String>
+    private lateinit var travelImages : ArrayList<String>
     private lateinit var travelNames : ArrayList<String>
     private lateinit var travelAffinities : ArrayList<String>
     private lateinit var affinityImages : ArrayList<Int>
-    private lateinit var travelLikes : ArrayList<String>
+    private lateinit var travelLikes : ArrayList<Int>
     private lateinit var likesImages : ArrayList<Int>
     private lateinit var shareImages : ArrayList<Int>
     private lateinit var timestamps : ArrayList<String>
@@ -38,10 +38,9 @@ class SharedTravelsFragment : Fragment() {
 
         for(i in (travelCardsList.indices)){
             val card = CardTravel(  username = usernames[i], userImage = userImages[i],
-                                    travelImage = travelImages[i], travelName = travelNames[i],
-                                    affinityPerc = travelAffinities[i], affinityImage = affinityImages[i],
-                                    likesNumber = travelLikes[i], shareImage = shareImages[i], likesImage = likesImages[i],
-                                    timestamp = timestamps[i])
+                travelImage = travelImages[i], travelName = travelNames[i],
+                affinityPerc = travelAffinities[i], travelLikes = travelLikes[i],
+                timestamp = timestamps[i], isLiked = false)
 
             travelCardsList.add(card)
         }
@@ -91,7 +90,7 @@ class SharedTravelsFragment : Fragment() {
         // populate cards
         getTravelCards()
 
-        sharedTravelsViewModel.text.observe(viewLifecycleOwner) {
+        sharedTravelsViewModel.shareImage.observe(viewLifecycleOwner) {
 
         }
         return root

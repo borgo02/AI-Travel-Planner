@@ -8,15 +8,22 @@
             type="com.example.aitravelplanner.ui.dashboard.DashboardViewModel" />
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/travelCardsRecyclerView"
-        android:layout_width="380dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ui.dashboard.DashboardFragment" />
+        tools:context=".ui.dashboard.DashboardFragment"
+        android:layout_gravity="center"/>
+
+    </LinearLayout>
 
 </layout>

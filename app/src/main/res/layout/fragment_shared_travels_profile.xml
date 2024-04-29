@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/fragment_shared_travels_profile"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment"
-    android:orientation="vertical"
-    android:background="@color/lighter_blue"
-    android:padding="@dimen/activity_horizontal_margin">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sharedTravelRecyclerView"
+        <data>
+                <variable
+                    name="viewmodel"
+                    type="com.example.aitravelplanner.ui.dashboard.DashboardViewModel" />
+        </data>
+        <LinearLayout
+            android:id="@+id/fragment_shared_travels_profile"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            tools:context=".ui.profile.ProfileFragment"
+            android:orientation="vertical"
+            android:background="@color/lighter_blue"
+            android:padding="@dimen/activity_horizontal_margin">
 
-</LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/sharedTravelRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+        </LinearLayout>
+</layout>

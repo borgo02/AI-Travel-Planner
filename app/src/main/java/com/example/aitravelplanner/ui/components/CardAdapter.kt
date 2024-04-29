@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
+import com.squareup.picasso.Picasso
 
 class CardAdapter(private val cards: ArrayList<CardTravel>, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
     class CardHolder(private val row: View) : RecyclerView.ViewHolder(row) {
@@ -16,12 +17,12 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val fragment
         val userImage: ImageView = row.findViewById(R.id.userImage)
         val travelImage: ImageView = row.findViewById(R.id.travelImage)
         val travelName: TextView = row.findViewById(R.id.travelName)
-        val affinityPerc: TextView = row.findViewById(R.id.affinityPerc)
-        val affinityImage: ImageView = row.findViewById(R.id.affinityImage)
-        val likesNumber: TextView = row.findViewById(R.id.likesNumber)
-        val likesImage: ImageView = row.findViewById(R.id.likesImage)
-        val shareImage: ImageView = row.findViewById(R.id.shareImage)
-        val timestamp: TextView = row.findViewById(R.id.timestamp)
+        val affinityPerc: TextView? = row.findViewById(R.id.affinityPerc)
+        val affinityImage: ImageView? = row.findViewById(R.id.affinityImage)
+        val likesNumber: TextView? = row.findViewById(R.id.likesNumber)
+        val likesImage: ImageView? = row.findViewById(R.id.likesImage)
+        val shareImage: ImageView? = row.findViewById(R.id.shareImage)
+        val timestamp: TextView? = row.findViewById(R.id.timestamp)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
@@ -40,37 +41,45 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val fragment
         val isSharedTravelsProfileFragment = childFragmentManager.findFragmentById(R.id.fragment_shared_travels_profile) is SharedTravelsFragment
 
         holder.username.text = currentCard.username
-        holder.userImage.setImageResource(currentCard.userImage)
-        holder.travelImage.setImageResource(currentCard.travelImage)
+        Picasso
+            .get()
+            .load(currentCard.userImage)
+            .into(holder.userImage)
+        Picasso
+            .get()
+            .load(currentCard.travelImage)
+            .into(holder.travelImage)
         holder.travelName.text = currentCard.travelName
 
-        holder.affinityPerc.visibility = View.VISIBLE
-        holder.likesNumber.visibility = View.VISIBLE
-        holder.likesImage.visibility = View.VISIBLE
-        holder.shareImage.visibility = View.VISIBLE
-        holder.timestamp.visibility = View.VISIBLE
-
         if(isProfileFragment){
-            holder.affinityPerc.visibility = View.GONE
-            holder.likesNumber.visibility = View.GONE
-            holder.likesImage.visibility = View.GONE
+            holder.shareImage!!.visibility = View.VISIBLE
+            holder.affinityPerc!!.visibility = View.GONE
+            holder.likesNumber!!.visibility = View.GONE
+            holder.likesImage!!.visibility = View.GONE
+            holder.timestamp!!.visibility = View.VISIBLE
 
-            holder.shareImage.setImageResource(currentCard.shareImage)
+            holder.shareImage.setImageResource(R.drawable.profile_share)
             holder.timestamp.text = currentCard.timestamp
         }else{
             if(isSharedTravelsProfileFragment){
-                holder.affinityPerc.visibility = View.GONE
+                holder.likesImage!!.visibility = View.VISIBLE
+                holder.likesNumber!!.visibility = View.VISIBLE
+                holder.affinityPerc!!.visibility = View.GONE
             }else{
-                holder.timestamp.visibility = View.GONE
-                holder.affinityImage.setImageResource(currentCard.affinityImage)
+                holder.affinityPerc!!.visibility = View.VISIBLE
+                holder.likesNumber!!.visibility = View.VISIBLE
+                holder.likesImage!!.visibility = View.VISIBLE
+                holder.timestamp!!.visibility = View.GONE
+                holder.affinityImage!!.setImageResource(R.drawable.dashboard_affinity)
                 holder.affinityPerc.text = currentCard.affinityPerc
             }
 
-            holder.shareImage.visibility = View.GONE
-            holder.likesNumber.text = currentCard.likesNumber
-            holder.likesImage.setImageResource(currentCard.likesImage)
+            holder.shareImage!!.visibility = View.GONE
+            holder.likesNumber.text = currentCard.travelLikes.toString()
+            holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
         }
     }
 
     override fun getItemCount(): Int = cards.size
+
 }

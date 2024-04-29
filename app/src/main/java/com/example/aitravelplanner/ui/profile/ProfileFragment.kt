@@ -4,32 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
-import com.example.aitravelplanner.databinding.FragmentSharedTravelsProfileBinding
 import com.example.aitravelplanner.ui.components.CardAdapter
 import com.example.aitravelplanner.ui.components.CardTravel
+import androidx.fragment.app.viewModels
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     private lateinit var travelCardsRecyclerView: RecyclerView
     private lateinit var travelCardsList: ArrayList<CardTravel>
     private lateinit var usernames : ArrayList<String>
-    private lateinit var userImages : ArrayList<Int>
-    private lateinit var travelImages : ArrayList<Int>
+    private lateinit var userImages : ArrayList<String>
+    private lateinit var travelImages : ArrayList<String>
     private lateinit var travelNames : ArrayList<String>
     private lateinit var travelAffinities : ArrayList<String>
     private lateinit var affinityImages : ArrayList<Int>
-    private lateinit var travelLikes : ArrayList<String>
+    private lateinit var travelLikes : ArrayList<Int>
     private lateinit var likesImages : ArrayList<Int>
     private lateinit var shareImages : ArrayList<Int>
     private lateinit var timestamps : ArrayList<String>
@@ -40,9 +37,7 @@ class ProfileFragment : Fragment() {
         for(i in (travelCardsList.indices)){
             val card = CardTravel(  username = usernames[i], userImage = userImages[i],
                     travelImage = travelImages[i], travelName = travelNames[i],
-                    affinityPerc = travelAffinities[i], affinityImage = affinityImages[i],
-                    likesNumber = travelLikes[i], shareImage = shareImages[i], likesImage = likesImages[i],
-                    timestamp = timestamps[i])
+                    affinityPerc = travelAffinities[i],    travelLikes = travelLikes[i], timestamp = timestamps[i], isLiked = false)
 
             travelCardsList.add(card)
         }
@@ -55,10 +50,9 @@ class ProfileFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+
+        binding.viewmodel = profileViewModel
 
         travelCardsList = arrayListOf(
                 //insert elements here
@@ -91,10 +85,7 @@ class ProfileFragment : Fragment() {
         // populate cards
         getTravelCards()
 
-        profileViewModel.text.observe(viewLifecycleOwner) {
-
-        }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
