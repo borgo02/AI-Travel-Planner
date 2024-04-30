@@ -17,4 +17,12 @@
     <string name="travel_summary_found_stage">Aggiungi tappa</string>
     <string name="search_stage">Cerca tappe</string>
     <string name="save_travel">Salva viaggio</string>
+    <string name="confirm">Conferma</string>
+    <string name="interest_story">Storia</string>
+    <string name="interest_art">Arte e Cultura</string>
+    <string name="interest_party">Party</string>
+    <string name="interest_nature">Nature</string>
+    <string name="interest_entertainment">Intrattenimento</string>
+    <string name="interest_sport">Sport</string>
+    <string name="interest_shopping">Shopping</string>
 </resources>
