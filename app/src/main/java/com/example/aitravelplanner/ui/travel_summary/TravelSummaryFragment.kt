@@ -35,38 +35,31 @@ class TravelSummaryFragment : Fragment() {
         _binding = FragmentTravelSummaryBinding.inflate(inflater,container, false)
         _binding!!.viewmodel = viewModel
         binding.lifecycleOwner = this
+        stageSelectedCardRecyclerView = binding.selectedStageRecyclerView
+        stageSearchedCardRecyclerView = binding.searchedStageRecyclerView
 
-        viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue -> stageSelectedCardRecyclerView = binding.selectedStageRecyclerView
+        viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue ->
             stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageSelectedCardRecyclerView.setHasFixedSize(true)
 
             stageSelectedCardList = newValue
 
 
-            stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, ::deleteStage)}
+            stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, viewModel::deleteStage)}
 
 
         viewModel.stageSearchedCardList.observe(viewLifecycleOwner){newValue ->
-            stageSearchedCardRecyclerView = binding.searchedStageRecyclerView
             stageSearchedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageSearchedCardRecyclerView.setHasFixedSize(true)
 
             stageSearchedCardList = newValue
 
 
-            stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, ::addStage)
+            stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, viewModel::addStage)
         }
 
 
         return binding.root
-    }
-
-    private fun deleteStage(stageCard: StageCard){
-        viewModel.deleteStage(stageCard)
-    }
-
-    private fun addStage(stageCard: StageCard){
-        viewModel.addStage(stageCard)
     }
 
     override fun onDestroyView() {

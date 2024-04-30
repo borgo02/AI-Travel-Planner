@@ -1,7 +1,5 @@
 package com.example.aitravelplanner.ui.travel_summary
 
-import android.net.Uri
-import androidx.collection.emptyLongSet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +25,7 @@ class TravelSummaryViewModel: ViewModel() {
     private var stageSelectedImageList: ArrayList<String> = arrayListOf()
     private var stageSelectedAffinityList: ArrayList<Int> = arrayListOf()
 
-    private fun getStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean){
+    private fun setStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean){
         for( i in (stageNameList.indices)){
             val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i],isSearched = !(isSelected), isSelected = isSelected)
             stageCardList.add(stageCard)
@@ -44,7 +42,7 @@ class TravelSummaryViewModel: ViewModel() {
         stageSelectedNameList.add("San Pietro")
         stageSelectedImageList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg/1200px-Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg")
         stageSelectedAffinityList.add(100)
-        getStageCards(stageCardList = _stageSelectedCardList.value!!, stageNameList = stageSelectedNameList, stageImageList = stageSelectedImageList, stageAffinityList = stageSelectedAffinityList, isSelected = true)
+        setStageCards(stageCardList = _stageSelectedCardList.value!!, stageNameList = stageSelectedNameList, stageImageList = stageSelectedImageList, stageAffinityList = stageSelectedAffinityList, isSelected = true)
         searchedClicked()
     }
 
@@ -71,7 +69,7 @@ class TravelSummaryViewModel: ViewModel() {
             stageSearchedImageList.add("https://colosseo.it/sito/wp-content/uploads/2023/05/Colosseo_restauro_30-maggio_veduta-dallalto-scaled.jpg")
             stageSearchedAffinityList.add(100)
 
-            getStageCards(
+            setStageCards(
                 stageCardList = _stageSearchedCardList.value!!,
                 stageNameList = stageSearchedNameList,
                 stageImageList = stageSearchedImageList,
@@ -88,7 +86,7 @@ class TravelSummaryViewModel: ViewModel() {
             stageSearchedImageList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg/1200px-Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg")
             stageSearchedAffinityList.add(100)
 
-            getStageCards(
+            setStageCards(
                 stageCardList = _stageSearchedCardList.value!!,
                 stageNameList = stageSearchedNameList,
                 stageImageList = stageSearchedImageList,
