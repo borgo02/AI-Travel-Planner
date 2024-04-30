@@ -6,12 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.ui.components.CardTravel
 
 class SharedTravelsViewModel : ViewModel() {
-    private val _likesNumber = MutableLiveData<Int>(0)
-    private val _likedTravel = MutableLiveData<Boolean>(false)
-    val likesNumber: LiveData<Int>
-        get() = _likesNumber
-    val likedTravel: LiveData<Boolean>
-        get() = _likedTravel
+    private var _cardsList = MutableLiveData<ArrayList<CardTravel>>()
+    val cardsList: LiveData<ArrayList<CardTravel>>
+        get() = _cardsList
 
     private var travelCardsList: ArrayList<CardTravel> = arrayListOf()
     private var usernames : ArrayList<String> = arrayListOf()
@@ -47,7 +44,17 @@ class SharedTravelsViewModel : ViewModel() {
         return travelCardsList
     }
 
-    fun onLikeClicked(){
-        _likedTravel.value = !_likedTravel.value!!
+    fun isLiked(cardTravel: CardTravel): Boolean{
+        cardTravel.isLiked = !cardTravel.isLiked
+        if(cardTravel.isLiked)
+            cardTravel.travelLikes!!.plus(1)
+        else
+            cardTravel.travelLikes!!.minus(1)
+
+        _cardsList.notifyObserver()
+        return cardTravel.isLiked
+    }
+    private fun <T> MutableLiveData<T>.notifyObserver() {
+        this.value  = this.value
     }
 }

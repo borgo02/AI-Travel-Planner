@@ -11,7 +11,7 @@ import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.squareup.picasso.Picasso
 
-class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: (CardTravel) -> Boolean, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
+class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
     class CardHolder(private val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: ImageView = row.findViewById(R.id.userImage)
@@ -78,7 +78,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             holder.likesNumber.text = currentCard.travelLikes.toString()
             holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
             holder.likesImage.setOnClickListener {
-                if(!isLiked(currentCard))
+                if(!isLiked!!(currentCard))
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_selected)
                 else
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)

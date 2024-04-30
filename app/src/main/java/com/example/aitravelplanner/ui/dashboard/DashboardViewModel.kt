@@ -53,6 +53,10 @@ class DashboardViewModel : ViewModel() {
         else
             cardTravel.travelLikes!!.minus(1)
 
+        _cardsList.notifyObserver()
         return cardTravel.isLiked
+    }
+    private fun <T> MutableLiveData<T>.notifyObserver() {
+        this.value  = this.value
     }
 }
