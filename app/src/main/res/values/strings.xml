@@ -6,13 +6,15 @@
     <string name="logout">Esci</string>
     <string name="profile_travel">I tuoi viaggi</string>
     <string name="shared_travels"><u>Viaggi pubblicati</u></string>
-    <string name="confirm">Conferma</string>
-    <string name="interest_story">Storia</string>
-    <string name="interest_art">Arte e Cultura</string>
-    <string name="interest_party">Party</string>
-    <string name="interest_nature">Nature</string>
-    <string name="interest_entertainment">Intrattenimento</string>
-    <string name="interest_sport">Sport</string>
-    <string name="interest_shopping">Shopping</string>
-
+    <string name="title_travel">Genera viaggio</string>
+    <string name="title_profile">Il tuo profilo</string>
+    <string name="title_activity_login">login_activity</string>
+    <string name="login_text">Bentornato!</string>
+    <string name="stage_button_delete">Elimina tappa</string>
+    <string name="login_button_text">Accedi con Google</string>
+    <string name="post_stage_title">Le tappe</string>
+    <string name="travel_summary_selected_stage">Le tappe del tuo viaggio</string>
+    <string name="travel_summary_found_stage">Aggiungi tappa</string>
+    <string name="search_stage">Cerca tappe</string>
+    <string name="save_travel">Salva viaggio</string>
 </resources>

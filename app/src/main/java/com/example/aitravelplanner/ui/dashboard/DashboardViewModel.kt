@@ -57,5 +57,4 @@ class DashboardViewModel : ViewModel() {
     fun onLikeClicked(){
         _likedTravel.value = !_likedTravel.value!!
     }
-
 }

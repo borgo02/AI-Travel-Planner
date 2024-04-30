@@ -6,7 +6,7 @@
         <data>
                 <variable
                     name="viewmodel"
-                    type="com.example.aitravelplanner.ui.dashboard.DashboardViewModel" />
+                    type="com.example.aitravelplanner.ui.profile.SharedTravelsViewModel" />
         </data>
         <LinearLayout
             android:id="@+id/fragment_shared_travels_profile"

@@ -38,7 +38,6 @@ class DashboardFragment : Fragment() {
         cardTravelRecyclerView.adapter = cardAdapter
 
         dashboardViewModel.likedTravel.observe(viewLifecycleOwner){
-            Log.d("Ciao","${dashboardViewModel.likedTravel}")
 
         }
 

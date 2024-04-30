@@ -5,43 +5,49 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.ui.components.CardTravel
 
-class SharedTravelsViewModel: ViewModel() {
-    private val _cardTravelList = MutableLiveData<ArrayList<CardTravel>>()
-    private val _likedTravel = MutableLiveData<Boolean>()
-
-    private val _username = MutableLiveData<String>("")
-    private val _userImage = MutableLiveData<String>("")
-    private val _travelImage = MutableLiveData<String>("")
-    private val _travelName = MutableLiveData<String>("")
-    private val _travelAffinity = MutableLiveData<String>("")
-    private val _affinityImage = MutableLiveData<String>("")
-    private val _travelLike = MutableLiveData<Int>(0)
-    private val _likesImage = MutableLiveData<String>("")
-    private val _shareImage = MutableLiveData<String>("")
-    private val _timestamp = MutableLiveData<String>("")
-
-    val username: LiveData<String>
-        get() = _username
-    val userImage: LiveData<String>
-        get() = _userImage
-    val travelImage: LiveData<String>
-        get() = _travelImage
-    val travelName: LiveData<String>
-        get() = _travelName
-    val travelAffinity: LiveData<String>
-        get() = _travelAffinity
-    val affinityImage: LiveData<String>
-        get() = _affinityImage
-    val travelLike: LiveData<Int>
-        get() = _travelLike
-    val likesImage: LiveData<String>
-        get() = _likesImage
-    val shareImage: LiveData<String>
-        get() = _shareImage
-    val timestamp: LiveData<String>
-        get() = _timestamp
-    val cardTravelList: LiveData<ArrayList<CardTravel>>
-        get() = _cardTravelList
+class SharedTravelsViewModel : ViewModel() {
+    private val _likesNumber = MutableLiveData<Int>(0)
+    private val _likedTravel = MutableLiveData<Boolean>(false)
+    val likesNumber: LiveData<Int>
+        get() = _likesNumber
     val likedTravel: LiveData<Boolean>
         get() = _likedTravel
+
+    private var travelCardsList: ArrayList<CardTravel> = arrayListOf()
+    private var usernames : ArrayList<String> = arrayListOf()
+    private var userImages : ArrayList<String> = arrayListOf()
+    private var travelImages : ArrayList<String> = arrayListOf()
+    private var travelNames : ArrayList<String> = arrayListOf()
+    private var travelLikes : ArrayList<Int> = arrayListOf()
+    private var timestamps : ArrayList<String> = arrayListOf()
+
+    init{
+        travelCardsList = arrayListOf()
+        usernames = arrayListOf("Samuele", "Paolo", "Daniele", "Maria")
+        userImages = arrayListOf("https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180")
+        travelImages = arrayListOf("https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg")
+        travelNames = arrayListOf("Roma", "Roma", "Roma", "Roma")
+        travelLikes = arrayListOf(0, 0, 0, 0)
+        timestamps = arrayListOf("12-10-2022", "12-10-2022", "12-10-2022", "12-10-2022")
+    }
+
+    fun getTravelCards(): ArrayList<CardTravel>{
+        if(travelCardsList.isEmpty()) {
+            for (i in (usernames.indices)) {
+                val card = CardTravel(
+                    username = usernames[i], userImage = userImages[i],
+                    travelImage = travelImages[i], travelName = travelNames[i],
+                    affinityPerc = null, travelLikes = travelLikes[i],
+                    timestamp = timestamps[i], isLiked = false
+                )
+
+                travelCardsList.add(card)
+            }
+        }
+        return travelCardsList
+    }
+
+    fun onLikeClicked(){
+        _likedTravel.value = !_likedTravel.value!!
+    }
 }
