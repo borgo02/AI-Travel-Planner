@@ -28,7 +28,7 @@ class SharedTravelsFragment : Fragment() {
         _binding = FragmentSharedTravelsProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.viewmodel = sharedTravelViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         cardTravelRecyclerView = binding.sharedTravelRecyclerView
 

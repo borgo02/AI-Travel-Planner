@@ -1,13 +1,18 @@
 package com.example.aitravelplanner.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.components.CardAdapter
 
@@ -28,7 +33,13 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.viewmodel = profileViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val textView: TextView = binding.sharedTravels
+
+        textView.setOnClickListener {
+            findNavController().navigate(R.id.action_fragment_profile_to_fragment_shared_profile)
+        }
 
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())

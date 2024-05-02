@@ -30,7 +30,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.viewmodel = dashboardViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
 

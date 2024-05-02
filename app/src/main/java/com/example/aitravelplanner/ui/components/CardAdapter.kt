@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -39,9 +40,8 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         val currentCard = cards[position]
 
-        val childFragmentManager = fragment.childFragmentManager
-        val isProfileFragment = childFragmentManager.findFragmentById(R.id.fragment_profile) is ProfileFragment
-        val isSharedTravelsProfileFragment = childFragmentManager.findFragmentById(R.id.fragment_shared_travels_profile) is SharedTravelsFragment
+        val isProfileFragment = fragment is ProfileFragment
+        val isSharedTravelsFragment = fragment is SharedTravelsFragment
 
         holder.username.text = currentCard.username
         Picasso
@@ -57,6 +57,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         if(isProfileFragment){
             holder.shareImage!!.visibility = View.VISIBLE
             holder.affinityPerc!!.visibility = View.GONE
+            holder.affinityImage!!.visibility = View.GONE
             holder.likesNumber!!.visibility = View.GONE
             holder.likesImage!!.visibility = View.GONE
             holder.timestamp!!.visibility = View.VISIBLE
@@ -64,10 +65,12 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             holder.shareImage.setImageResource(R.drawable.profile_share)
             holder.timestamp.text = currentCard.timestamp
         }else{
-            if(isSharedTravelsProfileFragment){
+            if(isSharedTravelsFragment){
                 holder.likesImage!!.visibility = View.VISIBLE
                 holder.likesNumber!!.visibility = View.VISIBLE
                 holder.affinityPerc!!.visibility = View.GONE
+                holder.affinityImage!!.visibility = View.GONE
+                holder.timestamp!!.visibility = View.VISIBLE
             }else{
                 holder.affinityPerc!!.visibility = View.VISIBLE
                 holder.likesNumber!!.visibility = View.VISIBLE
