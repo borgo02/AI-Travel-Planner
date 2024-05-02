@@ -31,13 +31,10 @@ class SharedTravelsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         cardTravelRecyclerView = binding.sharedTravelRecyclerView
-        cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        cardAdapter = CardAdapter(sharedTravelViewModel.getTravelCards(), sharedTravelViewModel::isLiked,this)
-        cardTravelRecyclerView.adapter = cardAdapter
-
-        sharedTravelViewModel.cardsList.observe(viewLifecycleOwner){
-            cardAdapter = CardAdapter(sharedTravelViewModel.getTravelCards(), sharedTravelViewModel::isLiked,this)
+        sharedTravelViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            cardAdapter = CardAdapter(newValue, sharedTravelViewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter
         }
 

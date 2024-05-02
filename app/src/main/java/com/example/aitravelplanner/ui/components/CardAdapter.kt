@@ -1,10 +1,13 @@
 package com.example.aitravelplanner.ui.components
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment
@@ -76,12 +79,20 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
 
             holder.shareImage!!.visibility = View.GONE
             holder.likesNumber.text = currentCard.travelLikes.toString()
-            holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
+            if (currentCard.isLiked)
+                holder.likesImage.setImageResource(R.drawable.dashboard_heart_selected)
+            else
+                holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
+
             holder.likesImage.setOnClickListener {
-                if(!isLiked!!(currentCard))
+                if(isLiked!!(currentCard)) {
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_selected)
-                else
+                    holder.likesNumber.text = currentCard.travelLikes.toString()
+                }
+                else {
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
+                    holder.likesNumber.text = currentCard.travelLikes.toString()
+                }
             }
         }
     }

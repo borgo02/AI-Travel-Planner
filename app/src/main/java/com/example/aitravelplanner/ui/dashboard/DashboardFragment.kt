@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
 import com.example.aitravelplanner.ui.components.CardAdapter
+import com.example.aitravelplanner.ui.components.CardTravel
 
 class DashboardFragment : Fragment() {
 
@@ -32,13 +33,10 @@ class DashboardFragment : Fragment() {
         binding.lifecycleOwner = this
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
-        cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        cardAdapter = CardAdapter(dashboardViewModel.getTravelCards(), dashboardViewModel::isLiked,this)
-        cardTravelRecyclerView.adapter = cardAdapter
-
-        dashboardViewModel.cardsList.observe(viewLifecycleOwner){
-            cardAdapter = CardAdapter(dashboardViewModel.getTravelCards(), dashboardViewModel::isLiked,this)
+        dashboardViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter
         }
 
