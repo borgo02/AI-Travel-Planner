@@ -1,6 +1,5 @@
 package com.example.aitravelplanner.ui.travel_summary
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.aitravelplanner.databinding.FragmentInterestsBinding
 import com.example.aitravelplanner.databinding.FragmentTravelSummaryBinding
-import com.example.aitravelplanner.ui.components.StageCard
-import com.example.aitravelplanner.ui.components.StageCardAdapter
-import com.example.aitravelplanner.ui.interests.InterestsViewModel
-import com.example.aitravelplanner.ui.travel.TravelViewModel
+import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
+import com.example.aitravelplanner.ui.components.stageCard.StageCard
+
 
 
 class TravelSummaryFragment : Fragment() {
@@ -38,7 +35,7 @@ class TravelSummaryFragment : Fragment() {
         stageSelectedCardRecyclerView = binding.selectedStageRecyclerView
         stageSearchedCardRecyclerView = binding.searchedStageRecyclerView
 
-        viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue ->
+        viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
             stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageSelectedCardRecyclerView.setHasFixedSize(true)
 
@@ -48,7 +45,7 @@ class TravelSummaryFragment : Fragment() {
             stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, viewModel::deleteStage)}
 
 
-        viewModel.stageSearchedCardList.observe(viewLifecycleOwner){newValue ->
+        viewModel.stageSearchedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
             stageSearchedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageSearchedCardRecyclerView.setHasFixedSize(true)
 

@@ -1,4 +1,4 @@
-package com.example.aitravelplanner.ui.components
+package com.example.aitravelplanner.ui.components.interest
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,6 +1,5 @@
-package com.example.aitravelplanner.ui.components
+package com.example.aitravelplanner.ui.components.stageCard
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

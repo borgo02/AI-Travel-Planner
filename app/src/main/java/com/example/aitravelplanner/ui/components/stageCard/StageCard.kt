@@ -1,4 +1,4 @@
-package com.example.aitravelplanner.ui.components
+package com.example.aitravelplanner.ui.components.stageCard
 
 import android.net.Uri
 

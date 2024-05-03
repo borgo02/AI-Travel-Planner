@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentTravelBinding
-import com.example.aitravelplanner.ui.components.StageCard
-import com.example.aitravelplanner.ui.components.StageCardAdapter
+import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.squareup.picasso.Picasso
 
 class TravelFragment : Fragment() {
@@ -51,7 +51,8 @@ class TravelFragment : Fragment() {
                 stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
                 stageCardRecyclerView.setHasFixedSize(true)
                 stageCardList = newValue
-                stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)}
+                stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
+        }
 
 
         return binding.root

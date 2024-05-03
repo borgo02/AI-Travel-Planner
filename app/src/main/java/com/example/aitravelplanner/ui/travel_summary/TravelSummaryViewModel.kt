@@ -3,7 +3,7 @@ package com.example.aitravelplanner.ui.travel_summary
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.aitravelplanner.ui.components.StageCard
+import com.example.aitravelplanner.ui.components.stageCard.StageCard
 
 class TravelSummaryViewModel: ViewModel() {
     private val _travelName = MutableLiveData<String>("")
