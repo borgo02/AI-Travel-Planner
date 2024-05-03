@@ -18,6 +18,22 @@
         tools:layout="@layout/fragment_travel" />
 
     <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.aitravelplanner.ui.profile.ProfileFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_shared_profile"
+            app:destination="@id/navigation_shared_travels" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_shared_travels"
+        android:name="com.example.aitravelplanner.ui.profile.SharedTravelsFragment"
+        android:label="@string/shared_travels"
+        tools:layout="@layout/fragment_shared_travels_profile" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.aitravelplanner.ui.travel_summary.TravelSummaryFragment"
         android:label="@string/title_profile"

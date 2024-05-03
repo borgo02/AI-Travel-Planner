@@ -1,23 +1,22 @@
-package com.example.aitravelplanner.ui.dashboard
+package com.example.aitravelplanner.ui.profile
 
-import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
+import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.components.CardTravel
 
-class DashboardViewModel : ViewModel() {
+class ProfileViewModel : ViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList
 
-    private var travelCardsList: ArrayList<CardTravel> = arrayListOf()
     private var usernames : ArrayList<String> = arrayListOf()
     private var userImages : ArrayList<String> = arrayListOf()
     private var travelImages : ArrayList<String> = arrayListOf()
     private var travelNames : ArrayList<String> = arrayListOf()
-    private var travelAffinities : ArrayList<String> = arrayListOf()
-    private var travelLikes : ArrayList<Int> = arrayListOf()
     private var timestamps : ArrayList<String> = arrayListOf()
 
     init{
@@ -25,8 +24,6 @@ class DashboardViewModel : ViewModel() {
         userImages = arrayListOf("https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180", "https://tse2.mm.bing.net/th?id=OIP.bdhXRzn4dD3pumtLEqJsPQHaHa&pid=Api&P=0&h=180")
         travelImages = arrayListOf("https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Colosseo_dal_Vittoriano%2C_Roma_I.jpg/1280px-Colosseo_dal_Vittoriano%2C_Roma_I.jpg")
         travelNames = arrayListOf("Roma", "Roma", "Roma", "Roma")
-        travelAffinities = arrayListOf("100", "100", "100", "100")
-        travelLikes = arrayListOf(0, 0, 0, 0)
         timestamps = arrayListOf("12-10-2022", "12-10-2022", "12-10-2022", "12-10-2022")
 
         setTravelCards()
@@ -37,7 +34,7 @@ class DashboardViewModel : ViewModel() {
             val card = CardTravel(
                 username = usernames[i], userImage = userImages[i],
                 travelImage = travelImages[i], travelName = travelNames[i],
-                affinityPerc = travelAffinities[i], travelLikes = travelLikes[i],
+                affinityPerc = null, travelLikes = null,
                 timestamp = timestamps[i], isLiked = false
             )
 
@@ -45,13 +42,7 @@ class DashboardViewModel : ViewModel() {
         }
     }
 
-    fun isLiked(cardTravel: CardTravel): Boolean{
-        cardTravel.isLiked = !cardTravel.isLiked
-        if(cardTravel.isLiked) {
-            cardTravel.travelLikes = cardTravel.travelLikes!! + 1
-        }
-        else
-            cardTravel.travelLikes = cardTravel.travelLikes!! - 1
-        return cardTravel.isLiked
+    fun isShared(): Boolean {
+        return false
     }
 }
