@@ -1,10 +1,9 @@
 package com.example.aitravelplanner.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.aitravelplanner.ui.components.CardTravel
+import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 
 class DashboardViewModel : ViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())

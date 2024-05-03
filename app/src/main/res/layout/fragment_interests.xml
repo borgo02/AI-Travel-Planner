@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.storyValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/art"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.artValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/party"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.partyValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/nature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.natureValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/entertainment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.entertainmentValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/sport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderValue="@={viewmodel.sportValue}" />
 
-            <com.example.aitravelplanner.ui.components.InterestComponent
+            <com.example.aitravelplanner.ui.components.interest.InterestComponent
                 android:id="@+id/shopping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
