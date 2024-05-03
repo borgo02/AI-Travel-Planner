@@ -53,9 +53,7 @@
                 app:labelText="@string/interest_party"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sliderValue="@={viewmodel.partyValue}" >
-
-            </com.example.aitravelplanner.ui.components.InterestComponent>
+                app:sliderValue="@={viewmodel.partyValue}" />
 
             <com.example.aitravelplanner.ui.components.InterestComponent
                 android:id="@+id/nature"
