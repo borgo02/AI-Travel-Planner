@@ -1,4 +1,4 @@
-package com.example.aitravelplanner.ui.components
+package com.example.aitravelplanner.ui.components.interest
 
 import android.content.Context
 import android.util.AttributeSet
@@ -17,7 +17,7 @@ class InterestComponent @JvmOverloads constructor(
 
     private val imageView: ImageView
     private val labelText: TextView
-    public val slider: Slider
+    val slider: Slider
 
 
     fun getSliderValue(): Float {

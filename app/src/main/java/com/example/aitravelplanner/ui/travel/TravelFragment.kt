@@ -1,56 +1,66 @@
 package com.example.aitravelplanner.ui.travel
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.aitravelplanner.databinding.FragmentGenerateTravelBinding
-import com.google.android.material.switchmaterial.SwitchMaterial
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.R
+import com.example.aitravelplanner.databinding.FragmentTravelBinding
+import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
+import com.squareup.picasso.Picasso
 
 class TravelFragment : Fragment() {
-
-    private var _binding: FragmentGenerateTravelBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentTravelBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
+    private val viewModel: TravelViewModel by viewModels()
+
+    private lateinit var stageCardRecyclerView: RecyclerView
+    private lateinit var stageCardList: ArrayList<StageCard>
+
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val travelViewModel =
-            ViewModelProvider(this).get(TravelViewModel::class.java)
+    ): View? {
+        _binding = FragmentTravelBinding.inflate(inflater,container, false)
+        _binding!!.viewmodel = viewModel
+        binding.lifecycleOwner = this
+        binding.likesIcon
 
-        _binding = FragmentGenerateTravelBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val source: EditText = binding.sourceInput
-        val currentPosition: SwitchMaterial = binding.actualPositionSwitch
-        val destination: EditText = binding.destInput
-        val autoDestination: SwitchMaterial = binding.automaticDestSwitch
-        val days: EditText = binding.daysInput
-        val hotel: CheckBox = binding.hotelCheck
-        val budgetGroup: RadioGroup = binding.budgetRadioGroup
-        val highBudget: RadioButton = binding.highBudgetRadio
-        val midBudget: RadioButton = binding.mediumBudgetRadio
-        val lowBudget: RadioButton = binding.smallBudgetRadio
-
-        travelViewModel.text.observe(viewLifecycleOwner) {
-
+        viewModel.likedTravel.observe(viewLifecycleOwner){newValue ->
+            if (newValue){
+                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_selected)
+                binding.likesIcon.contentDescription = R.string.content_description_full_heart_icon.toString()
+            } else {
+                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_not_selected)
+                binding.likesIcon.contentDescription = R.string.content_description_empty_heart_icon.toString()
+            }
         }
-        return root
+
+        viewModel.travelImage.observe(viewLifecycleOwner){newValue -> Picasso
+            .get()
+            .load(newValue)
+            .into(binding.travelImage)}
+        viewModel.stageCardList.observe(viewLifecycleOwner){newValue -> stageCardRecyclerView = binding.stageTravelRecyclerView
+                stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+                stageCardRecyclerView.setHasFixedSize(true)
+                stageCardList = newValue
+                stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
+        }
+
+
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
