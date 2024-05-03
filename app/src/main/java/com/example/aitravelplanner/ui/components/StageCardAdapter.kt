@@ -23,7 +23,7 @@ class StageCardAdapter(private val data: MutableList<StageCard>, private val cal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StageCardHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.stage_card_component, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.component_stage_card, parent, false)
         return StageCardHolder(layout)
     }
 

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentSharedTravelsProfileBinding
-import com.example.aitravelplanner.ui.components.CardAdapter
+import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 
 class SharedTravelsFragment : Fragment() {
 

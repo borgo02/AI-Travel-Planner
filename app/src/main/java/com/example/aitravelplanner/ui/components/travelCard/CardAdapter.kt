@@ -1,14 +1,10 @@
-package com.example.aitravelplanner.ui.components
-import android.util.Log
+package com.example.aitravelplanner.ui.components.travelCard
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment

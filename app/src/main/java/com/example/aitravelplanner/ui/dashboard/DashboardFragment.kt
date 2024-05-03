@@ -1,7 +1,6 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
-import com.example.aitravelplanner.ui.components.CardAdapter
-import com.example.aitravelplanner.ui.components.CardTravel
+import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 
 class DashboardFragment : Fragment() {
 
