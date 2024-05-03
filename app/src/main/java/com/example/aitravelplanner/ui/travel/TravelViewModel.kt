@@ -17,17 +17,17 @@ class TravelViewModel : ViewModel() {
     private val _likedTravel = MutableLiveData<Boolean>(false)
 
     val travelName: LiveData<String>
-            get() = _travelName
+        get() = _travelName
     val userName: LiveData<String>
-            get() = _userName
+        get() = _userName
     val affinityPercentage: LiveData<String>
-            get() = _affinityPercentage
+        get() = _affinityPercentage
     val travelImage: LiveData<String>
-            get() = _travelImage
+        get() = _travelImage
     val likesNumber: LiveData<Int>
-            get() = _likesNumber
+        get() = _likesNumber
     val description: LiveData<String>
-            get() = _description
+        get() = _description
 
     val stageCardList: LiveData<ArrayList<StageCard>>
         get() = _stageCardList
@@ -76,6 +76,7 @@ class TravelViewModel : ViewModel() {
 
     fun likeClicked(){
         _likedTravel.value = !_likedTravel.value!!
-        if (_likedTravel.value!!) _likesNumber.value = _likesNumber.value?.plus(1) else _likesNumber.value = _likesNumber.value?.minus(1)
+        if (_likedTravel.value!!) _likesNumber.value = _likesNumber.value?.plus(1)
+        else _likesNumber.value = _likesNumber.value?.minus(1)
     }
 }
