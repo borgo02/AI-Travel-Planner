@@ -4,34 +4,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
+import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val dashboardViewModel: DashboardViewModel by viewModels()
+    private lateinit var cardTravelRecyclerView: RecyclerView
+    private lateinit var cardAdapter: CardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        binding.viewmodel = dashboardViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        cardTravelRecyclerView = binding.travelCardsRecyclerView
+
+        dashboardViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this)
+            cardTravelRecyclerView.adapter = cardAdapter
         }
+
         return root
     }
 

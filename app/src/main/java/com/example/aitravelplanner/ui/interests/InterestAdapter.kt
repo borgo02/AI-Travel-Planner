@@ -3,8 +3,7 @@ package com.example.aitravelplanner.ui.interests
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
-import com.example.aitravelplanner.ui.components.InterestComponent
-import com.google.android.material.slider.Slider
+import com.example.aitravelplanner.ui.components.interest.InterestComponent
 
 @InverseBindingAdapter(attribute = "app:sliderValue")
 fun getSliderValue(slider: InterestComponent): Float {

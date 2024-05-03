@@ -9,17 +9,33 @@
         android:id="@+id/navigation_home"
         android:name="com.example.aitravelplanner.ui.interests.InterestsFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_interests" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.aitravelplanner.ui.dashboard.DashboardFragment"
+        android:name="com.example.aitravelplanner.ui.travel.TravelFragment"
         android:label="@string/title_travel"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_travel" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.aitravelplanner.ui.profile.ProfileFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_shared_profile"
+            app:destination="@id/navigation_shared_travels" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_shared_travels"
+        android:name="com.example.aitravelplanner.ui.profile.SharedTravelsFragment"
+        android:label="@string/shared_travels"
+        tools:layout="@layout/fragment_shared_travels_profile" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.aitravelplanner.ui.notifications.NotificationsFragment"
+        android:name="com.example.aitravelplanner.ui.travel_summary.TravelSummaryFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_travel_summary" />
 </navigation>

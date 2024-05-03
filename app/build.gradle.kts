@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-
+    implementation("com.squareup.picasso:picasso:2.8")
     implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -70,6 +70,9 @@ dependencies {
     implementation("androidx.databinding:databinding-common:8.3.2")
     implementation("androidx.compose.foundation:foundation-android:1.6.6")
     implementation("androidx.compose.material3:material3-android:1.2.1")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.1")
+    implementation("androidx.activity:activity:1.9.0")
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.android.gms:play-services-auth:21.1.0")
