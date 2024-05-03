@@ -64,7 +64,7 @@
                 app:tickColor="#FFFF"
                 app:tickColorActive="#1B4965"
                 app:tickColorInactive="#FFFF"
-                android:value="@={sliderValue}"/>
+                android:value="@={sliderValue}" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

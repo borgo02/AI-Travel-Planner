@@ -12,4 +12,15 @@
     <string name="interest_sport">Sport</string>
     <string name="interest_shopping">Shopping</string>
 
+    <string name="title_travel">Genera viaggio</string>
+    <string name="title_profile">Il tuo profilo</string>
+    <string name="title_activity_login">login_activity</string>
+    <string name="login_text">Bentornato!</string>
+    <string name="stage_button_delete">Elimina tappa</string>
+    <string name="login_button_text">Accedi con Google</string>
+    <string name="post_stage_title">Le tappe</string>
+    <string name="travel_summary_selected_stage">Le tappe del tuo viaggio</string>
+    <string name="travel_summary_found_stage">Aggiungi tappa</string>
+    <string name="search_stage">Cerca tappe</string>
+    <string name="save_travel">Salva viaggio</string>
 </resources>
