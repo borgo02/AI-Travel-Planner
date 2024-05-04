@@ -1,63 +1,54 @@
 package com.example.aitravelplanner.ui.travel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class TravelFormViewModel : ViewModel() {
     private lateinit var budget: String
+    var isFormCompleted = MutableLiveData<Boolean>(false)
 
-    private val _sourceInput = MutableLiveData<String>("")
-    private val _isActualPosition = MutableLiveData<Boolean>(false)
-    private val _destinationInput = MutableLiveData<String>("")
-    private val _isAutomaticDestination = MutableLiveData<Boolean>(false)
-    private val _days = MutableLiveData<String>("0")
-    private val _isHotelChecked = MutableLiveData<Boolean>(false)
-    private val _isSmallBudget = MutableLiveData<Boolean>(false)
-    private val _isMediumBudget = MutableLiveData<Boolean>(false)
-    private val _isLargeBudget = MutableLiveData<Boolean>(false)
-
-    val sourceInput: LiveData<String>
-        get()= _sourceInput
-    val isActualPosition: LiveData<Boolean>
-        get()= _isActualPosition
-    val destinationInput: LiveData<String>
-        get()= _destinationInput
-    val isAutomaticDestination: LiveData<Boolean>
-        get()= _isAutomaticDestination
-    val days: LiveData<String>
-        get()= _days
-    val isHotelChecked: LiveData<Boolean>
-        get()= _isHotelChecked
-    val isSmallBudget: LiveData<Boolean>
-        get()= _isSmallBudget
-    val isMediumBudget: LiveData<Boolean>
-        get()= _isMediumBudget
-    val isLargeBudget: LiveData<Boolean>
-        get()= _isLargeBudget
+    val sourceInput = MutableLiveData<String>("")
+    val isActualPosition = MutableLiveData<Boolean>(false)
+    val destinationInput = MutableLiveData<String>("")
+    val isAutomaticDestination = MutableLiveData<Boolean>(false)
+    val days = MutableLiveData<String>("0")
+    val isHotelChecked = MutableLiveData<Boolean>(false)
+    val isSmallBudget = MutableLiveData<Boolean>(false)
+    val isMediumBudget = MutableLiveData<Boolean>(false)
+    val isLargeBudget = MutableLiveData<Boolean>(false)
 
     fun confirmClicked() {
-        budget =    if(_isSmallBudget.value == true)
-                        "Umile"
-                    else{
-                        if(_isMediumBudget.value == true)
-                            "Medio"
-                        else
-                            "Alto"
-                    }
+        if(sourceInput.value != "" && destinationInput.value != "" && days.value!!.toInt() > 0 && budget != ""){
+            isFormCompleted.value = true
 
-        var travelPreferences = mapOf(
-            "Partenza" to _sourceInput.value,
-            "Posizione attuale" to _isActualPosition.value,
-            "Destinazione" to _destinationInput.value,
-            "Destinazione automatica" to _isAutomaticDestination.value,
-            "Giorni" to _days.value,
-            "Hotel" to _isHotelChecked.value,
-            "Budget" to budget
-        )
+            val source = sourceInput.value ?: ""
+            val isActualPosition = isActualPosition.value ?: false
+            val destination = destinationInput.value ?: ""
+            val isAutomaticDestination = isAutomaticDestination.value ?: false
+            val days = days.value ?: "0"
+            val isHotelChecked = isHotelChecked.value ?: false
+            budget = determineBudget()
 
-        Log.d("Ciao", "$travelPreferences")
-        //chiamata al service per salvare nel db
+            val travelPreferences = mapOf(
+                "Partenza" to source,
+                "Posizione attuale" to isActualPosition,
+                "Destinazione" to destination,
+                "Destinazione automatica" to isAutomaticDestination,
+                "Giorni" to days.toInt(),
+                "Hotel" to isHotelChecked,
+                "Budget" to budget
+            )
+        }
+        else
+            isFormCompleted.value = false
+    }
+
+    private fun determineBudget(): String {
+        return when {
+            isSmallBudget.value == true -> "Economico"
+            isMediumBudget.value == true -> "Medio"
+            isLargeBudget.value == true -> "Senza badare a spese"
+            else -> ""
+        }
     }
 }

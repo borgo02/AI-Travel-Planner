@@ -34,28 +34,35 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <TextView
-                    android:id="@+id/source_text"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sourceText"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_font_size"
-                    android:layout_marginBottom="5dp"
-                    android:paddingTop="50dp"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/activity_vertical_margin">
 
-                <EditText
-                    android:id="@+id/source_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:background="@drawable/style_rounded_corners"
-                    android:backgroundTint="@color/lighter_lighter_blue"
-                    android:padding="@dimen/edit_text_padding"
-                    android:textSize="@dimen/text_font_size"
-                    android:text="@{viewmodel.sourceInput}"/>
+                    <TextView
+                        android:id="@+id/source_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sourceText"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_font_size"
+                        android:layout_marginBottom="5dp"/>
+
+                    <EditText
+                        android:id="@+id/source_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:background="@drawable/style_rounded_corners"
+                        android:backgroundTint="@color/lighter_lighter_blue"
+                        android:padding="@dimen/edit_text_padding"
+                        android:textSize="@dimen/text_font_size"
+                        android:text="@={viewmodel.sourceInput}" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,7 +88,7 @@
                         android:scaleX="1.5"
                         android:scaleY="1.5"
                         app:trackTint="@drawable/track_color_selector"
-                        android:checked="@{viewmodel.isActualPosition}"/>
+                        android:checked="@={viewmodel.isActualPosition}" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,7 +115,7 @@
                         android:padding="@dimen/edit_text_padding"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_font_size"
-                        android:text="@{viewmodel.destinationInput}"/>
+                        android:text="@={viewmodel.destinationInput}"/>
 
                 </LinearLayout>
 
@@ -135,9 +142,10 @@
                         android:paddingEnd="10dp"
                         android:scaleX="1.5"
                         android:scaleY="1.5"
-                        app:trackTint="@drawable/track_color_selector"
-                        android:checked="@{viewmodel.isAutomaticDestination}"/>
+                        app:trackTint="@drawable/track_color_selector" />
+
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -145,24 +153,24 @@
                     android:paddingTop="@dimen/travel_form_items_margin_bottom">
                     <TextView
                         android:id="@+id/days_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/daysText"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_font_size"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="50dp"/>
 
                     <EditText
                         android:id="@+id/days_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
                         android:inputType="number"
                         android:textColor="@color/black"
                         android:background="@drawable/style_rounded_corners"
                         android:backgroundTint="@color/lighter_lighter_blue"
                         android:padding="@dimen/edit_text_padding"
-                        android:text="@{viewmodel.days}"/>
+                        android:text="@={viewmodel.days}"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,7 +194,7 @@
                         android:scaleX="1.5"
                         android:scaleY="1.5"
                         android:textSize="@dimen/text_font_size"
-                        android:checked="@{viewmodel.isHotelChecked}"/>
+                        android:checked="@={viewmodel.isHotelChecked}"/>
                 </LinearLayout>
 
                 <TextView
@@ -211,7 +219,7 @@
                         android:text="@string/economicBudgetText"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_font_size"
-                        android:checked="@{viewmodel.isSmallBudget}"/>
+                        android:checked="@={viewmodel.isSmallBudget}"/>
 
                     <RadioButton
                         android:id="@+id/medium_budget_radio"
@@ -220,7 +228,7 @@
                         android:text="@string/middleBudgetText"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_font_size"
-                        android:checked="@{viewmodel.isMediumBudget}"/>
+                        android:checked="@={viewmodel.isMediumBudget}"/>
 
                     <RadioButton
                         android:id="@+id/high_budget_radio"
@@ -229,7 +237,7 @@
                         android:text="@string/highBudgetText"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_font_size"
-                        android:checked="@{viewmodel.isLargeBudget}"/>
+                        android:checked="@={viewmodel.isLargeBudget}"/>
                 </RadioGroup>
 
                 <Button
