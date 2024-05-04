@@ -250,7 +250,7 @@
                     android:clickable="true"
                     android:onClick="@{() -> viewmodel.confirmClicked()}"
                     android:background="@drawable/style_rounded_corners"
-                    android:text="@string/confirm"
+                    android:text="@string/generateTravelBtn"
                     android:layout_marginBottom="20dp"/>
             </LinearLayout>
         </ScrollView>

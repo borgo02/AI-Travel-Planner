@@ -45,4 +45,5 @@
     <string name="middleBudgetText">medio</string>
     <string name="highBudgetText">senza badare a spese</string>
     <string name="generateTravelBtn">Genera viaggio</string>
+    <string name="travel_form">Genera viaggio</string>
 </resources>
