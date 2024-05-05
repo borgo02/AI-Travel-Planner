@@ -55,6 +55,12 @@ class TravelFragment : Fragment() {
         }
 
 
+        val toolbar = binding.travelTopBar
+        toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack() // Pop this fragment from back stack
+        }
+
+
         return binding.root
     }
 

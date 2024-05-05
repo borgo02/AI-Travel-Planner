@@ -14,6 +14,7 @@
     <string name="logout">Esci</string>
     <string name="profile_travel">I tuoi viaggi</string>
     <string name="shared_travels"><u>Viaggi pubblicati</u></string>
+    <string name="title_shared_travels">I tuo viaggi pubblicati</string>
     <string name="title_travel">Genera viaggio</string>
     <string name="title_profile">Il tuo profilo</string>
     <string name="title_activity_login">login_activity</string>

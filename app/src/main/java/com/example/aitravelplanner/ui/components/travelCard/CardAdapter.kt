@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment
@@ -12,7 +13,10 @@ import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.squareup.picasso.Picasso
 
 class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
-    class CardHolder(private val row: View) : RecyclerView.ViewHolder(row) {
+
+    private val isProfileFragment = fragment is ProfileFragment
+    private val isSharedTravelsFragment = fragment is SharedTravelsFragment
+    class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: ImageView = row.findViewById(R.id.userImage)
         val travelImage: ImageView = row.findViewById(R.id.travelImage)
@@ -30,14 +34,31 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                 R.layout.component_travel_card,
             parent, false
         )
-        return CardHolder(layout)
+        val holder = CardHolder(layout)
+        if (isProfileFragment){
+            holder.itemView.setOnClickListener{ view ->
+                view.findNavController().navigate(R.id.action_navigation_profile_to_travelFragment)
+            }
+        }
+        else if(isSharedTravelsFragment){
+            holder.itemView.setOnClickListener { view ->
+                view.findNavController()
+                    .navigate(R.id.action_navigation_shared_travels_to_travelFragment)
+            }
+        }
+        else{
+            holder.itemView.setOnClickListener { view ->
+                view.findNavController()
+                    .navigate(R.id.action_navigation_dashboard_to_travelFragment)
+            }
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         val currentCard = cards[position]
 
-        val isProfileFragment = fragment is ProfileFragment
-        val isSharedTravelsFragment = fragment is SharedTravelsFragment
+
 
         holder.username.text = currentCard.username
         Picasso

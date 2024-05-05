@@ -38,6 +38,11 @@ class SharedTravelsFragment : Fragment() {
             cardTravelRecyclerView.adapter = cardAdapter
         }
 
+        val toolbar = binding.travelTopBar
+        toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         return root
     }
 
