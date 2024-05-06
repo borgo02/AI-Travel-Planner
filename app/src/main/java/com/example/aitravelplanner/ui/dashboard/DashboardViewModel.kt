@@ -7,6 +7,7 @@ import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 
 class DashboardViewModel : ViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
+    val searchText = MutableLiveData<String>("")
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList
 
@@ -53,4 +54,9 @@ class DashboardViewModel : ViewModel() {
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
         return cardTravel.isLiked
     }
+
+    fun search(){
+        //Call to DB for fetching data
+    }
+
 }

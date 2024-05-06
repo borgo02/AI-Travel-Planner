@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.aitravelplanner.ui.interests.InterestsFragment"
+        android:name="com.example.aitravelplanner.ui.dashboard.DashboardFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_interests" />
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
