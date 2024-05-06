@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_navigation"
+    app:startDestination="@id/navigation_profile">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.aitravelplanner.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_shared_profile"
+            app:destination="@id/sharedTravelFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_travelFragment"
+            app:destination="@id/travelFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sharedTravelFragment"
+        android:name="com.example.aitravelplanner.ui.profile.SharedTravelsFragment"
+        android:label="@string/shared_travels"
+        tools:layout="@layout/fragment_shared_travels_profile" >
+        <action
+            android:id="@+id/action_navigation_shared_travels_to_travelFragment"
+            app:destination="@id/travelFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/travelFragment"
+        android:name="com.example.aitravelplanner.ui.travel.TravelFragment"
+        android:label="TravelFragment"
+        tools:layout="@layout/fragment_travel"/>
+</navigation>
