@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_interests" />
 
     <fragment
-        android:id="@+id/navigation_travel_fors"
+        android:id="@+id/navigation_travel_form"
         android:name="com.example.aitravelplanner.ui.travel.TravelFormFragment"
         android:label="@string/travel_form"
         tools:layout="@layout/fragment_travel_form" />
