@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
@@ -99,9 +100,9 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         }
 
         if(position == this.itemCount - 1) {
-            val params: FrameLayout.LayoutParams =
-                holder.row.layoutParams as FrameLayout.LayoutParams
-            params.bottomMargin = 100
+            val params: RecyclerView.LayoutParams =
+                holder.row.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 500
             holder.row.layoutParams = params
         }
     }
