@@ -68,6 +68,7 @@ class DashboardViewModel : ViewModel() {
             if(searchText.value.toString().lowercase() in card.travelName.lowercase())
                 _searchedCardsList.value!!.add(card)
         }
+        _searchedCardsList.value = _searchedCardsList.value
     }
 
 }
