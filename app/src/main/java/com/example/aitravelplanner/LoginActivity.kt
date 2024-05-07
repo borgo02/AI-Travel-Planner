@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
@@ -68,14 +69,16 @@ class LoginActivity : AppCompatActivity() {
             RC_SIGN_IN -> {
                 try {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                    val account = task.getResult(ApiException::class.java)!!
-                    account.idToken
-                    val idToken = account.idToken
+                    val user = task.result;
+                    val userId =user.id
+                    val idToken = user.idToken
 
                     when {
                         idToken != null -> {
                             // Got an ID token from Google. Use it to authenticate
                             // with Firebase.
+                            val userRef = FirebaseDatabase.getInstance().getReference("Utente").child(userId!!)
+                            val snapshot = userRef.get() // Using await() to make the call synchronous
                             val credential = GoogleAuthProvider.getCredential(idToken, null)
                             auth.signInWithCredential(credential)
                                 .addOnCompleteListener(this) { task ->
@@ -83,6 +86,10 @@ class LoginActivity : AppCompatActivity() {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "signInWithCredential:success")
                                         val user = auth.currentUser
+                                        if (snapshot.result.exists())
+                                        {
+                                            //avoid interest selection
+                                        }
                                         updateUI(user)
                                     } else {
                                         // If sign in fails, display a message to the user.
