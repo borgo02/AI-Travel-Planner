@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "359954007543-ng1i7e5asdknt26pmveqpn3s4vj4bi3k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aitravelplanner",
+            "certificate_hash": "6a425c8174dc14ed0501efca9c2e80f5caecc054"
+          }
+        },
+        {
           "client_id": "359954007543-fng9elacp91p4ef35c9u176vobsla7ku.apps.googleusercontent.com",
           "client_type": 3
         }
