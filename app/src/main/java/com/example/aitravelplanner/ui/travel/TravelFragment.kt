@@ -43,10 +43,7 @@ class TravelFragment : Fragment() {
             }
         }
 
-        viewModel.travelImage.observe(viewLifecycleOwner){newValue -> Picasso
-            .get()
-            .load(newValue)
-            .into(binding.travelImage)}
+        viewModel.travelImage.observe(viewLifecycleOwner){newValue -> binding.travelImage.setURL(newValue)}
         viewModel.stageCardList.observe(viewLifecycleOwner){newValue -> stageCardRecyclerView = binding.stageTravelRecyclerView
                 stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
                 stageCardRecyclerView.setHasFixedSize(true)
