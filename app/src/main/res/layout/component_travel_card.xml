@@ -28,7 +28,7 @@
                 android:backgroundTint="@color/lighter_blue"
                 android:layout_marginBottom="5dp">
 
-                <ImageView
+                <com.example.aitravelplanner.ui.components.imageview.CustomImageView
                     android:id="@+id/userImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
 
             </LinearLayout>
 
-            <ImageView
+            <com.example.aitravelplanner.ui.components.imageview.CustomImageView
                 android:id="@+id/travelImage"
                 android:layout_width="290dp"
                 android:layout_height="180dp"

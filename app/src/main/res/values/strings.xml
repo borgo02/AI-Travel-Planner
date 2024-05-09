@@ -25,6 +25,7 @@
     <string name="travel_summary_selected_stage">Le tappe del tuo viaggio</string>
     <string name="travel_summary_found_stage">Aggiungi tappa</string>
     <string name="search_stage">Cerca tappe</string>
+    <string name="search_travel">Cerca viaggio</string>
     <string name="save_travel">Salva viaggio</string>
     <string name="content_description_image_stage">Immagine della tappa del viaggio</string>
     <string name="content_description_affinity_icon">Icona per rappresentare la percentuale di affinità</string>
@@ -35,4 +36,5 @@
     <string name="content_description_user_icon">Icona che rappresenta un utente</string>
     <string name="content_description_empty_heart_icon">Icona che rappresenta un cuore vuoto; indica che non è stato messo mi piace al viaggio</string>
     <string name="content_description_full_heart_icon">Icona che rappresenta un cuore pieno; indica che è stato messo mi piace al viaggio</string>
+    <string name="content_description_search_icon">Icona che rappresenta una lente di ingrandimento</string>
 </resources>

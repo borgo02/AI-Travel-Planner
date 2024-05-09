@@ -1,6 +1,7 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,7 @@ class DashboardFragment : Fragment() {
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
 
-        dashboardViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+        dashboardViewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter

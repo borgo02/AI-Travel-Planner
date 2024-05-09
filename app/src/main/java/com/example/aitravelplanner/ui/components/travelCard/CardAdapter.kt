@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
+import com.example.aitravelplanner.ui.components.imageview.CustomImageView
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.squareup.picasso.Picasso
@@ -22,8 +23,8 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
     private val isSharedTravelsFragment = fragment is SharedTravelsFragment
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
-        val userImage: ImageView = row.findViewById(R.id.userImage)
-        val travelImage: ImageView = row.findViewById(R.id.travelImage)
+        val userImage: CustomImageView = row.findViewById(R.id.userImage)
+        val travelImage: CustomImageView = row.findViewById(R.id.travelImage)
         val travelName: TextView = row.findViewById(R.id.travelName)
         val affinityPerc: TextView? = row.findViewById(R.id.affinityPerc)
         val affinityImage: ImageView? = row.findViewById(R.id.affinityImage)
@@ -65,14 +66,8 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
 
 
         holder.username.text = currentCard.username
-        Picasso
-            .get()
-            .load(currentCard.userImage)
-            .into(holder.userImage)
-        Picasso
-            .get()
-            .load(currentCard.travelImage)
-            .into(holder.travelImage)
+        holder.travelImage.setURL(currentCard.travelImage)
+        holder.userImage.setURL(currentCard.userImage)
         holder.travelName.text = currentCard.travelName
 
         if(isProfileFragment){

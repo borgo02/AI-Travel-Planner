@@ -1,5 +1,7 @@
 package com.example.aitravelplanner.ui.dashboard
 
+import android.util.Log
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +11,12 @@ class DashboardViewModel : ViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList
+    private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
+    val searchedCardsList: LiveData<ArrayList<CardTravel>>
+        get() = _searchedCardsList
 
-    private var travelCardsList: ArrayList<CardTravel> = arrayListOf()
+    val searchText = MutableLiveData<String>("")
+
     private var usernames : ArrayList<String> = arrayListOf()
     private var userImages : ArrayList<String> = arrayListOf()
     private var travelImages : ArrayList<String> = arrayListOf()
@@ -42,6 +48,7 @@ class DashboardViewModel : ViewModel() {
 
             _cardsList.value!!.add(card)
         }
+        _searchedCardsList.value!!.addAll(_cardsList.value!!)
     }
 
     fun isLiked(cardTravel: CardTravel): Boolean{
@@ -53,4 +60,15 @@ class DashboardViewModel : ViewModel() {
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
         return cardTravel.isLiked
     }
+
+    fun search(){
+        _searchedCardsList.value!!.clear()
+
+        for(card in _cardsList.value!!){
+            if(searchText.value.toString().lowercase() in card.travelName.lowercase())
+                _searchedCardsList.value!!.add(card)
+        }
+        _searchedCardsList.value = _searchedCardsList.value
+    }
+
 }
