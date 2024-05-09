@@ -8,6 +8,6 @@ interface IUserRepository {
     suspend fun setSharedTravelByUser(user: User, travel: Travel)
     suspend fun getUsers(): List<User>
     suspend fun getTravelsByUser(user: User): ArrayList<Travel>
-    suspend fun getLikedTravelsByUSer(user: User): ArrayList<Travel>
+    suspend fun getLikedTravelsByUser(user: User): ArrayList<Travel>
 
 }
