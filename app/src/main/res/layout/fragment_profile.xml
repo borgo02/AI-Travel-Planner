@@ -11,10 +11,6 @@
             type="com.example.aitravelplanner.ui.profile.ProfileViewModel" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:background="@drawable/style_rounded_corners"
@@ -44,8 +40,10 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="center"
                         app:srcCompat="@drawable/profile_user" />
 
                     <TextView
@@ -95,8 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:layout_marginBottom="100dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -141,6 +138,4 @@
             </LinearLayout>
 
         </LinearLayout>
-
-    </ScrollView>
 </layout>
