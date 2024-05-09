@@ -1,9 +1,9 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.util.Log
-import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
@@ -70,7 +70,6 @@ class DashboardViewModel : ViewModel() {
     fun search() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(100)
             performSearch()
         }
     }
