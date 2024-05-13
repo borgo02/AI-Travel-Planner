@@ -8,14 +8,21 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.aitravelplanner.ui.dashboard.DashboardFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="@string/title_travel"
+        tools:layout="@layout/fragment_travel" />
+
+    <fragment
+        android:id="@+id/navigation_travel_form"
+        android:name="com.example.aitravelplanner.ui.travel.TravelFormFragment"
+        android:label="@string/travel_form"
+        tools:layout="@layout/fragment_travel_form" />
+
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.aitravelplanner.ui.travel.TravelFragment"
-        android:label="@string/title_travel"
-        tools:layout="@layout/fragment_travel" />
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_profile"
