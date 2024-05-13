@@ -1,11 +1,13 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
@@ -32,15 +34,19 @@ class DashboardFragment : Fragment() {
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
 
-        dashboardViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+        dashboardViewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter
         }
 
+        dashboardViewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
         return root
     }
 
+    private val searchTextObserver = Observer<String> { _ ->
+        dashboardViewModel.search()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

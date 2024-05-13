@@ -54,7 +54,6 @@ class TravelFragment : Fragment() {
                 stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
         }
 
-
         return binding.root
     }
 

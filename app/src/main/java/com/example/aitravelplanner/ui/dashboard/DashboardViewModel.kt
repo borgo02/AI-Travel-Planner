@@ -1,16 +1,26 @@
 package com.example.aitravelplanner.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DashboardViewModel : ViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList
+    private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
+    val searchedCardsList: LiveData<ArrayList<CardTravel>>
+        get() = _searchedCardsList
 
-    private var travelCardsList: ArrayList<CardTravel> = arrayListOf()
+    val searchText = MutableLiveData<String>("")
+
     private var usernames : ArrayList<String> = arrayListOf()
     private var userImages : ArrayList<String> = arrayListOf()
     private var travelImages : ArrayList<String> = arrayListOf()
@@ -18,6 +28,8 @@ class DashboardViewModel : ViewModel() {
     private var travelAffinities : ArrayList<String> = arrayListOf()
     private var travelLikes : ArrayList<Int> = arrayListOf()
     private var timestamps : ArrayList<String> = arrayListOf()
+
+    private var searchJob: Job? = null
 
     init{
         usernames = arrayListOf("Samuele", "Paolo", "Daniele", "Maria")
@@ -42,6 +54,7 @@ class DashboardViewModel : ViewModel() {
 
             _cardsList.value!!.add(card)
         }
+        _searchedCardsList.value!!.addAll(_cardsList.value!!)
     }
 
     fun isLiked(cardTravel: CardTravel): Boolean{
@@ -53,4 +66,27 @@ class DashboardViewModel : ViewModel() {
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
         return cardTravel.isLiked
     }
+
+    fun search() {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            performSearch()
+        }
+    }
+
+    private fun performSearch() {
+        _searchedCardsList.value!!.clear()
+
+        for(card in _cardsList.value!!){
+            if(searchText.value.toString().lowercase() in card.travelName.lowercase())
+                _searchedCardsList.value!!.add(card)
+        }
+        _searchedCardsList.value = _searchedCardsList.value
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        searchJob?.cancel()
+    }
+
 }

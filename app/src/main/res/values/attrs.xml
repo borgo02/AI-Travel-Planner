@@ -18,4 +18,16 @@
         <attr name="timestamp" format="string"/>
         <attr name="test" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="GenerateTravelComponent">
+        <attr name="sourceText" format="string" />
+        <attr name="destText" format="string" />
+        <attr name="actualPosText" format="string" />
+        <attr name="autoDestText" format="string" />
+        <attr name="daysText" format="string" />
+        <attr name="hotelText" format="string" />
+        <attr name="budgetText" format="string" />
+        <attr name="switchColor" format="color" />
+        <attr name="btnColor" format="color" />
+    </declare-styleable>
 </resources>
