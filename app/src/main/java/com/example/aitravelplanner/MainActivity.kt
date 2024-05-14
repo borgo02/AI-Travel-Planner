@@ -1,5 +1,6 @@
 package com.example.aitravelplanner
 
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -23,7 +24,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val b = intent.extras
         if (b != null) {
-            user = b.getSerializable("user", User::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                user = b.getSerializable("user", User::class.java)
+            }
+            else
+            {
+                user = b.getSerializable("user") as User
+            }
             isInit = b.getBoolean("isInit")
         }
         binding = ActivityMainBinding.inflate(layoutInflater)

@@ -104,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
                         val user = auth.currentUser
-                        val dbUser = userRepo.getUserById(user!!.uid);
+                        var dbUser = userRepo.getUserById(user!!.uid);
                         if (dbUser != null && dbUser.isInitialized) {
                             //avoid interest selection
                             val b = Bundle()
@@ -117,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
                         else
                         {
                             //create user
+                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, user.displayName!!, false, null)
                             val b = Bundle()
                             b.putSerializable("user", dbUser) //Your id
                             b.putBoolean("isInit", false) //Your id
