@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -45,7 +43,10 @@ class LoginActivity : AppCompatActivity() {
 
         // Initialize Firebase Auth
         auth = Firebase.auth
-        // [END initialize_auth]
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            oneTapSignIn()
+        }
     }
 
     override fun onStart() {
@@ -54,64 +55,6 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        /*lifecycleScope.launch {
-            when (requestCode) {
-                RC_SIGN_IN -> {
-                    try {
-                        val user = GoogleSignIn.getSignedInAccountFromIntent(data).await()
-                        val userId = user.id
-                        val idToken = user.idToken
-
-                        when {
-                            idToken != null -> {
-                                // Got an ID token from Google. Use it to authenticate
-                                // with Firebase.
-                                val userRef = FirebaseDatabase.getInstance().getReference("Utente")
-                                    .child(userId!!)
-                                val snapshot =
-                                    userRef.get() // Using await() to make the call synchronous
-                                val credential = GoogleAuthProvider.getCredential(idToken, null)
-                                val task = auth.signInWithCredential(credential).await()
-
-                                if (task.user?.uid != "") {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "signInWithCredential:success")
-                                    val user = auth.currentUser
-                                    if (snapshot.result.exists()) {
-                                        //avoid interest selection
-                                    }
-                                    updateUI(user)
-                                } else {
-                                    // If sign in fails, display a message to the user.
-
-                                    updateUI(null)
-                                }
-                                Log.d(TAG, "Got ID token.")
-                            }
-
-                            else -> {
-                                // Shouldn't happen.
-                                Log.d(TAG, "No ID token!")
-                            }
-                        }
-                    } catch (e: ApiException) {
-                        Log.d(TAG, "Exception")
-                        // ...
-                    }
-                }
-            }
-        }*/
-    }
-    // [START signin]
-    /*public fun signIn(view: View) {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }*/
-    // [END signin]
 
     // [START logout]
     private fun logout() {
@@ -156,7 +99,17 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
+                    val userRef = FirebaseDatabase.getInstance().getReference("Utente").child(auth.currentUser!!.uid)
+                    val snapshot = userRef.get() // Using await() to make the call synchronous
                     val user = auth.currentUser
+                    if (snapshot.result.exists()) {
+                        //avoid interest selection
+                        var asd = true;
+                    }
+                    else
+                    {
+
+                    }
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.

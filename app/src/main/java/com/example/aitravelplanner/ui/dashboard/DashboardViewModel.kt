@@ -1,17 +1,14 @@
 package com.example.aitravelplanner.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel : BaseViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList

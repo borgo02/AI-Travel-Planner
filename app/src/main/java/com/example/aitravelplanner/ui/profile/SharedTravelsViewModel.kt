@@ -2,10 +2,10 @@ package com.example.aitravelplanner.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 
-class SharedTravelsViewModel : ViewModel() {
+class SharedTravelsViewModel : BaseViewModel() {
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
     val cardsList: LiveData<ArrayList<CardTravel>>
         get() = _cardsList

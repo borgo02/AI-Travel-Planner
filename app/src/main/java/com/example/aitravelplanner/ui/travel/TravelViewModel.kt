@@ -2,10 +2,10 @@ package com.example.aitravelplanner.ui.travel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 
-class TravelViewModel : ViewModel() {
+class TravelViewModel : BaseViewModel() {
     private val _travelName = MutableLiveData<String>("")
     private val _userName = MutableLiveData<String>("")
     private val _affinityPercentage = MutableLiveData<String>("")
