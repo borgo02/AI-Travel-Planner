@@ -4,6 +4,7 @@ import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
+import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.toObject
@@ -34,7 +35,6 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun getUserById(idUser: String): User? {
         val userRef = db.collection("users").document(idUser).get().await()
         user = userRef.toObject(User::class.java)
-
         return user
     }
 

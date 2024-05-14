@@ -6,25 +6,29 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import com.google.firebase.Firebase
-import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
     private var showOneTapUI = true
+    private val userRepo = UserRepository();
     // [START declare_auth]
     private lateinit var auth: FirebaseAuth
     // [END declare_auth]
@@ -95,21 +99,28 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val userRef = FirebaseDatabase.getInstance().getReference("Utente").child(auth.currentUser!!.uid)
-                    val snapshot = userRef.get() // Using await() to make the call synchronous
-                    val user = auth.currentUser
-                    val dbUser = snapshot.result;
-                    if (dbUser.exists()) {
-                        //avoid interest selection
-                        var asd = true;
-                    }
-                    else
-                    {
+                    val intentInterest: Intent = Intent(this, InterestsFragment::class.java)
+                    val intentMain: Intent = Intent(this, MainActivity::class.java)
+                    lifecycleScope.launch {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success")
+                        val user = auth.currentUser
+                        val dbUser = userRepo.getUserById(user!!.uid);
+                        if (dbUser != null && dbUser.isInitialized) {
+                            //avoid interest selection
+                            val b = Bundle()
+                            b.putSerializable("user", dbUser) //Your id
+                            intentMain.putExtras(b) //Put your id to your next Intent
+                            startActivity(intentMain)
+                            finish()
+                        }
+                        else
+                        {
 
+                        }
+                        updateUI(user)
                     }
-                    updateUI(user)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

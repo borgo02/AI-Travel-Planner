@@ -2,6 +2,7 @@ package com.example.aitravelplanner.data.repository.user
 
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.google.android.gms.tasks.Task
 
 interface IUserRepository {
     suspend fun setUser(user: User)
