@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun addConditionalFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        // Use activity as the container (assuming your layout allows for fragment placement)
         fragmentTransaction.replace(android.R.id.content, InterestsFragment())
         fragmentTransaction.commit()
     }

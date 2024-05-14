@@ -27,7 +27,7 @@ class InterestsFragment : Fragment() {
         _binding = FragmentInterestsBinding.inflate(inflater, container, false)
         _binding!!.viewmodel = interestViewModel
         interestViewModel.setUser((activity as MainActivity).user!!)
-
+        interestViewModel.fragmentManager = (activity as MainActivity).supportFragmentManager
         return binding.root
     }
 
