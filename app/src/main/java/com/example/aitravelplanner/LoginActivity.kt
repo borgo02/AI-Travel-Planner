@@ -21,8 +21,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.Firebase
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class LoginActivity : AppCompatActivity() {
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
@@ -102,7 +100,8 @@ class LoginActivity : AppCompatActivity() {
                     val userRef = FirebaseDatabase.getInstance().getReference("Utente").child(auth.currentUser!!.uid)
                     val snapshot = userRef.get() // Using await() to make the call synchronous
                     val user = auth.currentUser
-                    if (snapshot.result.exists()) {
+                    val dbUser = snapshot.result;
+                    if (dbUser.exists()) {
                         //avoid interest selection
                         var asd = true;
                     }
