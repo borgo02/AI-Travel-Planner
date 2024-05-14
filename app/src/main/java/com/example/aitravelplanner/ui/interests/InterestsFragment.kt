@@ -28,6 +28,7 @@ class InterestsFragment : Fragment() {
         _binding!!.viewmodel = interestViewModel
         interestViewModel.setUser((activity as MainActivity).user!!)
         interestViewModel.fragmentManager = (activity as MainActivity).supportFragmentManager
+        interestViewModel.currentFragment = this
         return binding.root
     }
 
