@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.data.model.User
 
 public open class BaseViewModel : ViewModel() {
-    private val _user = MutableLiveData<User>().apply {
-        value = User("Initialized")
+    private val _user = MutableLiveData<User>()
+    var user: LiveData<User> = _user
+
+    public fun setUser(newUser: User) {
+        _user.value = newUser
     }
-    val user: LiveData<User> = _user
 }

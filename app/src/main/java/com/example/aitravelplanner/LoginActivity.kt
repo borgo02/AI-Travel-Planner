@@ -99,8 +99,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val intentInterest: Intent = Intent(this, InterestsFragment::class.java)
-                    val intentMain: Intent = Intent(this, MainActivity::class.java)
+                    val intent: Intent = Intent(this, MainActivity::class.java)
                     lifecycleScope.launch {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
@@ -110,13 +109,19 @@ class LoginActivity : AppCompatActivity() {
                             //avoid interest selection
                             val b = Bundle()
                             b.putSerializable("user", dbUser) //Your id
-                            intentMain.putExtras(b) //Put your id to your next Intent
-                            startActivity(intentMain)
+                            intent.putExtras(b) //Put your id to your next Intent
+                            startActivity(intent)
                             finish()
                         }
                         else
                         {
-
+                            //create user
+                            val b = Bundle()
+                            b.putSerializable("user", dbUser) //Your id
+                            b.putBoolean("isInit", false) //Your id
+                            intent.putExtras(b) //Put your id to your next Intent
+                            startActivity(intent)
+                            finish()
                         }
                         updateUI(user)
                     }
