@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.databinding.ActivityMainBinding
+import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 
@@ -47,5 +48,16 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
+        if (!isInit)
+        {
+            addConditionalFragment()
+        }
+    }
+
+    private fun addConditionalFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        // Use activity as the container (assuming your layout allows for fragment placement)
+        fragmentTransaction.replace(android.R.id.content, InterestsFragment())
+        fragmentTransaction.commit()
     }
 }

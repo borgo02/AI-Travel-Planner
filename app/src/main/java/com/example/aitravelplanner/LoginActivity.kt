@@ -109,6 +109,7 @@ class LoginActivity : AppCompatActivity() {
                             //avoid interest selection
                             val b = Bundle()
                             b.putSerializable("user", dbUser) //Your id
+                            b.putBoolean("isInit", true) //Your id
                             intent.putExtras(b) //Put your id to your next Intent
                             startActivity(intent)
                             finish()
