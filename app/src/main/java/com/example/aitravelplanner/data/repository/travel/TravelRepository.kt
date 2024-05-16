@@ -2,6 +2,7 @@ package com.example.aitravelplanner.data.repository.travel
 
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import kotlinx.coroutines.tasks.await
 
@@ -81,7 +82,20 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return stagesList
     }
 
-    override suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
+    override suspend fun getTravelsByUser(user: User): ArrayList<Travel> {
+        val travels = db.collection("travels").whereEqualTo("idUser", user.idUser).get().await()
+        val travelList: ArrayList<Travel> = arrayListOf()
+
+        for(travel in travels.documents){
+            val travelData = travel.toObject(Travel::class.java)
+            if (travelData != null)
+                travelList.add(travelData)
+        }
+
+        return travelList
+    }
+
+    private suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
         val likesRef = db.collection("users").document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){
