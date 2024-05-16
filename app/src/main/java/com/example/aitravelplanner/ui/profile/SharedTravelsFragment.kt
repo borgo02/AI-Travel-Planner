@@ -32,11 +32,11 @@ class SharedTravelsFragment : Fragment() {
 
         cardTravelRecyclerView = binding.sharedTravelRecyclerView
 
-        sharedTravelViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
+        /*sharedTravelViewModel.cardsList.observe(viewLifecycleOwner){newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             cardAdapter = CardAdapter(newValue, sharedTravelViewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter
-        }
+        }*/
 
         return root
     }
