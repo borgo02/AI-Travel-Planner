@@ -37,4 +37,16 @@
     <string name="content_description_empty_heart_icon">Icona che rappresenta un cuore vuoto; indica che non è stato messo mi piace al viaggio</string>
     <string name="content_description_full_heart_icon">Icona che rappresenta un cuore pieno; indica che è stato messo mi piace al viaggio</string>
     <string name="content_description_search_icon">Icona che rappresenta una lente di ingrandimento</string>
+    <string name="sourceText">Scegli la partenza:</string>
+    <string name="destText">Scegli la destinazione</string>
+    <string name="actualPosText">oppure utilizza posizione attuale</string>
+    <string name="autoDestText">oppure genera automaticamente</string>
+    <string name="daysText">Quanti giorni:</string>
+    <string name="hotelText">Hai bisogno di un\'alloggio?</string>
+    <string name="budgetText">Budget:</string>
+    <string name="economicBudgetText">economico</string>
+    <string name="middleBudgetText">medio</string>
+    <string name="highBudgetText">senza badare a spese</string>
+    <string name="generateTravelBtn">Genera viaggio</string>
+    <string name="travel_form">Genera viaggio</string>
 </resources>
