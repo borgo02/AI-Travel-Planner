@@ -52,8 +52,7 @@
                     android:textColor="@color/blue"
                     android:autofillHints="no"
                     android:inputType="text"
-                    android:text="@={viewmodel.searchText}"
-                    android:onTextChanged="@{() -> viewmodel.search()}"/>
+                    android:text="@={viewmodel.searchText}" />
 
             </LinearLayout>
 
