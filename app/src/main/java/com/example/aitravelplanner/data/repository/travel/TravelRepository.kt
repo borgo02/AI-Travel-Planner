@@ -27,7 +27,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         val travelRef = travelDoc.get().await()
 
         if(travelRef.exists()){
-            val stagesRef = travelDoc.collection("stages").add(stage)
+            travelDoc.collection("stages").add(stage)
         }
 
     }
@@ -38,7 +38,6 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         for (doc in travelsDoc.documents) {
             val idTravel = doc.id
             val travelData = this.getTravelById(idTravel)!!
-
             travelList.add(travelData)
         }
 
