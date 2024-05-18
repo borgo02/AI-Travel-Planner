@@ -1,4 +1,5 @@
 package com.example.aitravelplanner.ui.dashboard
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -35,8 +37,12 @@ class DashboardViewModel : ViewModel() {
 
     private suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
-            var user: User = userRepository.getUserByTravel(travel.idTravel!!)!!
-            _cardsList.value?.add(CardTravel(username = user.fullname!!, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!))
+            val user: User = userRepository.getUserByTravel(travel.idTravel!!)!!
+            val stageCardList = arrayListOf<StageCard>()
+            for (stage in travel.stageList!!){
+                stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
+            }
+            _cardsList.value?.add(CardTravel(username = user.fullname!!, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList ))
         }
         _searchedCardsList.value!!.addAll(_cardsList.value!!)
     }
@@ -62,6 +68,6 @@ class DashboardViewModel : ViewModel() {
 
     fun loadSelectedTravel(cardTravel: CardTravel){
         _selectedTravel.value = cardTravel
+        Log.v("errore", selectedTravel.value.toString());
     }
-
 }

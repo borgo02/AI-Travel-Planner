@@ -159,7 +159,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/content_description_empty_heart_icon"
-                            android:onClick="@{() -> viewmodel.isLiked(viewmodel.selectedTravel)}"
+
                             android:src="@drawable/dashboard_heart_not_selected" />
                     </LinearLayout>
 
