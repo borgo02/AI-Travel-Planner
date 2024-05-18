@@ -5,7 +5,6 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference

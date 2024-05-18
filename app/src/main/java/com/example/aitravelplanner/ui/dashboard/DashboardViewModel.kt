@@ -37,12 +37,14 @@ class DashboardViewModel : BaseViewModel() {
 
     private suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
+            Log.v("voglio biastima", travel.toString())
             val user: User = userRepository.getUserByTravel(travel.idTravel!!)!!
+            Log.v("voglio biastima", user.toString())
             val stageCardList = arrayListOf<StageCard>()
             for (stage in travel.stageList!!){
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
             }
-            _cardsList.value?.add(CardTravel(username = user.fullname!!, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList ))
+            _cardsList.value?.add(CardTravel(username = user.fullname!!, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = user.idUser!!, travelId = travel.idTravel!! ))
         }
         _searchedCardsList.value!!.addAll(_cardsList.value!!)
     }
@@ -56,11 +58,16 @@ class DashboardViewModel : BaseViewModel() {
         return cardTravel.isLiked
     }
 
+    fun clickLike(){
+        this.isLiked(selectedTravel.value!!)
+        _selectedTravel.value = selectedTravel.value
+    }
+
     fun search(){
         _searchedCardsList.value!!.clear()
 
         for(card in _cardsList.value!!) {
-            if (searchText.value.toString().lowercase() in card.travelName!!.lowercase())
+            if (searchText.value.toString().lowercase() in card.travelName.lowercase())
                 _searchedCardsList.value!!.add(card)
             _searchedCardsList.value = _searchedCardsList.value
         }
@@ -68,6 +75,5 @@ class DashboardViewModel : BaseViewModel() {
 
     fun loadSelectedTravel(cardTravel: CardTravel){
         _selectedTravel.value = cardTravel
-        Log.v("errore", selectedTravel.value.toString());
     }
 }

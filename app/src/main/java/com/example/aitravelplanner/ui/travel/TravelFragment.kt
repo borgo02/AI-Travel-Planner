@@ -14,8 +14,6 @@ import com.example.aitravelplanner.databinding.FragmentTravelBinding
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.dashboard.DashboardViewModel
-import com.squareup.picasso.Picasso
-import java.util.logging.Logger
 
 class TravelFragment : Fragment() {
     private var _binding: FragmentTravelBinding? = null
@@ -36,19 +34,6 @@ class TravelFragment : Fragment() {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.likesIcon
-        /*
-        viewModel.isLiked(viewModel.selectedTravel.value!!).observe(viewLifecycleOwner){newValue: Boolean ->
-            if (newValue){
-                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_selected)
-                binding.likesIcon.contentDescription = R.string.content_description_full_heart_icon.toString()
-            } else {
-                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_not_selected)
-                binding.likesIcon.contentDescription = R.string.content_description_empty_heart_icon.toString()
-            }
-        }
-
-         */
-        Log.v("errore", viewModel.selectedTravel.value.toString());
 
         viewModel.selectedTravel.observe(viewLifecycleOwner){newValue ->
             binding.travelImage.setURL(newValue.travelImage)
@@ -56,7 +41,15 @@ class TravelFragment : Fragment() {
             stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageCardRecyclerView.setHasFixedSize(true)
             stageCardList = newValue.stageCardList
-            stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)}
+            stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
+            if (newValue.isLiked){
+                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_selected)
+                binding.likesIcon.contentDescription = R.string.content_description_full_heart_icon.toString()
+            } else {
+                binding.likesIcon.setImageResource(R.drawable.dashboard_heart_not_selected)
+                binding.likesIcon.contentDescription = R.string.content_description_empty_heart_icon.toString()
+            }
+        }
 
         val toolbar = binding.travelTopBar
         toolbar.setNavigationOnClickListener {
