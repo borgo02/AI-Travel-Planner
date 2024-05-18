@@ -3,6 +3,7 @@ package com.example.aitravelplanner.data.repository.user
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.google.android.gms.tasks.Task
 
 interface IUserRepository {
     // Add a user into the Firestore database, under "users" collection

@@ -2,6 +2,7 @@ package com.example.aitravelplanner.data.model
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
 
 data class User(
     @DocumentId var idUser: String?,
@@ -9,4 +10,4 @@ data class User(
     @PropertyName("fullname") var fullname: String?,
     @PropertyName("interests") var interests: Map<*, *>,
     @PropertyName("likedTravels") var likedTravels: ArrayList<Likes>?
-)
+): Serializable

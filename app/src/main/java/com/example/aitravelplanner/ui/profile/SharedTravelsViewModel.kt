@@ -3,6 +3,7 @@ package com.example.aitravelplanner.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
@@ -10,7 +11,7 @@ import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import java.sql.Timestamp
 
-class SharedTravelsViewModel : ViewModel() {
+class SharedTravelsViewModel : BaseViewModel()  {
     private var travelRepository: TravelRepository = TravelRepository()
     private var userRepository: UserRepository = UserRepository()
 
