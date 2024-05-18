@@ -1,5 +1,4 @@
 package com.example.aitravelplanner.ui.dashboard
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,19 +7,14 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
-import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.example.aitravelplanner.data.repository.travel.TravelRepository
-import com.example.aitravelplanner.data.repository.user.UserRepository
 
 class DashboardViewModel : ViewModel() {
     private val travelRepository: TravelRepository = TravelRepository()
     private val userRepository: UserRepository = UserRepository()
     private var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
-    val cardsList: LiveData<ArrayList<CardTravel>>
-        get() = _cardsList
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
         get() = _searchedCardsList
@@ -35,6 +29,7 @@ class DashboardViewModel : ViewModel() {
     init{
         viewModelScope.launch {
             setTravelCards(travelRepository.getTravels())
+            _searchedCardsList.value =  _searchedCardsList.value
         }
     }
 
@@ -48,9 +43,8 @@ class DashboardViewModel : ViewModel() {
 
     fun isLiked(cardTravel: CardTravel): Boolean{
         cardTravel.isLiked = !cardTravel.isLiked
-        if(cardTravel.isLiked) {
+        if(cardTravel.isLiked)
             cardTravel.travelLikes = cardTravel.travelLikes!! + 1
-        }
         else
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
         return cardTravel.isLiked
@@ -59,14 +53,15 @@ class DashboardViewModel : ViewModel() {
     fun search(){
         _searchedCardsList.value!!.clear()
 
-        for(card in _cardsList.value!!){
-            if(searchText.value.toString().lowercase() in card.travelName!!.lowercase())
+        for(card in _cardsList.value!!) {
+            if (searchText.value.toString().lowercase() in card.travelName!!.lowercase())
                 _searchedCardsList.value!!.add(card)
-        for(travel in _cardsList.value!!){
-            if(searchText.value.toString().lowercase() in travel.name!!.lowercase())
-                _searchedCardsList.value!!.add(travel)
+            _searchedCardsList.value = _searchedCardsList.value
         }
-        _searchedCardsList.value = _searchedCardsList.value
+    }
+
+    fun loadSelectedTravel(cardTravel: CardTravel){
+        _selectedTravel.value = cardTravel
     }
 
 }

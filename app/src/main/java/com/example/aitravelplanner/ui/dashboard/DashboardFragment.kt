@@ -33,11 +33,11 @@ class DashboardFragment : Fragment() {
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
 
-        /*dashboardViewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
+        dashboardViewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this)
+            cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this, dashboardViewModel::loadSelectedTravel)
             cardTravelRecyclerView.adapter = cardAdapter
-        }*/
+        }
 
         dashboardViewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
         return root
