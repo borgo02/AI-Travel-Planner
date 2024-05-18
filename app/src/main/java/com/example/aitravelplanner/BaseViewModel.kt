@@ -19,7 +19,7 @@ public abstract class BaseViewModel : ViewModel() {
         _user.value = newUser
     }
 
-    fun navigate(navDirections: NavDirections) {
+    fun navigate(navDirections: Int) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 

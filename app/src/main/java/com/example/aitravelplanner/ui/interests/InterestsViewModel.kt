@@ -5,8 +5,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.R
+import javax.inject.Inject
 
-class InterestsViewModel : BaseViewModel() {
+class InterestsViewModel @Inject constructor() : BaseViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
@@ -25,6 +27,7 @@ class InterestsViewModel : BaseViewModel() {
     val shoppingValue = MutableLiveData(5.0f)
 
     fun confirmClicked() {
+        goToSecondFragmentClicked()
         var interestEntity = mapOf("story" to storyValue.value,
                                     "art" to artValue.value,
                                     "party" to partyValue.value,
@@ -36,5 +39,9 @@ class InterestsViewModel : BaseViewModel() {
         val fragmentTransaction = fragmentManager!!.beginTransaction()
         fragmentTransaction.remove(currentFragment!!)
         fragmentTransaction.commit()
+    }
+
+    fun goToSecondFragmentClicked() {
+        navigate(R.id.navigation_dashboard)
     }
 }
