@@ -1,11 +1,11 @@
 package com.example.aitravelplanner.ui.interests
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.R
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InterestsViewModel @Inject constructor() : BaseViewModel() {
@@ -14,9 +14,6 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
         value = "This is dashboard Fragment"
     }
     val text: LiveData<String> = _text
-
-    var fragmentManager: FragmentManager? = null
-    var currentFragment: Fragment? = null
 
     val storyValue = MutableLiveData(5.0f)
     val artValue = MutableLiveData(5.0f)
@@ -27,21 +24,23 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
     val shoppingValue = MutableLiveData(5.0f)
 
     fun confirmClicked() {
-        goToSecondFragmentClicked()
-        var interestEntity = mapOf("story" to storyValue.value,
-                                    "art" to artValue.value,
-                                    "party" to partyValue.value,
-                                    "nature" to natureValue.value,
-                                    "entertainment" to entertainmentValue.value,
-                                    "sport" to sportValue.value,
-                                    "shopping" to shoppingValue.value)
+        var interestEntity = mapOf("story" to storyValue.value!!,
+                                    "art" to artValue.value!!,
+                                    "party" to partyValue.value!!,
+                                    "nature" to natureValue.value!!,
+                                    "entertainment" to entertainmentValue.value!!,
+                                    "sport" to sportValue.value!!,
+                                    "shopping" to shoppingValue.value!!)
         //chiamata al service per salvare nel db
-        val fragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.remove(currentFragment!!)
-        fragmentTransaction.commit()
+        user.value!!.interests = interestEntity
+        user.value!!.isInitialized = true
+        viewModelScope.launch {
+            userRepository.setUser(user.value!!)
+            goBackHome()
+        }
     }
 
-    fun goToSecondFragmentClicked() {
-        navigate(R.id.navigation_dashboard)
+    fun goBackHome() {
+        navigate(R.id.action_fragment_interest_to_fragment_home)
     }
 }

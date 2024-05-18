@@ -53,5 +53,9 @@
         android:id="@+id/fragment_interest"
         android:name="com.example.aitravelplanner.ui.interests.InterestsFragment"
         android:label="@string/title_interest"
-        tools:layout="@layout/fragment_interests" />
+        tools:layout="@layout/fragment_interests" >
+        <action
+            android:id="@+id/action_fragment_interest_to_fragment_home"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 </navigation>

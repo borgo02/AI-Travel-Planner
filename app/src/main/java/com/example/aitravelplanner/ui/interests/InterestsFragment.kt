@@ -14,10 +14,6 @@ class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewMo
     override val viewModel: InterestsViewModel by viewModels()
 
     override fun onReady(savedInstanceState: Bundle?) {
-        val interestViewModel: InterestsViewModel by viewModels()
-
-        interestViewModel.setUser((activity as MainActivity).user!!)
-        interestViewModel.fragmentManager = (activity as MainActivity).supportFragmentManager
-        interestViewModel.currentFragment = this
+        viewModel.setUser((activity as MainActivity).user!!)
     }
 }
