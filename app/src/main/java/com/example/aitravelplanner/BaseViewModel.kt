@@ -19,6 +19,10 @@ public abstract class BaseViewModel : ViewModel() {
 
     public fun setUser(newUser: User) {
         _user.value = newUser
+        if (!newUser.isInitialized)
+        {
+            goToInterestFragment()
+        }
     }
 
     fun navigate(navDirections: Int) {
@@ -27,5 +31,8 @@ public abstract class BaseViewModel : ViewModel() {
 
     fun navigateBack() {
         _navigation.value = Event(NavigationCommand.Back)
+    }
+    fun goToInterestFragment() {
+        navigate(R.id.action_fragment_home_to_fragment_interest)
     }
 }

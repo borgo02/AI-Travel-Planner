@@ -36,7 +36,7 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
         user.value!!.isInitialized = true
         viewModelScope.launch {
             userRepository.setUser(user.value!!)
-            goBackHome()
+            navigateBack()
         }
     }
 

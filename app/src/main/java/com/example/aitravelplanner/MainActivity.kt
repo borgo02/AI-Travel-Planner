@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addConditionalFragment() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        /*val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(android.R.id.content, InterestsFragment())
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
     }
 }
