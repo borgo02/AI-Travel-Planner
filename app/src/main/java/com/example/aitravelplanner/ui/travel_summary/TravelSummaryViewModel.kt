@@ -3,9 +3,10 @@ package com.example.aitravelplanner.ui.travel_summary
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 
-class TravelSummaryViewModel: ViewModel() {
+class TravelSummaryViewModel: BaseViewModel() {
     private val _travelName = MutableLiveData<String>("")
     private val _stageSelectedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
     private val _stageSearchedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())

@@ -33,6 +33,13 @@ public abstract class BaseViewModel : ViewModel() {
         _navigation.value = Event(NavigationCommand.Back)
     }
     fun goToInterestFragment() {
-        navigate(R.id.action_fragment_home_to_fragment_interest)
+        /*try
+        {
+            navigate(R.id.action_fragment_home_to_fragment_interest)
+        }
+        catch (e: Exception)
+        {
+            val ex = e
+        }*/
     }
 }

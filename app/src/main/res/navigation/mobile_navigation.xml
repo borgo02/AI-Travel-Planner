@@ -26,7 +26,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.aitravelplanner.ui.travel.TravelFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_interest"
+            app:destination="@id/fragment_interest" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
