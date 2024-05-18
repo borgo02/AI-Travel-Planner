@@ -18,9 +18,6 @@ import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.squareup.picasso.Picasso
 
 class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
-
-    private val isProfileFragment = fragment is ProfileFragment
-    private val isSharedTravelsFragment = fragment is SharedTravelsFragment
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: CustomImageView = row.findViewById(R.id.userImage)

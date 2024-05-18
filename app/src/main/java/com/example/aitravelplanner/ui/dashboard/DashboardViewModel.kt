@@ -8,9 +8,12 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.UserRepository
 
 class DashboardViewModel : ViewModel() {
     private val travelRepository: TravelRepository = TravelRepository()
@@ -53,26 +56,17 @@ class DashboardViewModel : ViewModel() {
         return cardTravel.isLiked
     }
 
-    fun search() {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            performSearch()
-        }
-    }
-
-    private fun performSearch() {
+    fun search(){
         _searchedCardsList.value!!.clear()
 
         for(card in _cardsList.value!!){
             if(searchText.value.toString().lowercase() in card.travelName!!.lowercase())
                 _searchedCardsList.value!!.add(card)
+        for(travel in _cardsList.value!!){
+            if(searchText.value.toString().lowercase() in travel.name!!.lowercase())
+                _searchedCardsList.value!!.add(travel)
         }
         _searchedCardsList.value = _searchedCardsList.value
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        searchJob?.cancel()
     }
 
 }
