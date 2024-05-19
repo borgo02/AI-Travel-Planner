@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.data.repository.user
 
+import android.util.Log
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
@@ -33,10 +34,12 @@ class UserRepository: IUserRepository, BaseRepository() {
             val likes = likedTravelsRef.get().await()
             for(like in likes.documents) {
                 val idLike = like.id
-                val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-                val idTravelDoc = idTravelReferencePath?.substringAfterLast("/")
+                val data = like.get("data") as Map<*, *>
+                val idTravelReference = data["idTravel"] as DocumentReference
+                val idTravelReferencePath = idTravelReference.path
+                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
 
-                if (idTravelDoc.toString() == idTravel) {
+                if (idTravelDoc == idTravel) {
                     db.runTransaction{transaction ->
                         val snapshot = transaction.get(travelRef)
                         val newLikesValue = snapshot.getLong("numberOfLikes")!! - 1
@@ -126,10 +129,12 @@ class UserRepository: IUserRepository, BaseRepository() {
 
         for(like in likesRef.documents){
             val idLike = like.id
-            val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-            val idTravel = idTravelReferencePath?.substringAfterLast("/")
+            val data = like.get("data") as Map<*, *>
+            val idTravelReference = data["idTravel"] as DocumentReference
+            val idTravelReferencePath = idTravelReference.path
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
             val timestamp = like.getTimestamp("timestamp")
-            val travelRef = db.collection("travels").document(idTravel!!)
+            val travelRef = db.collection("travels").document(idTravelDoc)
 
             val likeItem = Likes(idLike, travelRef, timestamp!!)
             likesList.add(likeItem)
