@@ -73,7 +73,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
             val imageUrl = doc.getString("imageUrl")
             val timestamp = doc.getTimestamp("timestamp")?.toDate()
-            val isLiked = isTravelLikedByUser(idTravel, idUser)
+            val isLiked = this.isTravelLikedByUser(idTravel, idUser)
             val stages = this.getStagesByTravel(idTravel)
             Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
@@ -134,13 +134,17 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){
-            val data = like.get("data") as Map<*, *>
+            val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+            /*val data = like.get("data") as Map<*, *>
             val idTravelReference = data["idTravel"] as DocumentReference
             val idTravelReferencePath = idTravelReference.path
-            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")*/
 
-            if(idTravelDoc == idTravel)
+            if(idTravelDoc == idTravel) {
                 isTravelLiked = true
+                break
+            }
         }
 
         return isTravelLiked

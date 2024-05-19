@@ -23,7 +23,7 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
         val travelRef = travelsCollectionReference.document(idTravel)
         val likedTravelsRef = usersCollectionRef.document(idUser).collection("likedTravels")
-        if(!isLiked) {
+        if(isLiked) {
             val like = Likes(null, travelRef, Timestamp.now().toDate())
             db.runTransaction{transaction ->
                 val snapshot = transaction.get(travelRef)
@@ -35,10 +35,12 @@ class UserRepository: IUserRepository, BaseRepository() {
             val likes = likedTravelsRef.get().await()
             for(like in likes.documents) {
                 val idLike = like.id
-                val data = like.get("data") as Map<*, *>
+                val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+                /*val data = like.get("data") as Map<*, *>
                 val idTravelReference = data["idTravel"] as DocumentReference
                 val idTravelReferencePath = idTravelReference.path
-                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")*/
 
                 if (idTravelDoc == idTravel) {
                     db.runTransaction{transaction ->
@@ -130,14 +132,17 @@ class UserRepository: IUserRepository, BaseRepository() {
 
         for(like in likesRef.documents){
             val idLike = like.id
-            val data = like.get("data") as Map<*, *>
+            val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+            /*val data = like.get("data") as Map<*, *>
             val idTravelReference = data["idTravel"] as DocumentReference
             val idTravelReferencePath = idTravelReference.path
-            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
-            val timestamp = data["timestamp"] as Timestamp
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")*/
+            val timestamp = like.getTimestamp("timestamp")!!.toDate()
+            //val timestamp = data["timestamp"] as Timestamp
             val travelRef = db.collection("travels").document(idTravelDoc)
 
-            val likeItem = Likes(idLike, travelRef, timestamp.toDate())
+            val likeItem = Likes(idLike, travelRef, timestamp)
             likesList.add(likeItem)
         }
 

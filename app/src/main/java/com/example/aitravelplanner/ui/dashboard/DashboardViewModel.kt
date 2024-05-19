@@ -1,10 +1,12 @@
 package com.example.aitravelplanner.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.data.model.Travel
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import kotlinx.coroutines.launch
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
@@ -25,7 +27,10 @@ class DashboardViewModel : ViewModel() {
 
     init{
         viewModelScope.launch {
-            userRepository.getLikesByUser("JoC41EXyP1LKpTviLoEQ")
+            val user: User = userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!
+            val travels: ArrayList<Travel> = travelRepository.getTravels("JoC41EXyP1LKpTviLoEQ")
+            Log.d("Ciao", "$user")
+            Log.d("Ciao", "$travels")
         }
 
         setTravelCards()
