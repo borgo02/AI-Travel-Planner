@@ -36,6 +36,19 @@ class TravelRepository: ITravelRepository, BaseRepository() {
 
     }
 
+    override suspend fun getTravels(idUser: String): ArrayList<Travel>{
+        val travelsDoc = travelsCollectionReference.get().await()
+        val travelList: ArrayList<Travel> = arrayListOf()
+        for (doc in travelsDoc.documents) {
+            val idTravel = doc.id
+            val travelData = this.getTravelById(idTravel, idUser)!!
+            travelList.add(travelData)
+        }
+
+        return travelList
+    }
+
+    /*
     override suspend fun getTravels(): ArrayList<Travel> {
         val travelsDoc = travelsCollectionReference.get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
@@ -46,9 +59,27 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         }
 
         return travelList
+    }*/
+
+    override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
+        val doc = travelsCollectionReference.document(idTravel).get().await()
+        return if (doc.exists()) {
+            val idUserReferencePath = doc.getDocumentReference("idUser")?.path
+            val idUserRef = idUserReferencePath?.substringAfterLast("/")
+            val info = doc.getString("info")
+            val name = doc.getString("name")
+            val isShared = doc.getBoolean("isShared")
+            val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
+            val imageUrl = doc.getString("imageUrl")
+            val timestamp = doc.getTimestamp("timestamp")?.toDate()
+            val isLiked = isTravelLikedByUser(idTravel, idUser)
+            val stages = this.getStagesByTravel(idTravel)
+            Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
+        } else
+            null
     }
 
-    override suspend fun getTravelById(idTravel: String): Travel? {
+    /*override suspend fun getTravelById(idTravel: String): Travel? {
         val doc = travelsCollectionReference.document(idTravel).get().await()
         return if (doc.exists()) {
             val idUserReferencePath = doc.getDocumentReference("idUser")?.path
@@ -64,7 +95,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             Travel(idTravel, idUser, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
             null
-    }
+    }*/
 
     override suspend fun getStagesByTravel(idTravel: String): ArrayList<Stage> {
         val stagesRef = travelsCollectionReference.document(idTravel).collection("stages").get().await()
@@ -85,7 +116,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return stagesList
     }
 
-    override suspend fun getTravelsByUser(user: User): ArrayList<Travel> {
+    override suspend fun getTravelsCreatedByUser(user: User): ArrayList<Travel> {
         val travels = travelsCollectionReference.whereEqualTo("idUser", user.idUser).get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
 
