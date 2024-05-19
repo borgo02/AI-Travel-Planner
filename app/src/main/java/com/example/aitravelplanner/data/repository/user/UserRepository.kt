@@ -55,7 +55,7 @@ class UserRepository: IUserRepository, BaseRepository() {
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
 
         for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id)
+            val travelData = travelRepository.getTravelById(travel.id, idUser)
             if(travelData != null && travelData.isShared!!)
                 sharedTravelList.add(travelData)
         }
@@ -69,7 +69,7 @@ class UserRepository: IUserRepository, BaseRepository() {
         val notSharedTravelList: ArrayList<Travel> = arrayListOf()
 
         for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id)
+            val travelData = travelRepository.getTravelById(travel.id, idUser)
             if(travelData != null && !travelData.isShared!!)
                 notSharedTravelList.add(travelData)
         }
@@ -99,7 +99,6 @@ class UserRepository: IUserRepository, BaseRepository() {
             val email = userDoc.getString("email")
             val fullname = userDoc.getString("fullname")
             val interests = userDoc.get("interests") as Map<*, *>
-            updateLikedTravelByUser(idUser, "eZZEc2PhNkaNTM9vl9kK", false)
             likedTravelList = this.getLikesByUser(idUser)
             User(idUser, email, fullname, interests, likedTravelList)
         }else
