@@ -30,7 +30,7 @@ class UserRepository: IUserRepository, BaseRepository() {
                 val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
                 transaction.update(travelRef, "numberOfLikes", newLikesValue)
                 likedTravelsRef.document().set(like)
-            }
+            }.await()
         }else{
             val likes = likedTravelsRef.get().await()
             for(like in likes.documents) {
@@ -49,7 +49,8 @@ class UserRepository: IUserRepository, BaseRepository() {
                         transaction.update(travelRef, "numberOfLikes", newLikesValue)
                         likedTravelsRef.document().set(like)
                         likedTravelsRef.document(idLike).delete()
-                    }
+                    }.await()
+                    break
                 }
             }
         }
