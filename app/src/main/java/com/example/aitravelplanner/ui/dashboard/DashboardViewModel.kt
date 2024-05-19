@@ -24,8 +24,8 @@ class DashboardViewModel : ViewModel() {
     val searchText = MutableLiveData<String>("")
 
     init{
-        viewModelScope.launch{
-
+        viewModelScope.launch {
+            userRepository.getLikesByUser("JoC41EXyP1LKpTviLoEQ")
         }
 
         setTravelCards()

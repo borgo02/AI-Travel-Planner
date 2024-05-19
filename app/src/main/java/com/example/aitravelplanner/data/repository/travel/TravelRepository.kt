@@ -5,6 +5,7 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
@@ -133,10 +134,12 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){
-            val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-            val idTravelDoc = idTravelReferencePath?.substringAfterLast("/")
+            val data = like.get("data") as Map<*, *>
+            val idTravelReference = data["idTravel"] as DocumentReference
+            val idTravelReferencePath = idTravelReference.path
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
 
-            if(idTravelDoc.toString() == idTravel)
+            if(idTravelDoc == idTravel)
                 isTravelLiked = true
         }
 
