@@ -10,6 +10,7 @@ import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import java.util.Date
 
 class UserRepository: IUserRepository, BaseRepository() {
     private val travelRepository: TravelRepository = TravelRepository()
@@ -23,7 +24,7 @@ class UserRepository: IUserRepository, BaseRepository() {
         val travelRef = travelsCollectionReference.document(idTravel)
         val likedTravelsRef = usersCollectionRef.document(idUser).collection("likedTravels")
         if(!isLiked) {
-            val like = Likes(null, travelRef, Timestamp.now())
+            val like = Likes(null, travelRef, Timestamp.now().toDate())
             db.runTransaction{transaction ->
                 val snapshot = transaction.get(travelRef)
                 val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
@@ -133,10 +134,10 @@ class UserRepository: IUserRepository, BaseRepository() {
             val idTravelReference = data["idTravel"] as DocumentReference
             val idTravelReferencePath = idTravelReference.path
             val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
-            val timestamp = like.getTimestamp("timestamp")
+            val timestamp = data["timestamp"] as Timestamp
             val travelRef = db.collection("travels").document(idTravelDoc)
 
-            val likeItem = Likes(idLike, travelRef, timestamp!!)
+            val likeItem = Likes(idLike, travelRef, timestamp.toDate())
             likesList.add(likeItem)
         }
 
