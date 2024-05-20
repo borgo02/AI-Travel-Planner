@@ -12,7 +12,7 @@ interface ITravelRepository {
     // When a user shares his/her travel, the the boolean travel's variable "isShared" is set to true
     suspend fun setTravelToShared(idTravel: String)
     // Get all the travels in the Firestore database
-    suspend fun getTravels(): ArrayList<Travel>
+    suspend fun getSharedTravels(): ArrayList<Travel>
     // Get a travel with a specific idTravel as a string
     suspend fun getTravelById(idTravel: String): Travel?
     // Get all the travel's stages
