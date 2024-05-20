@@ -40,8 +40,10 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         for (doc in travelsDoc.documents) {
             val idTravel = doc.id
             val travelData = this.getTravelById(idTravel, idUser)
-            if(travelData != null)
-                travelList.add(travelData)
+            if (travelData != null) {
+                if(travelData.isShared == true)
+                    travelList.add(travelData)
+            }
         }
 
         return travelList
@@ -49,24 +51,20 @@ class TravelRepository: ITravelRepository, BaseRepository() {
 
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
         val doc = travelsCollectionReference.document(idTravel).get().await()
-        if (doc.exists()) {
+        return if (doc.exists()) {
             val idUserReferencePath = doc.getDocumentReference("idUser")?.path
             val idUserRef = idUserReferencePath?.substringAfterLast("/")
+            val info = doc.getString("info")
+            val name = doc.getString("name")
             val isShared = doc.getBoolean("isShared")
-            return if(isShared == true) {
-                val info = doc.getString("info")
-                val name = doc.getString("name")
-                val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
-                val imageUrl = doc.getString("imageUrl")
-                val timestamp = doc.getTimestamp("timestamp")?.toDate()
-                val isLiked = this.isTravelLikedByUser(idTravel, idUser)
-                val stages = this.getStagesByTravel(idTravel)
-                Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
-            }
-            else
-                null
+            val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
+            val imageUrl = doc.getString("imageUrl")
+            val timestamp = doc.getTimestamp("timestamp")?.toDate()
+            val isLiked = this.isTravelLikedByUser(idTravel, idUser)
+            val stages = this.getStagesByTravel(idTravel)
+            Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
-            return null
+            null
     }
 
     override suspend fun getStagesByTravel(idTravel: String): ArrayList<Stage> {
