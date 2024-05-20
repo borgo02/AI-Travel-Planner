@@ -8,7 +8,6 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 
 class UserRepository: IUserRepository, BaseRepository() {
     private val travelRepository: TravelRepository = TravelRepository()
@@ -21,29 +20,29 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
         val travelRef = travelsCollectionReference.document(idTravel)
         val likedTravelsRef = usersCollectionRef.document(idUser).collection("likedTravels")
-        if(!isLiked) {
-            val like = Likes(null, travelRef, Timestamp.now())
+        if(isLiked) {
+            val like = Likes(null, travelRef, Timestamp.now().toDate())
             db.runTransaction{transaction ->
                 val snapshot = transaction.get(travelRef)
                 val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
                 transaction.update(travelRef, "numberOfLikes", newLikesValue)
                 likedTravelsRef.document().set(like)
-            }
+            }.await()
         }else{
             val likes = likedTravelsRef.get().await()
             for(like in likes.documents) {
                 val idLike = like.id
-                val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-                val idTravelDoc = idTravelReferencePath?.substringAfterLast("/")
-
-                if (idTravelDoc.toString() == idTravel) {
+                val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+                if (idTravelDoc == idTravel) {
                     db.runTransaction{transaction ->
                         val snapshot = transaction.get(travelRef)
                         val newLikesValue = snapshot.getLong("numberOfLikes")!! - 1
                         transaction.update(travelRef, "numberOfLikes", newLikesValue)
                         likedTravelsRef.document().set(like)
                         likedTravelsRef.document(idLike).delete()
-                    }
+                    }.await()
+                    break
                 }
             }
         }
@@ -53,9 +52,8 @@ class UserRepository: IUserRepository, BaseRepository() {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
-
         for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id)
+            val travelData = travelRepository.getTravelById(travel.id, idUser)
             if(travelData != null && travelData.isShared!!)
                 sharedTravelList.add(travelData)
         }
@@ -67,9 +65,8 @@ class UserRepository: IUserRepository, BaseRepository() {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
         val notSharedTravelList: ArrayList<Travel> = arrayListOf()
-
         for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id)
+            val travelData = travelRepository.getTravelById(travel.id, idUser)
             if(travelData != null && !travelData.isShared!!)
                 notSharedTravelList.add(travelData)
         }
@@ -80,7 +77,6 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun getUsers(): ArrayList<User> {
         val users = usersCollectionRef.get().await()
         val userList: ArrayList<User> = arrayListOf()
-
         for (doc in users.documents) {
             val idUser = doc.id
             val userData = this.getUserById(idUser)
@@ -94,12 +90,10 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun getUserById(idUser: String): User? {
         val userDoc = usersCollectionRef.document(idUser).get().await()
         val likedTravelList: ArrayList<Likes>
-
         return if(userDoc.exists()){
             val email = userDoc.getString("email")
             val fullname = userDoc.getString("fullname")
             val interests = userDoc.get("interests") as Map<*, *>
-            updateLikedTravelByUser(idUser, "eZZEc2PhNkaNTM9vl9kK", false)
             likedTravelList = this.getLikesByUser(idUser)
             User(idUser, email, fullname, interests, likedTravelList)
         }else
@@ -108,7 +102,6 @@ class UserRepository: IUserRepository, BaseRepository() {
 
     override suspend fun getUserByTravel(idTravel: String): User? {
         val travelRef = travelsCollectionReference.document(idTravel).get().await()
-
         return if(travelRef.exists()){
             val idUserReferencePath = travelRef.getDocumentReference("idUser")?.path
             val idUser = idUserReferencePath?.substringAfterLast("/")!!
@@ -124,15 +117,13 @@ class UserRepository: IUserRepository, BaseRepository() {
     override suspend fun getLikesByUser(idUser: String): ArrayList<Likes> {
         val likesList: ArrayList<Likes> = arrayListOf()
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
-
         for(like in likesRef.documents){
             val idLike = like.id
-            val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-            val idTravel = idTravelReferencePath?.substringAfterLast("/")
-            val timestamp = like.getTimestamp("timestamp")
-            val travelRef = db.collection("travels").document(idTravel!!)
-
-            val likeItem = Likes(idLike, travelRef, timestamp!!)
+            val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+            val timestamp = like.getTimestamp("timestamp")!!.toDate()
+            val travelRef = db.collection("travels").document(idTravelDoc)
+            val likeItem = Likes(idLike, travelRef, timestamp)
             likesList.add(likeItem)
         }
 
