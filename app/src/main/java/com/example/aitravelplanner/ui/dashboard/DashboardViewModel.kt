@@ -24,7 +24,7 @@ class DashboardViewModel : TravelViewModel() {
     init{
         viewModelScope.launch {
             setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
-            setTravelCards(travelRepository.getTravels(user.value!!.idUser!!))
+            setTravelCards(travelRepository.getSharedTravels(user.value!!.idUser!!))
         }
 
     }

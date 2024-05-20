@@ -37,13 +37,16 @@ class TravelRepository: ITravelRepository, BaseRepository() {
 
     }
 
-    override suspend fun getTravels(idUser: String): ArrayList<Travel>{
+    override suspend fun getSharedTravels(idUser: String): ArrayList<Travel>{
         val travelsDoc = travelsCollectionReference.get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
         for (doc in travelsDoc.documents) {
             val idTravel = doc.id
-            val travelData = this.getTravelById(idTravel, idUser)!!
-            travelList.add(travelData)
+            val travelData = this.getTravelById(idTravel, idUser)
+            if (travelData != null) {
+                if(travelData.isShared == true)
+                    travelList.add(travelData)
+            }
         }
 
         return travelList
