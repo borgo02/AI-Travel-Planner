@@ -1,12 +1,10 @@
 package com.example.aitravelplanner.ui.components.travelCard
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.ui.unit.dp
-import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +16,8 @@ import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.ProfileFragmentDirections
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
-import com.squareup.picasso.Picasso
 
-class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
+class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null, private val shareTravel: ((CardTravel) -> Unit)? = null, ) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
     private val isProfileFragment = fragment is ProfileFragment
     private val isSharedTravelsFragment = fragment is SharedTravelsFragment
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -34,6 +31,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         val likesImage: ImageView? = row.findViewById(R.id.likesImage)
         val shareImage: ImageView? = row.findViewById(R.id.shareImage)
         val timestamp: TextView? = row.findViewById(R.id.timestamp)
+        val profileBar: View = row.findViewById(R.id.profileBar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
@@ -53,6 +51,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         holder.travelName.text = currentCard.travelName
 
         if(isProfileFragment){
+            holder.profileBar.visibility = View.GONE
             holder.shareImage!!.visibility = View.VISIBLE
             holder.affinityPerc!!.visibility = View.GONE
             holder.affinityImage!!.visibility = View.GONE
@@ -63,14 +62,26 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             holder.shareImage.setImageResource(R.drawable.profile_share)
             holder.timestamp.text = currentCard.timestamp
 
+            holder.profileBar.visibility = View.GONE
             holder.travelImage.setOnClickListener{ view ->
                 val flag: Int = 0
                 val action = ProfileFragmentDirections.actionNavigationProfileToTravelFragment(flag)
                 view.findNavController().navigate(action)
                 loadSelectedTravel?.invoke(currentCard)
             }
+            holder.shareImage.visibility = View.GONE
+            if(!currentCard.isShared){
+                holder.shareImage.visibility = View.VISIBLE
+                holder.shareImage.setImageResource(R.drawable.profile_share)
+                holder.shareImage.setOnClickListener(){
+                    shareTravel?.invoke(currentCard)
+                    holder.shareImage.visibility = View.GONE
+                }
+            }
+
         }else{
             if(isSharedTravelsFragment){
+                holder.profileBar.visibility = View.GONE
                 holder.likesImage!!.visibility = View.VISIBLE
                 holder.likesNumber!!.visibility = View.VISIBLE
                 holder.affinityPerc!!.visibility = View.GONE
@@ -84,6 +95,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                     loadSelectedTravel?.invoke(currentCard)
                 }
             }else{
+                holder.profileBar.visibility = View.VISIBLE
                 holder.affinityPerc!!.visibility = View.VISIBLE
                 holder.likesNumber!!.visibility = View.VISIBLE
                 holder.likesImage!!.visibility = View.VISIBLE

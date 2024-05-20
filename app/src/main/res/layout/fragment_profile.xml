@@ -53,6 +53,7 @@
                 android:background="@drawable/style_rounded_corners"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical"
+                android:padding="10dp"
                 android:layout_margin="@dimen/activity_horizontal_margin">
 
                 <LinearLayout
@@ -80,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textAlignment="textEnd"
-                        android:text="@{viewmodel.user.fullname"/>
+                        android:text="@{viewmodel.user.fullname}"/>
 
                 </LinearLayout>
 

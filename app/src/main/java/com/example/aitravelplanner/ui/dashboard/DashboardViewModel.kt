@@ -42,25 +42,6 @@ class DashboardViewModel : TravelViewModel() {
         _searchedCardsList.notifyObserver()
     }
 
-    fun isLiked(cardTravel: CardTravel): Boolean{
-        cardTravel.isLiked = !cardTravel.isLiked
-        if(cardTravel.isLiked)
-            cardTravel.travelLikes = cardTravel.travelLikes!! + 1
-        else
-            cardTravel.travelLikes = cardTravel.travelLikes!! - 1
-
-        MainScope().launch{
-            userRepository.updateLikedTravelByUser(cardTravel.userId,cardTravel.travelId,cardTravel.isLiked)
-        }
-
-        return cardTravel.isLiked
-    }
-
-    fun clickLike(){
-        this.isLiked(selectedTravel.value!!)
-        _selectedTravel.notifyObserver()
-    }
-
     fun search(){
         _searchedCardsList.value!!.clear()
 

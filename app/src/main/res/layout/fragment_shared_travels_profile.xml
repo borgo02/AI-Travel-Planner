@@ -6,7 +6,7 @@
         <data>
                 <variable
                     name="viewmodel"
-                    type="com.example.aitravelplanner.ui.profile.SharedTravelsViewModel" />
+                    type="com.example.aitravelplanner.ui.profile.ProfileViewModel" />
         </data>
 
         <LinearLayout

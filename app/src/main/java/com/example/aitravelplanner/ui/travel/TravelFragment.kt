@@ -68,7 +68,7 @@ class TravelFragment : Fragment() {
                     binding.likesIcon.visibility = View.GONE
                     binding.likesNumber.visibility = View.GONE
                 }
-                2 -> {
+                1,2 -> {
                     if (newValue.isLiked){
                         binding.likesIcon.setImageResource(R.drawable.dashboard_heart_selected)
                         binding.likesIcon.contentDescription = R.string.content_description_full_heart_icon.toString()
@@ -79,9 +79,9 @@ class TravelFragment : Fragment() {
                 }
             }
         }
-        if(args.flag == 2){
+        if(args.flag != 0){
             binding.likesIcon.setOnClickListener(){
-                (viewModel as DashboardViewModel).clickLike()
+                viewModel.clickLike()
             }
         }
     }

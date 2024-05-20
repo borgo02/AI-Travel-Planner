@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
-    private val dashboardViewModel: DashboardViewModel by activityViewModels()
+    private val viewModel: DashboardViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 
@@ -29,23 +28,23 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        binding.viewmodel = dashboardViewModel
+        binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         cardTravelRecyclerView = binding.travelCardsRecyclerView
 
-        dashboardViewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
+        viewModel.searchedCardsList.observe(viewLifecycleOwner){ newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            cardAdapter = CardAdapter(newValue, dashboardViewModel::isLiked,this, dashboardViewModel::loadSelectedTravel)
+            cardAdapter = CardAdapter(newValue, viewModel::isLiked,this, viewModel::loadSelectedTravel)
             cardTravelRecyclerView.adapter = cardAdapter
         }
 
-        dashboardViewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
+        viewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
         return root
     }
 
     private val searchTextObserver = Observer<String> { _ ->
-        dashboardViewModel.search()
+        viewModel.search()
     }
     override fun onDestroyView() {
         super.onDestroyView()
