@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.aitravelplanner.ui.dashboard.DashboardViewModel" />
+            type="com.example.aitravelplanner.TravelViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -159,7 +159,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/content_description_empty_heart_icon"
-                            android:onClick="@{() -> viewmodel.clickLike()}"
                             android:src="@drawable/dashboard_heart_not_selected" />
                     </LinearLayout>
 

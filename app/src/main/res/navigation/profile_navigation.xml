@@ -32,5 +32,10 @@
         android:id="@+id/travelFragment"
         android:name="com.example.aitravelplanner.ui.travel.TravelFragment"
         android:label="TravelFragment"
-        tools:layout="@layout/fragment_travel"/>
+        tools:layout="@layout/fragment_travel">
+        <argument
+            android:name="flag"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

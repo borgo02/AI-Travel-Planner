@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.components.imageview.CustomImageView
+import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.ui.profile.ProfileFragment
+import com.example.aitravelplanner.ui.profile.ProfileFragmentDirections
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
+import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
 import com.squareup.picasso.Picasso
 
 class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
@@ -60,8 +63,10 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             holder.shareImage.setImageResource(R.drawable.profile_share)
             holder.timestamp.text = currentCard.timestamp
 
-            holder.itemView.setOnClickListener{ view ->
-                view.findNavController().navigate(R.id.action_navigation_profile_to_travelFragment)
+            holder.travelImage.setOnClickListener{ view ->
+                val flag: Int = 0
+                val action = ProfileFragmentDirections.actionNavigationProfileToTravelFragment(flag)
+                view.findNavController().navigate(action)
                 loadSelectedTravel?.invoke(currentCard)
             }
         }else{
@@ -72,9 +77,10 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                 holder.affinityImage!!.visibility = View.GONE
                 holder.timestamp!!.visibility = View.VISIBLE
 
-                holder.itemView.setOnClickListener { view ->
-                    view.findNavController()
-                        .navigate(R.id.action_navigation_shared_travels_to_travelFragment)
+                holder.travelImage.setOnClickListener { view ->
+                    val flag: Int = 1
+                    val action = SharedTravelsFragmentDirections.actionNavigationSharedTravelsToTravelFragment(flag)
+                    view.findNavController().navigate(action)
                     loadSelectedTravel?.invoke(currentCard)
                 }
             }else{
@@ -85,9 +91,10 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                 holder.affinityImage!!.setImageResource(R.drawable.dashboard_affinity)
                 holder.affinityPerc.text = currentCard.affinityPerc
 
-                holder.itemView.setOnClickListener { view ->
-                    view.findNavController()
-                        .navigate(R.id.action_navigation_dashboard_to_travelFragment)
+                holder.travelImage.setOnClickListener { view ->
+                    val flag: Int = 2
+                    val action = DashboardFragmentDirections.actionNavigationDashboardToTravelFragment(flag)
+                    view.findNavController().navigate(action)
                     loadSelectedTravel?.invoke(currentCard)
                 }
             }

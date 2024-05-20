@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -77,6 +78,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-android:2.8.0")
     testImplementation("junit:junit:4.13.2")
     implementation("com.google.firebase:firebase-analytics")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
