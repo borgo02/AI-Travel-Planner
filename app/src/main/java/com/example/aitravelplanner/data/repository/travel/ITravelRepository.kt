@@ -13,7 +13,6 @@ interface ITravelRepository {
     suspend fun setTravelToShared(idTravel: String)
     // Get all the travels in the Firestore database
     suspend fun getSharedTravels(idUser: String): ArrayList<Travel>
-    //suspend fun getTravels(): ArrayList<Travel>
     // Get a travel with a specific idTravel as a string
     suspend fun getTravelById(idTravel: String, idUser: String): Travel?
     //suspend fun getTravelById(idTravel: String): Travel?
