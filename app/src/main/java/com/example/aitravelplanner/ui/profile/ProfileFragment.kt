@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +19,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val profileViewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 
@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        binding.viewmodel = profileViewModel
+        binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         val textView: TextView = binding.sharedTravels
@@ -38,12 +38,13 @@ class ProfileFragment : Fragment() {
         textView.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_profile_to_fragment_shared_profile)
         }
-
         cardTravelRecyclerView = binding.cardTravelRecyclerView
-        cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        //cardAdapter = CardAdapter(profileViewModel.cardsList.value!!, null,this)
-        cardTravelRecyclerView.adapter = cardAdapter
+        viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
+            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            cardAdapter =
+                CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
+            cardTravelRecyclerView.adapter = cardAdapter
+        }
 
         return root
     }

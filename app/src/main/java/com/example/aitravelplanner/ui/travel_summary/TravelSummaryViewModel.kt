@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.utils.notifyObserver
 
 class TravelSummaryViewModel: ViewModel() {
     private val _travelName = MutableLiveData<String>("")
@@ -108,7 +109,4 @@ class TravelSummaryViewModel: ViewModel() {
 
 }
 
-fun <T> MutableLiveData<T>.notifyObserver() {
-    this.value  = this.value
-}
 

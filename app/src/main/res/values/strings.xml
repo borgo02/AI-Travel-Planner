@@ -1,8 +1,10 @@
 <resources>
+    <string name="web_client_id">359954007543-fng9elacp91p4ef35c9u176vobsla7ku.apps.googleusercontent.com</string>
     <string name="app_name">AI Travel Planner</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_interest">I tuoi interessi</string>
     <string name="confirm">Conferma</string>
     <string name="interest_story">Storia</string>
     <string name="interest_art">Arte e Cultura</string>
@@ -14,6 +16,7 @@
     <string name="logout">Esci</string>
     <string name="profile_travel">I tuoi viaggi</string>
     <string name="shared_travels"><u>Viaggi pubblicati</u></string>
+    <string name="title_shared_travels">I tuo viaggi pubblicati</string>
     <string name="title_travel">Genera viaggio</string>
     <string name="title_profile">Il tuo profilo</string>
     <string name="title_activity_login">login_activity</string>

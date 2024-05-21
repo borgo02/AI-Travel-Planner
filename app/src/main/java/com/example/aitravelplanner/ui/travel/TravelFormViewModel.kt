@@ -1,9 +1,9 @@
 package com.example.aitravelplanner.ui.travel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.aitravelplanner.BaseViewModel
 
-class TravelFormViewModel : ViewModel() {
+class TravelFormViewModel : BaseViewModel() {
     private lateinit var budget: String
     var isFormCompleted = MutableLiveData<Boolean>(false)
 

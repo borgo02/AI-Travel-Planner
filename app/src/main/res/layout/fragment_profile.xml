@@ -17,14 +17,43 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/travelTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/style_top_bar">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/travelName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_profile"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.90"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.MaterialToolbar>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:background="@drawable/style_rounded_corners"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical"
+                android:padding="10dp"
                 android:layout_margin="@dimen/activity_horizontal_margin">
 
                 <LinearLayout
@@ -39,7 +68,7 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/profileImage"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:adjustViewBounds="true"
@@ -47,18 +76,12 @@
                         app:srcCompat="@drawable/profile_user" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/ProfileName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAlignment="textEnd" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:text="@{viewmodel.user.fullname}"/>
 
                 </LinearLayout>
 

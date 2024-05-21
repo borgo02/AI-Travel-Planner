@@ -1,36 +1,23 @@
 package com.example.aitravelplanner.ui.interests
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.aitravelplanner.MainActivity
+import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentInterestsBinding
+import com.example.aitravelplanner.ui.BaseFragment
 
-class InterestsFragment : Fragment() {
+class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewModel>() {
 
-    private var _binding: FragmentInterestsBinding? = null
+    override val layoutId: Int = R.layout.fragment_interests
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override val viewModel: InterestsViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onReady(savedInstanceState: Bundle?) {
         val interestViewModel: InterestsViewModel by viewModels()
 
-        _binding = FragmentInterestsBinding.inflate(inflater, container, false)
-        _binding!!.viewmodel = interestViewModel
-
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        interestViewModel.setUser((activity as MainActivity).user!!)
+        interestViewModel.fragmentManager = (activity as MainActivity).supportFragmentManager
+        interestViewModel.currentFragment = this
     }
 }

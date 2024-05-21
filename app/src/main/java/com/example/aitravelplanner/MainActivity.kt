@@ -1,23 +1,38 @@
 package com.example.aitravelplanner
 
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.databinding.ActivityMainBinding
+import com.example.aitravelplanner.ui.interests.InterestsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    var user: User? = null;
+    var isInit: Boolean = true;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val b = intent.extras
+        if (b != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                user = b.getSerializable("user", User::class.java)
+            }
+            else
+            {
+                user = b.getSerializable("user") as User
+            }
+            isInit = b.getBoolean("isInit")
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -40,5 +55,15 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
+        if (!isInit)
+        {
+            addConditionalFragment()
+        }
+    }
+
+    private fun addConditionalFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(android.R.id.content, InterestsFragment())
+        fragmentTransaction.commit()
     }
 }

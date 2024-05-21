@@ -5,6 +5,7 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
@@ -110,5 +111,4 @@ class TravelRepository: ITravelRepository, BaseRepository() {
 
         return isTravelLiked
     }
-
 }
