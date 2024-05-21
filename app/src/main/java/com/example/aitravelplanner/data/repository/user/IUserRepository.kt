@@ -3,13 +3,10 @@ package com.example.aitravelplanner.data.repository.user
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
-import com.google.android.gms.tasks.Task
 
 interface IUserRepository {
     // Add a user into the Firestore database, under "users" collection
     suspend fun setUser(user: User)
-    // Get all travels by a given idUser as a String
-    suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
     // Get only shared travels by a given idUser as a String
     suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
     // Get only not yet shared travels by a given idUser as a String
