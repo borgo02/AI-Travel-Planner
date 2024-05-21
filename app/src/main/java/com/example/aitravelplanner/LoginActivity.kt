@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity() {
                         else
                         {
                             //create user
-                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, user.displayName!!, false, null)
+                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, null, null)
                             val b = Bundle()
                             b.putSerializable("user", dbUser) //Your id
                             b.putBoolean("isInit", false) //Your id

@@ -2,7 +2,7 @@ package com.example.aitravelplanner.ui.profile
 
 import android.os.Bundle
 import android.widget.TextView
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +15,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override val layoutId: Int = R.layout.fragment_profile
 
-    override val viewModel: ProfileViewModel by viewModels()
+    override val viewModel: ProfileViewModel by activityViewModels()
 
-    private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 
@@ -32,7 +31,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        cardAdapter = CardAdapter(profileViewModel.cardsList.value!!, null,this)
-        cardTravelRecyclerView.adapter = cardAdapter
+        viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
+            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            cardAdapter =
+                CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
+            cardTravelRecyclerView.adapter = cardAdapter
+        }
     }
 }

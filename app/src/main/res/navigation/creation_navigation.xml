@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/creation_navigation"
+    app:startDestination="@id/navigation_create">
+
+
+    <fragment
+        android:id="@+id/navigation_create"
+        android:name="com.example.aitravelplanner.ui.travel_summary.TravelSummaryFragment"
+        android:label="TravelSummaryFragment"
+        tools:layout="@layout/fragment_travel_summary"/>
+</navigation>

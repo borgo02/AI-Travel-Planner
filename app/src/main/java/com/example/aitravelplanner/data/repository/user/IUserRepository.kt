@@ -1,22 +1,24 @@
 package com.example.aitravelplanner.data.repository.user
 
+import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
-import com.google.android.gms.tasks.Task
 
 interface IUserRepository {
+    // Add a user into the Firestore database, under "users" collection
     suspend fun setUser(user: User)
-    suspend fun setSharedTravelByUser(travel: Travel)
-    suspend fun setLikedTravelByUser(user: User, travel: Travel)
-
-    suspend fun getUserById(idUser: String): User?
-    suspend fun getSharedTravelsByUser(user: User): ArrayList<Travel>
-    // return created travels but not shared by a given user
-    suspend fun getNotSharedTravelsByUser(user: User): ArrayList<Travel>
+    // Get only shared travels by a given idUser as a String
+    suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
+    // Get only not yet shared travels by a given idUser as a String
+    suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel>
+    // Get all the users in the Firestore database
     suspend fun getUsers(): ArrayList<User>
-    // return travels shared and not shared by a given user
-    suspend fun getTravelsByUser(user: User): ArrayList<Travel>
-    // return the travels liked by a given user
-    suspend fun getLikedTravelsByUser(user: User): ArrayList<Travel>
-
+    // If exists, get a user with a specif Id
+    suspend fun getUserById(idUser: String): User?
+    // Get the owner user of a travel with specific idTravel
+    suspend fun getUserByTravel(idTravel: String): User?
+    // Get likes of a users, with idTravel and timestamp
+    suspend fun getLikesByUser(idUser: String): ArrayList<Likes>
+    // Update number of likes of a specific travel and user's liked travel list of
+    suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean)
 }

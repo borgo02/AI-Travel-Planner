@@ -9,7 +9,7 @@ import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.utils.Event
 
 public abstract class BaseViewModel : ViewModel() {
-    private val _user = MutableLiveData<User>()
+    protected val _user = MutableLiveData<User>()
     var user: LiveData<User> = _user
     var isNavigating = false
 
