@@ -28,7 +28,7 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
-            android:id="@+id/action_fragment_home_to_fragment_interest"
+            android:id="@+id/action2_fragment_home_to_fragment_interest"
             app:destination="@id/fragment_interest" />
     </fragment>
 

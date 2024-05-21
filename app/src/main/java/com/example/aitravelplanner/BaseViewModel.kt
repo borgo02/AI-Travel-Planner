@@ -11,6 +11,8 @@ import com.example.aitravelplanner.utils.Event
 public abstract class BaseViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     var user: LiveData<User> = _user
+    var isNavigating = false
+
 
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
@@ -33,13 +35,17 @@ public abstract class BaseViewModel : ViewModel() {
         _navigation.value = Event(NavigationCommand.Back)
     }
     fun goToInterestFragment() {
-        /*try
+        try
         {
-            navigate(R.id.action_fragment_home_to_fragment_interest)
+            if (!isNavigating)
+            {
+                isNavigating = true
+                navigate(R.id.action_fragment_home_to_fragment_interest)
+            }
         }
         catch (e: Exception)
         {
             val ex = e
-        }*/
+        }
     }
 }
