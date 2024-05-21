@@ -13,7 +13,6 @@ import java.sql.Timestamp
 
 class SharedTravelsViewModel : BaseViewModel()  {
     private var travelRepository: TravelRepository = TravelRepository()
-    private var userRepository: UserRepository = UserRepository()
 
     private var _cardsList = MutableLiveData(arrayListOf<Travel>())
     val cardsList: LiveData<ArrayList<Travel>>

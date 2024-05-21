@@ -10,5 +10,5 @@ data class User(
     @PropertyName("fullname") var fullname: String = "",
     @PropertyName("isInitialized") var isInitialized: Boolean = false,
     @PropertyName("interests") var interests: Map<String, Float>? = null,
-    @PropertyName("likedTravels") var likedTravels: ArrayList<Likes>?
+    @PropertyName("likedTravels") var likedTravels: ArrayList<Likes>? = null
     ) : Serializable

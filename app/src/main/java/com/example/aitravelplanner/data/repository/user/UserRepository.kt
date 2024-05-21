@@ -92,10 +92,11 @@ class UserRepository: IUserRepository, BaseRepository() {
         val likedTravelList: ArrayList<Likes>
         return if(userDoc.exists()){
             val email = userDoc.getString("email")
+            val isInit = userDoc.getBoolean("isInitialized")
             val fullname = userDoc.getString("fullname")
-            val interests = userDoc.get("interests") as Map<*, *>
+            val interests = userDoc.get("interests") as Map<String, Float>
             likedTravelList = this.getLikesByUser(idUser)
-            User(idUser, email, fullname, interests, likedTravelList)
+            User(idUser, email!!, fullname!!, isInit!!, null, null)
         }else
             null
     }

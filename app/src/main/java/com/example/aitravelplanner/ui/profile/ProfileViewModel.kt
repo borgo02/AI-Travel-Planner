@@ -24,7 +24,7 @@ class ProfileViewModel : TravelViewModel() {
     init{
         viewModelScope.launch {
             setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
-            setTravelCards(userRepository.getTravelsByUser(user.value!!.idUser!!))
+            //setTravelCards(userRepository.getTravelsByUser(user.value!!.idUser!!))
         }
     }
 
