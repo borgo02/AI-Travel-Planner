@@ -11,11 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
+import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.squareup.picasso.Picasso
 
-class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
+class CardAdapter(private val cards: ArrayList<Travel>, private val isLiked: ((Travel) -> Boolean)? = null, private val fragment: Fragment) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: ImageView = row.findViewById(R.id.userImage)
@@ -43,16 +44,16 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         val isProfileFragment = fragment is ProfileFragment
         val isSharedTravelsFragment = fragment is SharedTravelsFragment
 
-        holder.username.text = currentCard.username
+        holder.username.text = currentCard.idUser
+        /*Picasso
+            .get()
+            .load()
+            .into(holder.userImage)*/
         Picasso
             .get()
-            .load(currentCard.userImage)
-            .into(holder.userImage)
-        Picasso
-            .get()
-            .load(currentCard.travelImage)
+            .load(currentCard.imageUrl)
             .into(holder.travelImage)
-        holder.travelName.text = currentCard.travelName
+        holder.travelName.text = currentCard.name
 
         if(isProfileFragment){
             holder.shareImage!!.visibility = View.VISIBLE
@@ -63,7 +64,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             holder.timestamp!!.visibility = View.VISIBLE
 
             holder.shareImage.setImageResource(R.drawable.profile_share)
-            holder.timestamp.text = currentCard.timestamp
+            holder.timestamp.text = currentCard.timestamp.toString()
         }else{
             if(isSharedTravelsFragment){
                 holder.likesImage!!.visibility = View.VISIBLE
@@ -77,12 +78,12 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                 holder.likesImage!!.visibility = View.VISIBLE
                 holder.timestamp!!.visibility = View.GONE
                 holder.affinityImage!!.setImageResource(R.drawable.dashboard_affinity)
-                holder.affinityPerc.text = currentCard.affinityPerc
+                //holder.affinityPerc.text = currentCard.affinityPerc
             }
 
             holder.shareImage!!.visibility = View.GONE
-            holder.likesNumber.text = currentCard.travelLikes.toString()
-            if (currentCard.isLiked)
+            holder.likesNumber.text = currentCard.numberOfLikes.toString()
+            /*if (currentCard.isLiked)
                 holder.likesImage.setImageResource(R.drawable.dashboard_heart_selected)
             else
                 holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
@@ -96,7 +97,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
                     holder.likesNumber.text = currentCard.travelLikes.toString()
                 }
-            }
+            }*/
         }
 
         if(position == this.itemCount - 1) {

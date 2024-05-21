@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        cardAdapter = CardAdapter(profileViewModel.cardsList.value!!, null,this)
+        //cardAdapter = CardAdapter(profileViewModel.cardsList.value!!, null,this)
         cardTravelRecyclerView.adapter = cardAdapter
 
         return root
