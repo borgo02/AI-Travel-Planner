@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_travelFragment"
             app:destination="@id/travelFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_interest"
+            app:destination="@id/travelFragment" />
     </fragment>
     <fragment
         android:id="@+id/travelFragment"
@@ -23,5 +26,15 @@
             android:name="flag"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_interest"
+        android:name="com.example.aitravelplanner.ui.interests.InterestsFragment"
+        android:label="@string/title_interest"
+        tools:layout="@layout/fragment_interests" >
+        <action
+            android:id="@+id/action_fragment_interest_to_fragment_home"
+            app:destination="@id/navigation_dashboard" />
     </fragment>
 </navigation>

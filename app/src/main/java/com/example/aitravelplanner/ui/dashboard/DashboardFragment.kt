@@ -1,7 +1,7 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override val layoutId: Int = R.layout.fragment_dashboard
 
-    override val viewModel: DashboardViewModel by viewModels()
+    override val viewModel: DashboardViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 

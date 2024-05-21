@@ -40,7 +40,7 @@ public abstract class BaseViewModel : ViewModel() {
             if (!isNavigating)
             {
                 isNavigating = true
-                navigate(R.id.action_fragment_home_to_fragment_interest)
+                navigate(R.id.action_navigation_dashboard_to_interest)
             }
         }
         catch (e: Exception)

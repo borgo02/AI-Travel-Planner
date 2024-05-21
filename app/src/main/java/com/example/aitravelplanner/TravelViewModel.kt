@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 abstract class TravelViewModel: BaseViewModel() {
     protected val travelRepository: TravelRepository = TravelRepository()
-    protected val userRepository: UserRepository = UserRepository()
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
 
