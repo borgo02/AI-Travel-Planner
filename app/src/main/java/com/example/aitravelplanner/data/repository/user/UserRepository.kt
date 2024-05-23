@@ -26,26 +26,37 @@ class UserRepository: IUserRepository, BaseRepository() {
                 val snapshot = transaction.get(travelRef)
                 val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
                 transaction.update(travelRef, "numberOfLikes", newLikesValue)
-                likedTravelsRef.document().set(like)
+                likedTravelsRef.add(like)
             }.await()
         }else{
             val likes = likedTravelsRef.get().await()
             for(like in likes.documents) {
                 val idLike = like.id
-                val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
-                val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+                val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
+                val idTravelDoc = idTravelReferencePath?.substringAfterLast("/")
                 if (idTravelDoc == idTravel) {
                     db.runTransaction{transaction ->
                         val snapshot = transaction.get(travelRef)
                         val newLikesValue = snapshot.getLong("numberOfLikes")!! - 1
                         transaction.update(travelRef, "numberOfLikes", newLikesValue)
-                        likedTravelsRef.document().set(like)
                         likedTravelsRef.document(idLike).delete()
                     }.await()
-                    break
                 }
             }
         }
+    }
+
+    override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
+        val userRef = usersCollectionRef.document(idUser)
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
+        val sharedTravelList: ArrayList<Travel> = arrayListOf()
+        for(travel in travelRef.documents){
+            val travelData = travelRepository.getTravelById(travel.id, idUser)
+            if (travelData != null)
+                sharedTravelList.add(travelData)
+        }
+
+        return sharedTravelList
     }
 
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
@@ -96,7 +107,7 @@ class UserRepository: IUserRepository, BaseRepository() {
             val fullname = userDoc.getString("fullname")
             val interests = userDoc.get("interests") as Map<String, Float>
             likedTravelList = this.getLikesByUser(idUser)
-            User(idUser, email!!, fullname!!, isInit!!, null, null)
+            User(idUser, email!!, fullname!!, isInit!!, interests, likedTravelList)
         }else
             null
     }
