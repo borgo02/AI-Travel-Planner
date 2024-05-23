@@ -7,6 +7,8 @@ import com.example.aitravelplanner.data.model.User
 interface IUserRepository {
     // Add a user into the Firestore database, under "users" collection
     suspend fun setUser(user: User)
+    // Get all travels by a given idUser as a String
+    suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
     // Get only shared travels by a given idUser as a String
     suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
     // Get only not yet shared travels by a given idUser as a String
