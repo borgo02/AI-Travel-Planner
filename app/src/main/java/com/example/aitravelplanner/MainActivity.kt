@@ -19,7 +19,7 @@ import com.google.android.material.navigation.NavigationBarItemView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val userRepository: UserRepository = UserRepository()
+    val userRepository: UserRepository = UserRepository.getInstance()
     var user: User? = null;
     var isInit: Boolean = true;
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 b.getSerializable("user") as User
             }
             isInit = b.getBoolean("isInit")
-            userRepository.run { updateUser(user!!) }
+            userRepository.updateUser(user!!)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

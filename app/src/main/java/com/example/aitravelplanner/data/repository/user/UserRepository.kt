@@ -16,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
+class UserRepository @Inject private constructor(): IUserRepository, BaseRepository() {
     private var currentUser: User? = null
     private val travelRepository: TravelRepository = TravelRepository()
     private val usersCollectionRef: CollectionReference = db.collection("users")
@@ -24,9 +24,7 @@ class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun getUser(): User? {
-        if (currentUser != null)
-            return currentUser
-        return null
+        return currentUser
     }
 
     override fun updateUser(newUser: User) {
@@ -169,5 +167,16 @@ class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
         }
 
         return likesList
+    }
+
+    companion object {
+        @Volatile
+        private var instance: UserRepository? = null
+
+        fun getInstance(): UserRepository {
+            return instance ?: synchronized(this) {
+                instance ?: UserRepository().also { instance = it }
+            }
+        }
     }
 }

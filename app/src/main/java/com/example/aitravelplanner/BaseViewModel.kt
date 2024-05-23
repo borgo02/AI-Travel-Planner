@@ -13,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 public open class BaseViewModel @Inject constructor() : ViewModel() {
-    val userRepository = UserRepository()
+    val userRepository = UserRepository.getInstance()
     val currentUser: LiveData<User>
         get() {
             val userLive = MutableLiveData<User>()
