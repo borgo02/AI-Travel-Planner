@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InterestsViewModel @Inject constructor() : BaseViewModel() {
+class InterestsViewModel @Inject constructor(userRepository: UserRepository) : BaseViewModel(userRepository) {
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
     }
@@ -30,11 +31,10 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
                                     "sport" to sportValue.value!!,
                                     "shopping" to shoppingValue.value!!)
         //chiamata al service per salvare nel db
-        user.value!!.interests = interestEntity
-        user.value!!.isInitialized = true
+        currentUser.interests = interestEntity
+        currentUser.isInitialized = true
         viewModelScope.launch {
-            userRepository.setUser(user.value!!)
-            setUser(user.value!!)
+            userRepository.updateUser(currentUser)
             navigateBack()
         }
     }

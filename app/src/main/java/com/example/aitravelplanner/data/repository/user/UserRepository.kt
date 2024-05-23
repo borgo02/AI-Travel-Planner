@@ -8,11 +8,28 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository: IUserRepository, BaseRepository() {
+@Singleton
+class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
+    private var currentUser: User? = null
     private val travelRepository: TravelRepository = TravelRepository()
     private val usersCollectionRef: CollectionReference = db.collection("users")
     private val travelsCollectionReference: CollectionReference = db.collection("travels")
+
+    override fun getUser(): User? {
+        if (currentUser != null)
+            return currentUser
+        return null
+    }
+
+    override suspend fun updateUser(newUser: User) {
+        currentUser = newUser
+        setUser(newUser)
+        // Update the user data in the data source
+    }
+
     override suspend fun setUser(user: User) {
         db.collection("users").document().set(user).await()
     }
@@ -87,7 +104,7 @@ class UserRepository: IUserRepository, BaseRepository() {
         return userList
     }
 
-    override suspend fun getUserById(idUser: String): User? {
+    override suspend fun getUserById(idUser: String, isCurrentUser: Boolean): User? {
         val userDoc = usersCollectionRef.document(idUser).get().await()
         val likedTravelList: ArrayList<Likes>
         return if(userDoc.exists()){
@@ -96,7 +113,12 @@ class UserRepository: IUserRepository, BaseRepository() {
             val fullname = userDoc.getString("fullname")
             val interests = userDoc.get("interests") as Map<String, Float>
             likedTravelList = this.getLikesByUser(idUser)
-            User(idUser, email!!, fullname!!, isInit!!, null, null)
+            val user = User(idUser, email!!, fullname!!, isInit!!, null, null)
+            if (isCurrentUser)
+            {
+                currentUser = user
+            }
+            user
         }else
             null
     }

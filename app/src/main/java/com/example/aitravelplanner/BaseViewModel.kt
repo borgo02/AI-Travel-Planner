@@ -9,24 +9,20 @@ import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.utils.Event
+import javax.inject.Inject
+import javax.inject.Singleton
 
-public abstract class BaseViewModel : ViewModel() {
-    protected val _user = MutableLiveData<User>()
-    var user: LiveData<User> = _user
+public open class BaseViewModel @Inject constructor(val userRepository: UserRepository) : ViewModel() {
+    val currentUser: User
+        get() = userRepository.getUser() ?: User("", "", "", false)
     var isNavigating = false
 
 
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
-    val userRepository = UserRepository()
-
-    fun setUser(newUser: User) {
-        _user.value = newUser
-    }
-
     fun checkIfUserHaveInterest() {
-        if (!user.value!!.isInitialized)
+        if (!currentUser.isInitialized)
         {
             goToInterestFragment()
         }

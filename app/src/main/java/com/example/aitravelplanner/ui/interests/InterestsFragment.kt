@@ -2,6 +2,7 @@ package com.example.aitravelplanner.ui.interests
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.aitravelplanner.MainActivity
 import com.example.aitravelplanner.R
@@ -12,12 +13,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewModel>() {
     override val layoutId: Int = R.layout.fragment_interests
-    override val viewModel: InterestsViewModel by viewModels()
+    override val viewModel: InterestsViewModel by activityViewModels()
 
     private var navBar: BottomNavigationView? = null
 
     override fun onReady(savedInstanceState: Bundle?) {
-        viewModel.setUser((activity as MainActivity).user!!)
         navBar = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         navBar!!.visibility = View.GONE
     }
