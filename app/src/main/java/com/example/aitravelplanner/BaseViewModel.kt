@@ -21,9 +21,12 @@ public abstract class BaseViewModel : ViewModel() {
 
     val userRepository = UserRepository()
 
-    public fun setUser(newUser: User) {
+    fun setUser(newUser: User) {
         _user.value = newUser
-        if (!newUser.isInitialized)
+    }
+
+    fun checkIfUserHaveInterest() {
+        if (!user.value!!.isInitialized)
         {
             goToInterestFragment()
         }
@@ -36,15 +39,10 @@ public abstract class BaseViewModel : ViewModel() {
     fun navigateBack() {
         _navigation.value = Event(NavigationCommand.Back)
     }
-    fun goToInterestFragment() {
+    private fun goToInterestFragment() {
         try
         {
-            if (false)
-            //if (!isNavigating)
-            {
-                isNavigating = true
-                navigate(DashboardFragmentDirections.actionNavigationDashboardToInterest())
-            }
+            navigate(DashboardFragmentDirections.actionNavigationDashboardToInterest())
         }
         catch (e: Exception)
         {
