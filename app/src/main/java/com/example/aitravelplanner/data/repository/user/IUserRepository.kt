@@ -19,6 +19,8 @@ interface IUserRepository {
     suspend fun getUserByTravel(idTravel: String): User?
     // Get likes of a users, with idTravel and timestamp
     suspend fun getLikesByUser(idUser: String): ArrayList<Likes>
+    // Return the interests of a given user
+    suspend fun getInterestsByUser(idUser: String): Map<String, Float>?
     // Update number of likes of a specific travel and user's liked travel list of
     suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean)
 }

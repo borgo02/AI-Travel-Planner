@@ -26,6 +26,8 @@ class TravelFormViewModel : BaseViewModel() {
         if(sourceInput.value != "" && destinationInput.value != "" && days.value!!.toInt() > 0 && budget != ""){
             isFormCompleted.value = true
 
+            val interests = user.value!!.interests
+
             val source = sourceInput.value ?: ""
             val isActualPosition = isActualPosition.value ?: false
             val destination = destinationInput.value ?: ""
@@ -37,19 +39,25 @@ class TravelFormViewModel : BaseViewModel() {
             val travelMap = mapOf(
                 "Source" to source,
                 //"Posizione attuale" to isActualPosition,
-                "Destination" to destination,
-                //"Destinazione automatica" to isAutomaticDestination,
+                "Destination" to if (isAutomaticDestination) "generate automatic destination" else destination,
                 "Days" to days,
                 "Hotel" to if(isHotelChecked) "Yes" else "No",
                 "Budget" to budget
             )
 
-            val travelPrompt =
-                                "Source: ${travelMap["Source"]}, " +
+
+            val travelPrompt = "Source: ${travelMap["Source"]}, " +
                                 "Destination: ${travelMap["Destination"]}," +
                                 "Days: ${travelMap["Days"]}," +
                                 "Hotel: ${travelMap["Hotel"]}," +
-                                "Budget: ${travelMap["Budget"]}"
+                                "Budget: ${travelMap["Budget"]}," +
+                                "ArtInterests: ${interests?.get("art")}/5," +
+                                "EntertainmentInterests: ${interests?.get("entertainment")}/5," +
+                                "NatureInterests: ${interests?.get("nature")}/5," +
+                                "PartyInterests: ${interests?.get("party")}/5," +
+                                "ShoppingInterests: ${interests?.get("shopping")}/5," +
+                                "SportInterests: ${interests?.get("sport")}/5," +
+                                "HistoryInterests: ${interests?.get("story")}/5,"
 
             viewModelScope.launch {
                 openAIManager.preProcessTravel(travelPrompt)

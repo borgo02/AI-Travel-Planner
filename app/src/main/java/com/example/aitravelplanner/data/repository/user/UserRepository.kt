@@ -48,6 +48,16 @@ class UserRepository: IUserRepository, BaseRepository() {
         }
     }
 
+    override suspend fun getInterestsByUser(idUser: String): Map<String, Float>? {
+        val userRef = db.collection("users").document(idUser).get().await()
+
+        return if(userRef.exists()){
+            val interests = userRef.get("interests") as Map<String, Float>
+            interests
+        }else
+            null
+    }
+
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
