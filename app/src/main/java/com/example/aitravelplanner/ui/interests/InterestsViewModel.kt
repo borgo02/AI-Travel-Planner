@@ -41,6 +41,6 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun goBackHome() {
-        navigate(R.id.action_fragment_interest_to_fragment_home)
+        navigateBack()
     }
 }

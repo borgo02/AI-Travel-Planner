@@ -30,7 +30,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             cardAdapter = CardAdapter(newValue, viewModel::isLiked,this)
             cardTravelRecyclerView.adapter = cardAdapter
         }
-
+        viewModel.navigate(DashboardFragmentDirections.actionNavigationDashboardToInterest())
         viewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
     }
 
