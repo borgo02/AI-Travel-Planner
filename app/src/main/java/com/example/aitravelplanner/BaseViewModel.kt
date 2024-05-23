@@ -12,9 +12,14 @@ import com.example.aitravelplanner.utils.Event
 import javax.inject.Inject
 import javax.inject.Singleton
 
-public open class BaseViewModel @Inject constructor(val userRepository: UserRepository) : ViewModel() {
-    val currentUser: User
-        get() = userRepository.getUser() ?: User("", "", "", false)
+public open class BaseViewModel @Inject constructor() : ViewModel() {
+    val userRepository = UserRepository()
+    val currentUser: LiveData<User>
+        get() {
+            val userLive = MutableLiveData<User>()
+            userLive.value = userRepository.getUser() ?: User("", "", "", false)
+            return userLive
+        }
     var isNavigating = false
 
 
@@ -22,7 +27,7 @@ public open class BaseViewModel @Inject constructor(val userRepository: UserRepo
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
     fun checkIfUserHaveInterest() {
-        if (!currentUser.isInitialized)
+        if (!currentUser.value!!.isInitialized)
         {
             goToInterestFragment()
         }

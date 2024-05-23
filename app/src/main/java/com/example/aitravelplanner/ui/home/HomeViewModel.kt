@@ -6,7 +6,7 @@ import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(userRepository: UserRepository) : BaseViewModel(userRepository) {
+class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

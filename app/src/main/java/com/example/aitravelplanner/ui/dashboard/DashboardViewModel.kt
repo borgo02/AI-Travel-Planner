@@ -18,7 +18,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(userRepository: UserRepository) : TravelViewModel(userRepository) {
+class DashboardViewModel @Inject constructor() : TravelViewModel() {
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
         get() = _searchedCardsList
@@ -29,7 +29,10 @@ class DashboardViewModel @Inject constructor(userRepository: UserRepository) : T
     init{
         viewModelScope.launch {
             //setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
-            setTravelCards(travelRepository.getSharedTravels(currentUser.idUser))
+            if (currentUser.value != null)
+            {
+                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
+            }
         }
 
     }

@@ -8,6 +8,10 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,6 +21,7 @@ class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
     private val travelRepository: TravelRepository = TravelRepository()
     private val usersCollectionRef: CollectionReference = db.collection("users")
     private val travelsCollectionReference: CollectionReference = db.collection("travels")
+    private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun getUser(): User? {
         if (currentUser != null)
@@ -24,10 +29,11 @@ class UserRepository @Inject constructor(): IUserRepository, BaseRepository() {
         return null
     }
 
-    override suspend fun updateUser(newUser: User) {
+    override fun updateUser(newUser: User) {
         currentUser = newUser
-        setUser(newUser)
-        // Update the user data in the data source
+        repositoryScope.launch {
+            setUser(newUser)
+        }
     }
 
     override suspend fun setUser(user: User) {

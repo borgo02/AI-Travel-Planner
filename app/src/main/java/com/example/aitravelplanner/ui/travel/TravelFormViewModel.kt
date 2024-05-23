@@ -2,8 +2,10 @@ package com.example.aitravelplanner.ui.travel
 
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.data.repository.user.UserRepository
+import javax.inject.Inject
 
-class TravelFormViewModel : BaseViewModel() {
+class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private lateinit var budget: String
     var isFormCompleted = MutableLiveData<Boolean>(false)
 

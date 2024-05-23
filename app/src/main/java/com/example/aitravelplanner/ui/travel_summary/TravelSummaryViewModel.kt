@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.utils.notifyObserver
+import javax.inject.Inject
 
-class TravelSummaryViewModel: BaseViewModel() {
+class TravelSummaryViewModel @Inject constructor() : BaseViewModel() {
     private val _travelName = MutableLiveData<String>("")
     private val _stageSelectedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
     private val _stageSearchedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())

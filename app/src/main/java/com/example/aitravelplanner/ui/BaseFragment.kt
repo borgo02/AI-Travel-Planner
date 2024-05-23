@@ -41,10 +41,6 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
             lifecycleOwner = viewLifecycleOwner
             setVariable(BR.viewmodel, viewModel)
         }
-        if ((activity as MainActivity).user != null)
-        {
-            viewModel.setUser((activity as MainActivity).user!!)
-        }
 
         return binding.root
     }

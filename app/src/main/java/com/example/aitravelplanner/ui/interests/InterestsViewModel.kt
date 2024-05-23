@@ -8,7 +8,7 @@ import com.example.aitravelplanner.data.repository.user.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InterestsViewModel @Inject constructor(userRepository: UserRepository) : BaseViewModel(userRepository) {
+class InterestsViewModel @Inject constructor() : BaseViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
     }
@@ -31,11 +31,9 @@ class InterestsViewModel @Inject constructor(userRepository: UserRepository) : B
                                     "sport" to sportValue.value!!,
                                     "shopping" to shoppingValue.value!!)
         //chiamata al service per salvare nel db
-        currentUser.interests = interestEntity
-        currentUser.isInitialized = true
-        viewModelScope.launch {
-            userRepository.updateUser(currentUser)
-            navigateBack()
-        }
+        currentUser.value!!.interests = interestEntity
+        currentUser.value!!.isInitialized = true
+        userRepository.updateUser(currentUser.value!!)
+        navigateBack()
     }
 }

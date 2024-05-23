@@ -12,7 +12,7 @@ import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import java.sql.Timestamp
 import javax.inject.Inject
 
-class SharedTravelsViewModel @Inject constructor(userRepository: UserRepository) : BaseViewModel(userRepository)  {
+class SharedTravelsViewModel @Inject constructor() : BaseViewModel()  {
     private var travelRepository: TravelRepository = TravelRepository()
 
     private var _cardsList = MutableLiveData(arrayListOf<Travel>())

@@ -6,7 +6,7 @@ import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import javax.inject.Inject
 
-class NotificationsViewModel @Inject constructor(userRepository: UserRepository) : BaseViewModel(userRepository) {
+class NotificationsViewModel @Inject constructor() : BaseViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

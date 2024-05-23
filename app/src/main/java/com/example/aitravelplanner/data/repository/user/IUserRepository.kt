@@ -8,7 +8,7 @@ interface IUserRepository {
     //Get current User
     fun getUser(): User?
     //Update current user
-    suspend fun updateUser(newUser: User)
+    fun updateUser(newUser: User)
     // Add a user into the Firestore database, under "users" collection
     suspend fun setUser(user: User)
     // Return all the travels created by a given user

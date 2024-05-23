@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.databinding.ActivityMainBinding
 import com.example.aitravelplanner.utils.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,7 +19,7 @@ import com.google.android.material.navigation.NavigationBarItemView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val viewModel: MainActivityViewModel by viewModels()
+    val userRepository: UserRepository = UserRepository()
     var user: User? = null;
     var isInit: Boolean = true;
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 b.getSerializable("user") as User
             }
             isInit = b.getBoolean("isInit")
-            viewModel.setUser(user!!)
+            userRepository.run { updateUser(user!!) }
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
