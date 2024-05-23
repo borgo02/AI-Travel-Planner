@@ -15,7 +15,7 @@
             app:destination="@id/travelFragment" />
         <action
             android:id="@+id/action_navigation_dashboard_to_interest"
-            app:destination="@id/travelFragment" />
+            app:destination="@id/fragment_interest" />
     </fragment>
     <fragment
         android:id="@+id/travelFragment"
@@ -33,8 +33,5 @@
         android:name="com.example.aitravelplanner.ui.interests.InterestsFragment"
         android:label="@string/title_interest"
         tools:layout="@layout/fragment_interests" >
-        <action
-            android:id="@+id/action_fragment_interest_to_fragment_home"
-            app:destination="@id/navigation_dashboard" />
     </fragment>
 </navigation>

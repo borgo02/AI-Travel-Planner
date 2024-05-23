@@ -3,9 +3,11 @@ package com.example.aitravelplanner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDirections
 import com.example.aitravelplanner.data.model.NavigationCommand
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.utils.Event
 
 public abstract class BaseViewModel : ViewModel() {
@@ -19,29 +21,28 @@ public abstract class BaseViewModel : ViewModel() {
 
     val userRepository = UserRepository()
 
-    public fun setUser(newUser: User) {
+    fun setUser(newUser: User) {
         _user.value = newUser
-        if (!newUser.isInitialized)
+    }
+
+    fun checkIfUserHaveInterest() {
+        if (!user.value!!.isInitialized)
         {
             goToInterestFragment()
         }
     }
 
-    fun navigate(navDirections: Int) {
+    fun navigate(navDirections: NavDirections) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 
     fun navigateBack() {
         _navigation.value = Event(NavigationCommand.Back)
     }
-    fun goToInterestFragment() {
+    private fun goToInterestFragment() {
         try
         {
-            if (!isNavigating)
-            {
-                isNavigating = true
-                navigate(R.id.action_navigation_dashboard_to_interest)
-            }
+            navigate(DashboardFragmentDirections.actionNavigationDashboardToInterest())
         }
         catch (e: Exception)
         {

@@ -128,6 +128,7 @@ class UserRepository: IUserRepository, BaseRepository() {
 
     override suspend fun getLikesByUser(idUser: String): ArrayList<Likes> {
         val likesList: ArrayList<Likes> = arrayListOf()
+        return likesList;
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         for(like in likesRef.documents){
             val idLike = like.id

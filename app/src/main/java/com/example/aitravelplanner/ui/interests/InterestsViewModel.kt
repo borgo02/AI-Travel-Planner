@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
-import com.example.aitravelplanner.R
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InterestsViewModel @Inject constructor() : BaseViewModel() {
-
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
     }
@@ -36,11 +34,8 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
         user.value!!.isInitialized = true
         viewModelScope.launch {
             userRepository.setUser(user.value!!)
+            setUser(user.value!!)
             navigateBack()
         }
-    }
-
-    fun goBackHome() {
-        navigate(R.id.action_fragment_interest_to_fragment_home)
     }
 }
