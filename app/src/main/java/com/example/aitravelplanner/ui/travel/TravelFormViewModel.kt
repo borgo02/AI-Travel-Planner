@@ -1,7 +1,10 @@
 package com.example.aitravelplanner.ui.travel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.utils.OpenAIManager
+import kotlinx.coroutines.launch
 
 class TravelFormViewModel : BaseViewModel() {
     private lateinit var budget: String
@@ -17,6 +20,8 @@ class TravelFormViewModel : BaseViewModel() {
     val isMediumBudget = MutableLiveData<Boolean>(false)
     val isLargeBudget = MutableLiveData<Boolean>(false)
 
+    private val openAIManager = OpenAIManager()
+
     fun confirmClicked() {
         if(sourceInput.value != "" && destinationInput.value != "" && days.value!!.toInt() > 0 && budget != ""){
             isFormCompleted.value = true
@@ -29,15 +34,26 @@ class TravelFormViewModel : BaseViewModel() {
             val isHotelChecked = isHotelChecked.value ?: false
             budget = determineBudget()
 
-            val travelPreferences = mapOf(
-                "Partenza" to source,
-                "Posizione attuale" to isActualPosition,
-                "Destinazione" to destination,
-                "Destinazione automatica" to isAutomaticDestination,
-                "Giorni" to days.toInt(),
-                "Hotel" to isHotelChecked,
+            val travelMap = mapOf(
+                "Source" to source,
+                //"Posizione attuale" to isActualPosition,
+                "Destination" to destination,
+                //"Destinazione automatica" to isAutomaticDestination,
+                "Days" to days,
+                "Hotel" to if(isHotelChecked) "Yes" else "No",
                 "Budget" to budget
             )
+
+            val travelPrompt =
+                                "Source: ${travelMap["Source"]}, " +
+                                "Destination: ${travelMap["Destination"]}," +
+                                "Days: ${travelMap["Days"]}," +
+                                "Hotel: ${travelMap["Hotel"]}," +
+                                "Budget: ${travelMap["Budget"]}"
+
+            viewModelScope.launch {
+                openAIManager.preProcessTravel(travelPrompt)
+            }
         }
         else
             isFormCompleted.value = false
