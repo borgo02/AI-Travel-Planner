@@ -9,10 +9,10 @@ import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-abstract class TravelViewModel: BaseViewModel() {
+abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
     protected val travelRepository: TravelRepository = TravelRepository()
-    protected val userRepository: UserRepository = UserRepository()
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
 

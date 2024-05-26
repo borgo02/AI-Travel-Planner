@@ -1,37 +1,25 @@
 package com.example.aitravelplanner.ui.travel_summary
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentTravelSummaryBinding
+import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 
-
-
-class TravelSummaryFragment : Fragment() {
-    private var _binding: FragmentTravelSummaryBinding? = null
-    private val binding get() = _binding!!
+class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelSummaryViewModel>() {
+    override val layoutId: Int = R.layout.fragment_travel
+    override val viewModel: TravelSummaryViewModel by viewModels()
 
     private lateinit var stageSelectedCardRecyclerView: RecyclerView
     private lateinit var stageSelectedCardList: ArrayList<StageCard>
     private lateinit var stageSearchedCardRecyclerView: RecyclerView
     private lateinit var stageSearchedCardList: ArrayList<StageCard>
-    val viewModel: TravelSummaryViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = FragmentTravelSummaryBinding.inflate(inflater,container, false)
-        _binding!!.viewmodel = viewModel
-        binding.lifecycleOwner = this
+    override fun onReady(savedInstanceState: Bundle?) {
         stageSelectedCardRecyclerView = binding.selectedStageRecyclerView
         stageSearchedCardRecyclerView = binding.searchedStageRecyclerView
 
@@ -54,14 +42,5 @@ class TravelSummaryFragment : Fragment() {
 
             stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, viewModel::addStage)
         }
-
-
-        return binding.root
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
 }

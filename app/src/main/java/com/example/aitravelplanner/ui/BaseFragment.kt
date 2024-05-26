@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.BR
+import com.example.aitravelplanner.MainActivity
 import com.example.aitravelplanner.data.model.NavigationCommand
 import com.example.aitravelplanner.utils.observeNonNull
 
