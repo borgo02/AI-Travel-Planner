@@ -5,18 +5,21 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.databinding.ActivityMainBinding
-import com.example.aitravelplanner.ui.interests.InterestsFragment
+import com.example.aitravelplanner.utils.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    val userRepository: UserRepository = UserRepository.getInstance()
     var user: User? = null;
     var isInit: Boolean = true;
 
@@ -24,14 +27,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val b = intent.extras
         if (b != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                user = b.getSerializable("user", User::class.java)
-            }
-            else
-            {
-                user = b.getSerializable("user") as User
+            user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                b.getSerializable("user", User::class.java)
+            } else {
+                b.getSerializable("user") as User
             }
             isInit = b.getBoolean("isInit")
+            userRepository.updateUser(user!!)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -62,8 +64,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addConditionalFragment() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        /*val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(android.R.id.content, InterestsFragment())
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
     }
 }

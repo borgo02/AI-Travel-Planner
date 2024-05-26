@@ -8,13 +8,34 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository: IUserRepository, BaseRepository() {
+@Singleton
+class UserRepository @Inject private constructor(): IUserRepository, BaseRepository() {
+    private var currentUser: User? = null
     private val travelRepository: TravelRepository = TravelRepository()
     private val usersCollectionRef: CollectionReference = db.collection("users")
     private val travelsCollectionReference: CollectionReference = db.collection("travels")
+    private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    override fun getUser(): User? {
+        return currentUser
+    }
+
+    override fun updateUser(newUser: User) {
+        currentUser = newUser
+        repositoryScope.launch {
+            setUser(newUser)
+        }
+    }
+
     override suspend fun setUser(user: User) {
-        db.collection("users").document().set(user).await()
+        db.collection("users").document(user.idUser).set(user).await()
     }
 
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
@@ -98,15 +119,21 @@ class UserRepository: IUserRepository, BaseRepository() {
         return userList
     }
 
-    override suspend fun getUserById(idUser: String): User? {
+    override suspend fun getUserById(idUser: String, isCurrentUser: Boolean): User? {
         val userDoc = usersCollectionRef.document(idUser).get().await()
         val likedTravelList: ArrayList<Likes>
         return if(userDoc.exists()){
             val email = userDoc.getString("email")
+            val isInit = userDoc.getBoolean("initialized")
             val fullname = userDoc.getString("fullname")
-            val interests = userDoc.get("interests") as Map<*, *>
+            val interests = userDoc.get("interests") as Map<String, Float>
             likedTravelList = this.getLikesByUser(idUser)
-            User(idUser, email, fullname, interests, likedTravelList)
+            val user = User(idUser, email!!, fullname!!, isInit!!, interests, likedTravelList)
+            if (isCurrentUser)
+            {
+                currentUser = user
+            }
+            user
         }else
             null
     }
@@ -139,5 +166,16 @@ class UserRepository: IUserRepository, BaseRepository() {
         }
 
         return likesList
+    }
+
+    companion object {
+        @Volatile
+        private var instance: UserRepository? = null
+
+        fun getInstance(): UserRepository {
+            return instance ?: synchronized(this) {
+                instance ?: UserRepository().also { instance = it }
+            }
+        }
     }
 }

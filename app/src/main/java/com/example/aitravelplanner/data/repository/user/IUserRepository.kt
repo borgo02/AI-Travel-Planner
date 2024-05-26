@@ -5,9 +5,13 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 
 interface IUserRepository {
+    //Get current User
+    fun getUser(): User?
+    //Update current user
+    fun updateUser(newUser: User)
     // Add a user into the Firestore database, under "users" collection
     suspend fun setUser(user: User)
-    // Get all travels by a given idUser as a String
+    // Return all the travels created by a given user
     suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
     // Get only shared travels by a given idUser as a String
     suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
@@ -16,7 +20,7 @@ interface IUserRepository {
     // Get all the users in the Firestore database
     suspend fun getUsers(): ArrayList<User>
     // If exists, get a user with a specif Id
-    suspend fun getUserById(idUser: String): User?
+    suspend fun getUserById(idUser: String, isCurrentUser: Boolean = false): User?
     // Get the owner user of a travel with specific idTravel
     suspend fun getUserByTravel(idTravel: String): User?
     // Get likes of a users, with idTravel and timestamp

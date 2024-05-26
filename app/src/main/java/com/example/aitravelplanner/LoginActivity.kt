@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
     private var showOneTapUI = true
-    private val userRepo = UserRepository();
+    private val userRepo = UserRepository.getInstance();
     // [START declare_auth]
     private lateinit var auth: FirebaseAuth
     // [END declare_auth]
@@ -104,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
                         val user = auth.currentUser
-                        var dbUser = userRepo.getUserById(user!!.uid);
+                        var dbUser = userRepo.getUserById(user!!.uid, true);
                         if (dbUser != null && dbUser.isInitialized) {
                             //avoid interest selection
                             val b = Bundle()
@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity() {
                         else
                         {
                             //create user
-                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, null, null)
+                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, false, null, null)
                             val b = Bundle()
                             b.putSerializable("user", dbUser) //Your id
                             b.putBoolean("isInit", false) //Your id

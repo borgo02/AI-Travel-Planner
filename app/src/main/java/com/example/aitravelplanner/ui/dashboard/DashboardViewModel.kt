@@ -5,17 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashboardViewModel : TravelViewModel() {
+class DashboardViewModel @Inject constructor() : TravelViewModel() {
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
         get() = _searchedCardsList
@@ -25,8 +28,11 @@ class DashboardViewModel : TravelViewModel() {
 
     init{
         viewModelScope.launch {
-            setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
-            setTravelCards(travelRepository.getSharedTravels(user.value!!.idUser!!))
+            //setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
+            if (currentUser.value != null)
+            {
+                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
+            }
         }
 
     }

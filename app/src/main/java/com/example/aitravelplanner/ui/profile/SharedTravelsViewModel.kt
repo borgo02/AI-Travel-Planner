@@ -10,10 +10,10 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import java.sql.Timestamp
+import javax.inject.Inject
 
-class SharedTravelsViewModel : BaseViewModel()  {
+class SharedTravelsViewModel @Inject constructor() : BaseViewModel()  {
     private var travelRepository: TravelRepository = TravelRepository()
-    private var userRepository: UserRepository = UserRepository()
 
     private var _cardsList = MutableLiveData(arrayListOf<Travel>())
     val cardsList: LiveData<ArrayList<Travel>>
