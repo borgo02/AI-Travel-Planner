@@ -35,7 +35,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
     }
 
     override suspend fun setUser(user: User) {
-        db.collection("users").document().set(user).await()
+        db.collection("users").document(user.idUser).set(user).await()
     }
 
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
@@ -124,7 +124,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         val likedTravelList: ArrayList<Likes>
         return if(userDoc.exists()){
             val email = userDoc.getString("email")
-            val isInit = userDoc.getBoolean("isInitialized")
+            val isInit = userDoc.getBoolean("initialized")
             val fullname = userDoc.getString("fullname")
             val interests = userDoc.get("interests") as Map<String, Float>
             likedTravelList = this.getLikesByUser(idUser)

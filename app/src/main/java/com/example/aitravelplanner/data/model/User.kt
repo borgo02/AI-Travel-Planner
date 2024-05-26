@@ -8,7 +8,7 @@ data class User(
     @DocumentId var idUser: String = "",
     @PropertyName("email") var email: String = "",
     @PropertyName("fullname") var fullname: String = "",
-    @PropertyName("isInitialized") var isInitialized: Boolean = false,
+    @PropertyName("initialized") var isInitialized: Boolean = false,
     @PropertyName("interests") var interests: Map<String, Float>? = null,
     @PropertyName("likedTravels") var likedTravels: ArrayList<Likes>? = null
     ) : Serializable
