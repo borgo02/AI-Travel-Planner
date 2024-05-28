@@ -50,7 +50,7 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addObservers()
-        progressBar = requireView().findViewById(R.id.progressBar)
+        progressBar = requireActivity().findViewById(R.id.progressBar)
 
         onReady(savedInstanceState)
     }
