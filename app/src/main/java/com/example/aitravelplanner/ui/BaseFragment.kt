@@ -44,13 +44,13 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
             lifecycleOwner = viewLifecycleOwner
             setVariable(BR.viewmodel, viewModel)
         }
-        progressBar = requireView().findViewById(R.id.progressBar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addObservers()
+        progressBar = requireView().findViewById(R.id.progressBar)
 
         onReady(savedInstanceState)
     }
