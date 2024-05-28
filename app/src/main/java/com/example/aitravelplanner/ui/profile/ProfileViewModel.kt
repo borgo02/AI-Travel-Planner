@@ -2,17 +2,11 @@ package com.example.aitravelplanner.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.aitravelplanner.data.repository.travel.TravelRepository
-import com.example.aitravelplanner.data.repository.user.UserRepository
-import com.example.aitravelplanner.BaseViewModel
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor() : TravelViewModel() {
@@ -23,10 +17,9 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         get() = _sharedTravelList
 
     init{
-        viewModelScope.launch {
-            //setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
+        executeWithLoadingSuspend(block = {
             setTravelCards(userRepository.getTravelsByUser(currentUser.value!!.idUser))
-        }
+        })
     }
 
 
@@ -49,6 +42,9 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         cardTravel.isShared = true
         _sharedTravelList.value?.add(cardTravel)
         _sharedTravelList.notifyObserver()
-        viewModelScope.launch {travelRepository.setTravelToShared(cardTravel.travelId)}
+
+        executeWithLoadingSuspend(block = {
+            travelRepository.setTravelToShared(cardTravel.travelId)
+        })
     }
 }
