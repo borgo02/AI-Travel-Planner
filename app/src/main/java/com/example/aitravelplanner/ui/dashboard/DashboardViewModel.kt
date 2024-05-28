@@ -27,14 +27,12 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     private var searchJob: Job? = null
 
     init{
-        viewModelScope.launch {
-            executeWithLoadingSuspend(block = {
-                if (currentUser.value != null)
-                {
-                    setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-                }
-            })
-        }
+        executeWithLoadingSuspend(block = {
+            if (currentUser.value != null)
+            {
+                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
+            }
+        })
     }
 
     override suspend fun setTravelCards(travels: ArrayList<Travel>){

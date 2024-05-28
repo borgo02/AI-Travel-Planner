@@ -3,6 +3,7 @@ package com.example.aitravelplanner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.aitravelplanner.data.model.NavigationCommand
 import com.example.aitravelplanner.data.model.User
@@ -51,7 +52,7 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
     ) {
         _isLoading.value = true
 
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
                 block()
                 withContext(Dispatchers.Main) {
