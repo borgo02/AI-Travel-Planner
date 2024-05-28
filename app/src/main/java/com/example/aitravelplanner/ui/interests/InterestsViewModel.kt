@@ -2,10 +2,7 @@ package com.example.aitravelplanner.ui.interests
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
-import com.example.aitravelplanner.data.repository.user.UserRepository
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InterestsViewModel @Inject constructor() : BaseViewModel() {
@@ -23,17 +20,19 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
     val shoppingValue = MutableLiveData(5.0f)
 
     fun confirmClicked() {
-        var interestEntity = mapOf("story" to storyValue.value!!,
-                                    "art" to artValue.value!!,
-                                    "party" to partyValue.value!!,
-                                    "nature" to natureValue.value!!,
-                                    "entertainment" to entertainmentValue.value!!,
-                                    "sport" to sportValue.value!!,
-                                    "shopping" to shoppingValue.value!!)
-        //chiamata al service per salvare nel db
-        currentUser.value!!.interests = interestEntity
-        currentUser.value!!.isInitialized = true
-        userRepository.updateUser(currentUser.value!!)
-        navigateBack()
+        executeWithLoading(block = {
+            val interestEntity = mapOf("story" to storyValue.value!!,
+                "art" to artValue.value!!,
+                "party" to partyValue.value!!,
+                "nature" to natureValue.value!!,
+                "entertainment" to entertainmentValue.value!!,
+                "sport" to sportValue.value!!,
+                "shopping" to shoppingValue.value!!)
+
+            currentUser.value!!.interests = interestEntity
+            currentUser.value!!.isInitialized = true
+            userRepository.updateUser(currentUser.value!!)
+            navigateBack()
+        })
     }
 }
