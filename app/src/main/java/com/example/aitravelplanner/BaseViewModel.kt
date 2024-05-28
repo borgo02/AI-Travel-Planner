@@ -20,6 +20,9 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
             userLive.value = userRepository.getUser() ?: User("", "", "", false)
             return userLive
         }
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
 
 
