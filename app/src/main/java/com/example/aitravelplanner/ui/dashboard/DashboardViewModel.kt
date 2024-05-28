@@ -28,13 +28,13 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
 
     init{
         viewModelScope.launch {
-            //setUser(userRepository.getUserById("JoC41EXyP1LKpTviLoEQ")!!)
-            if (currentUser.value != null)
-            {
-                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-            }
+            executeWithLoadingSuspend(block = {
+                if (currentUser.value != null)
+                {
+                    setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
+                }
+            })
         }
-
     }
 
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
@@ -51,12 +51,14 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     }
 
     fun search(){
-        _searchedCardsList.value!!.clear()
+        executeWithLoading(block = {
+            _searchedCardsList.value!!.clear()
 
-        for(card in _cardsList.value!!) {
-            if (searchText.value.toString().lowercase() in card.travelName.lowercase())
-                _searchedCardsList.value!!.add(card)
-            _searchedCardsList.notifyObserver()
-        }
+            for(card in _cardsList.value!!) {
+                if (searchText.value.toString().lowercase() in card.travelName.lowercase())
+                    _searchedCardsList.value!!.add(card)
+                _searchedCardsList.notifyObserver()
+            }
+        })
     }
 }
