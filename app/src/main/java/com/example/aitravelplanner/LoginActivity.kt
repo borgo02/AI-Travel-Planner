@@ -6,10 +6,12 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.Visibility
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -26,14 +28,11 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-    private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
-    private var showOneTapUI = true
     private val userRepo = UserRepository.getInstance();
-    // [START declare_auth]
     private lateinit var auth: FirebaseAuth
-    // [END declare_auth]
-
     private lateinit var signInClient: SignInClient
+
+    private lateinit var progressBar: ProgressBar
 
     private val signInLauncher = registerForActivityResult(StartIntentSenderForResult()) { result ->
         handleSignInResult(result.data)
@@ -43,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         signInClient = Identity.getSignInClient(this)
 
+        progressBar = findViewById(R.id.progressBarLogin)
         // Initialize Firebase Auth
         auth = Firebase.auth
         val currentUser = auth.currentUser
@@ -55,18 +55,13 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
-        updateUI(currentUser)
     }
 
     // [START logout]
     private fun logout() {
         Firebase.auth.signOut()
-        updateUI(null)
     }
     // [END logout]
-
-    private fun updateUI(user: FirebaseUser?) {
-    }
 
     private fun handleSignInResult(data: Intent?) {
         // Result returned from launching the Sign In PendingIntent
@@ -89,12 +84,11 @@ class LoginActivity : AppCompatActivity() {
             Log.w(TAG, "Google sign in failed", e)
             val rootView: View = findViewById(android.R.id.content)
             Snackbar.make(rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-            updateUI(null)
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
-        //showProgressBar()
+        progressBar.visibility = View.VISIBLE
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -125,7 +119,6 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }
-                        updateUI(user)
                     }
 
                 } else {
@@ -133,10 +126,9 @@ class LoginActivity : AppCompatActivity() {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     val rootView: View = findViewById(android.R.id.content)
                     Snackbar.make(rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
 
-                //hideProgressBar()
+                progressBar.visibility = View.GONE
             }
     }
 

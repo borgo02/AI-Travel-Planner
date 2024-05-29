@@ -27,7 +27,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
         viewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
             cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            cardAdapter = CardAdapter(newValue, viewModel::isLiked,this)
+            cardAdapter = CardAdapter(newValue, viewModel::isLiked,this,viewModel::loadSelectedTravel)
             cardTravelRecyclerView.adapter = cardAdapter
         }
         viewModel.checkIfUserHaveInterest()
