@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.data.repository.user
 
+import android.util.Log
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
@@ -140,9 +141,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             likedTravelList = this.getLikesByUser(idUser)
             val user = User(idUser, email!!, fullname!!, isInit!!, interests, likedTravelList)
             if (isCurrentUser)
-            {
                 currentUser = user
-            }
             user
         }else
             null

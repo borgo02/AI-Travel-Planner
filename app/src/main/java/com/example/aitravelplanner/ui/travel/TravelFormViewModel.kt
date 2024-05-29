@@ -1,12 +1,15 @@
 package com.example.aitravelplanner.ui.travel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
-import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.data.model.Travel
 import javax.inject.Inject
 import com.example.aitravelplanner.utils.OpenAIManager
+import com.example.aitravelplanner.utils.ImagesManager
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private lateinit var budget: String
@@ -23,12 +26,18 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     val isLargeBudget = MutableLiveData<Boolean>(false)
 
     private val openAIManager = OpenAIManager()
+    private val imagesManager = ImagesManager()
 
     fun confirmClicked() {
         if(sourceInput.value != "" && destinationInput.value != "" && days.value!!.toInt() > 0 && budget != ""){
             isFormCompleted.value = true
 
-            val interests = user.value!!.interests
+            val interests = currentUser.value!!.interests
+            var json = JSONObject()
+            var travels: ArrayList<Travel> = arrayListOf()
+            val justVisitedCities: ArrayList<String> = arrayListOf()
+            val places = arrayListOf<Any>()
+            var stageImagesUrl: ArrayList<String> = arrayListOf()
 
             val source = sourceInput.value ?: ""
             val isActualPosition = isActualPosition.value ?: false
@@ -47,23 +56,54 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 "Budget" to budget
             )
 
+            viewModelScope.launch {
+                travels = userRepository.getTravelsByUser(currentUser.value!!.idUser)
+            }
 
-            val travelPrompt = "Source: ${travelMap["Source"]}, " +
-                                "Destination: ${travelMap["Destination"]}," +
-                                "Days: ${travelMap["Days"]}," +
-                                "Hotel: ${travelMap["Hotel"]}," +
-                                "Budget: ${travelMap["Budget"]}," +
-                                "ArtInterests: ${interests?.get("art")}/5," +
-                                "EntertainmentInterests: ${interests?.get("entertainment")}/5," +
-                                "NatureInterests: ${interests?.get("nature")}/5," +
-                                "PartyInterests: ${interests?.get("party")}/5," +
-                                "ShoppingInterests: ${interests?.get("shopping")}/5," +
-                                "SportInterests: ${interests?.get("sport")}/5," +
-                                "HistoryInterests: ${interests?.get("story")}/5,"
+            for (travel in travels){
+                justVisitedCities.add(travel.name!!)
+            }
+
+            val travelPrompt =  "Source: ${travelMap["Source"]}, " +
+                    "Destination: ${travelMap["Destination"]}," +
+                    "Days: ${travelMap["Days"]}," +
+                    "Hotel: ${travelMap["Hotel"]}," +
+                    "Budget: ${travelMap["Budget"]}," +
+                    "ArtInterests: ${interests?.get("art")}/10," +
+                    "EntertainmentInterests: ${interests?.get("entertainment")}/10," +
+                    "NatureInterests: ${interests?.get("nature")}/10," +
+                    "PartyInterests: ${interests?.get("party")}/10," +
+                    "ShoppingInterests: ${interests?.get("shopping")}/10," +
+                    "SportInterests: ${interests?.get("sport")}/10," +
+                    "HistoryInterests: ${interests?.get("story")}/10," +
+                    "Just visited cities: $justVisitedCities"
+
+            /*val travelPrompt = "Source: Roma, " +
+                    "Destination: generate automatic destination," +
+                    "Days: 2," +
+                    "Hotel: yes," +
+                    "Budget: economico," +
+                    "ArtInterests: 3/10," +
+                    "EntertainmentInterests: 0/10," +
+                    "NatureInterests: 1/10," +
+                    "PartyInterests: 5/10," +
+                    "ShoppingInterests: 5/10," +
+                    "SportInterests: 0/10," +
+                    "HistoryInterests: 1/10," +
+                    "Just visited cities: [Milano, New York, Sidney, Manhattan]"*/
 
             viewModelScope.launch {
-                openAIManager.preProcessTravel(travelPrompt)
+                json = openAIManager.preProcessTravel(travelPrompt)
+                val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
+
+                for (i in 0 until placesArray.length()) {
+                    val placeObject = placesArray.getJSONObject(i)
+                    val place = placeObject.get("Name")
+                    places.add(place)
+                }
+                stageImagesUrl = imagesManager.getImages(places)
             }
+
         }
         else
             isFormCompleted.value = false

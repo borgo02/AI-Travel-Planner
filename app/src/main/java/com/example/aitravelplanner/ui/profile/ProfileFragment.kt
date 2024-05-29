@@ -10,6 +10,7 @@ import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
+import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
@@ -23,7 +24,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun onReady(savedInstanceState: Bundle?) {
         val textView: TextView = binding.sharedTravels
-
         textView.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_profile_to_fragment_shared_profile)
         }
