@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/creation_navigation"
-    app:startDestination="@id/navigation_create">
+    app:startDestination="@+id/travelFormFragment">
 
 
     <fragment
-        android:id="@+id/navigation_create"
+        android:id="@+id/travelFormFragment"
+        android:name="com.example.aitravelplanner.ui.travel.TravelFormFragment"
+        android:label="fragment_travel_form"
+        tools:layout="@layout/fragment_travel_form" >
+        <action
+            android:id="@+id/action_travelFormFragment_to_travelSummaryFragment"
+            app:destination="@id/travelSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/travelSummaryFragment"
         android:name="com.example.aitravelplanner.ui.travel_summary.TravelSummaryFragment"
         android:label="TravelSummaryFragment"
         tools:layout="@layout/fragment_travel_summary"/>

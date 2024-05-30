@@ -60,7 +60,7 @@
                         android:backgroundTint="@color/lighter_lighter_blue"
                         android:padding="@dimen/edit_text_padding"
                         android:textSize="@dimen/text_font_size"
-                        android:text="@={viewmodel.sourceInput}" />
+                        android:text="@={viewmodel.sourceInput}"/>
 
                 </LinearLayout>
 
@@ -171,30 +171,6 @@
                         android:backgroundTint="@color/lighter_lighter_blue"
                         android:padding="@dimen/edit_text_padding"
                         android:text="@={viewmodel.days}"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_vertical_margin">
-
-                    <TextView
-                        android:id="@+id/hotel_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hotelText"
-                        android:textColor="@color/black"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_font_size"/>
-
-                    <CheckBox
-                        android:id="@+id/hotel_check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:textSize="@dimen/text_font_size"
-                        android:checked="@={viewmodel.isHotelChecked}"/>
                 </LinearLayout>
 
                 <TextView

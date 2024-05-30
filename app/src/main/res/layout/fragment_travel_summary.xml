@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.aitravelplanner.ui.travel_summary.TravelSummaryViewModel" />
+            type="com.example.aitravelplanner.ui.travel.TravelFormViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

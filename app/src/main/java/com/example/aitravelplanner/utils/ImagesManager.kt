@@ -11,7 +11,7 @@ import java.net.URL
 import java.net.URLEncoder
 
 class ImagesManager {
-    suspend fun getImages(places: ArrayList<Any>): ArrayList<String> {
+    suspend fun getImages(places: ArrayList<String>): ArrayList<String> {
         val urlImages: ArrayList<String> = arrayListOf()
         for (place in places) {
             urlImages.add(searchImage(place.toString().replace(" ",  "").replace("-", "")))

@@ -9,10 +9,11 @@ import com.example.aitravelplanner.databinding.FragmentTravelSummaryBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
-class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelSummaryViewModel>() {
+class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelFormViewModel>() {
     override val layoutId: Int = R.layout.fragment_travel
-    override val viewModel: TravelSummaryViewModel by viewModels()
+    override val viewModel: TravelFormViewModel by viewModels()
 
     private lateinit var stageSelectedCardRecyclerView: RecyclerView
     private lateinit var stageSelectedCardList: ArrayList<StageCard>
