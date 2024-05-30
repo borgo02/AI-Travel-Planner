@@ -16,6 +16,7 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
     override val viewModel: TravelFormViewModel by activityViewModels()
 
     override fun onReady(savedInstanceState: Bundle?) {
+
         viewModel.isActualPosition.observe(viewLifecycleOwner){it ->
             binding.sourceInput.isEnabled = !it
         }
@@ -25,8 +26,9 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
         }
 
         viewModel.isFormCompleted.observe(viewLifecycleOwner){it ->
-            if(it)
+            if(it) {
                 findNavController().navigate(R.id.action_travelFormFragment_to_travelSummaryFragment)
+            }
             else
                 Toast.makeText(requireContext(), "Inserisci tutti i campi", Toast.LENGTH_SHORT).show()
         }

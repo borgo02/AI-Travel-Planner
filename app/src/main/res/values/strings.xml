@@ -19,6 +19,7 @@
     <string name="title_shared_travels">I tuo viaggi pubblicati</string>
     <string name="title_travel">Genera viaggio</string>
     <string name="title_profile">Il tuo profilo</string>
+    <string name="title_creation">Genera il tuo viaggio</string>
     <string name="title_activity_login">login_activity</string>
     <string name="login_text">Bentornato!</string>
     <string name="stage_button_delete">Elimina tappa</string>

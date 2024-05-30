@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.BaseViewModel
-import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import javax.inject.Inject
 import com.example.aitravelplanner.utils.OpenAIManager
@@ -16,9 +15,7 @@ import org.json.JSONObject
 
 class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var budget: String = ""
-    private var _isFormCompleted = MutableLiveData<Boolean>(false)
-    val isFormCompleted: LiveData<Boolean>
-        get() = _isFormCompleted
+    var isFormCompleted = MutableLiveData<Boolean>(false)
     val sourceInput = MutableLiveData<String>("")
     val isActualPosition = MutableLiveData<Boolean>(false)
     val destinationInput = MutableLiveData<String>("")
@@ -53,7 +50,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     fun confirmClicked() {
         budget = determineBudget()
         if((sourceInput.value != "" || isActualPosition.value == true) && (destinationInput.value != "" || isAutomaticDestination.value == true) && days.value != "" && days.value!!.toInt() > 0 && budget != ""){
-            _isFormCompleted.value = true
+            isFormCompleted.value = true
             val interests = currentUser.value!!.interests as Map<String,Float>
             var json = JSONObject()
             val justVisitedCities: ArrayList<String> = arrayListOf()
@@ -123,7 +120,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
 
         }
         else
-            _isFormCompleted.value = false
+            isFormCompleted.value = false
     }
 
     init{
