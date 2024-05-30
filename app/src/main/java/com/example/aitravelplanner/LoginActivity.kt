@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartIntentSend
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.Visibility
+import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -48,6 +49,15 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
             oneTapSignIn()
+        }
+        else
+        {
+            val intent: Intent = Intent(this, MainActivity::class.java)
+            lifecycleScope.launch {
+                progressBar.visibility = View.VISIBLE
+                val dbUser = userRepo.getUserById(currentUser.uid, true);
+                handleUserInitialization(dbUser, currentUser, intent)
+            }
         }
     }
 
@@ -98,27 +108,8 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
                         val user = auth.currentUser
-                        var dbUser = userRepo.getUserById(user!!.uid, true);
-                        if (dbUser != null && dbUser.isInitialized) {
-                            //avoid interest selection
-                            val b = Bundle()
-                            b.putSerializable("user", dbUser) //Your id
-                            b.putBoolean("isInit", true) //Your id
-                            intent.putExtras(b) //Put your id to your next Intent
-                            startActivity(intent)
-                            finish()
-                        }
-                        else
-                        {
-                            //create user
-                            dbUser = com.example.aitravelplanner.data.model.User(user.uid, user.email!!, user.displayName!!, false, null, null)
-                            val b = Bundle()
-                            b.putSerializable("user", dbUser) //Your id
-                            b.putBoolean("isInit", false) //Your id
-                            intent.putExtras(b) //Put your id to your next Intent
-                            startActivity(intent)
-                            finish()
-                        }
+                        val dbUser = userRepo.getUserById(user!!.uid, true);
+                        handleUserInitialization(dbUser, user, intent)
                     }
 
                 } else {
@@ -127,9 +118,34 @@ class LoginActivity : AppCompatActivity() {
                     val rootView: View = findViewById(android.R.id.content)
                     Snackbar.make(rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                 }
-
-                progressBar.visibility = View.GONE
             }
+    }
+
+    private fun handleUserInitialization(dbUser: User?, user: FirebaseUser, intent: Intent)
+    {
+        if (dbUser != null && dbUser.isInitialized) {
+            //avoid interest selection
+            val b = Bundle()
+            b.putSerializable("user", dbUser) //Your id
+            b.putBoolean("isInit", true) //Your id
+            intent.putExtras(b) //Put your id to your next Intent
+            progressBar.visibility = View.GONE
+            startActivity(intent)
+            finish()
+
+        }
+        else
+        {
+            //create user
+            val newUser = User(user.uid, user.email!!, user.displayName!!, false, null, null)
+            val b = Bundle()
+            b.putSerializable("user", newUser) //Your id
+            b.putBoolean("isInit", false) //Your id
+            intent.putExtras(b) //Put your id to your next Intent
+            progressBar.visibility = View.GONE
+            startActivity(intent)
+            finish()
+        }
     }
 
     public fun signIn(view: View) {
