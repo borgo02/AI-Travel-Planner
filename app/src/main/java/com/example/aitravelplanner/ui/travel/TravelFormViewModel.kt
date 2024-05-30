@@ -67,7 +67,6 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             val travelPrompt =  "Source: ${travelMap["Source"]}, " +
                     "Destination: ${travelMap["Destination"]}," +
                     "Days: ${travelMap["Days"]}," +
-                    "Hotel: ${travelMap["Hotel"]}," +
                     "Budget: ${travelMap["Budget"]}," +
                     "ArtInterests: ${interests?.get("art")}/10," +
                     "EntertainmentInterests: ${interests?.get("entertainment")}/10," +

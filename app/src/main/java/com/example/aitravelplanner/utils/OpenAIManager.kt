@@ -18,12 +18,11 @@ class OpenAIManager {
             1. Source position
             2. Destination
             3. Number of days
-            4. Hotel preference
-            5. Budget
-            6. Interests
-            7. Cities already visited
+            4. Budget
+            5. Interests
+            6. Cities already visited
             Generate a JSON (in according to the given user's information and preferences) with:
-            1. City to visit (destination)
+            1. City to visit (if destination is set to 'generate automatic destination')
             2. A brief description of the city and the itinerary
             3. List of places to visit in that city
             4. A brief description of each place 
