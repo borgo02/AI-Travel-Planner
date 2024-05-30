@@ -55,6 +55,7 @@ class OpenAIManager {
                 } else {
                     val choices = jsonResponse.getJSONArray("choices")
                     val message = choices.getJSONObject(0).getJSONObject("message")
+                    Log.e("message", message.getString("content"))
                     JSONObject(message.getString("content"))
                 }
             } ?: JSONObject().put("error", "No response from server")

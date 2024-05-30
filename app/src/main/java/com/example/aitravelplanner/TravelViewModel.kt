@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
-    protected val travelRepository: TravelRepository = TravelRepository()
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
 

@@ -171,7 +171,8 @@
                         android:paddingEnd="10dp"
                         android:scaleX="1.5"
                         android:scaleY="1.5"
-                        app:trackTint="@drawable/track_color_selector" />
+                        app:trackTint="@drawable/track_color_selector"
+                        android:checked="@={viewmodel.isAutomaticDestination}"/>
 
                 </LinearLayout>
 

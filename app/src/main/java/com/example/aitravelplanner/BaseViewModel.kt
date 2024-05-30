@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.aitravelplanner.data.model.NavigationCommand
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.utils.Event
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 public open class BaseViewModel @Inject constructor() : ViewModel() {
     val userRepository = UserRepository.getInstance()
+    val travelRepository = TravelRepository()
     val currentUser: LiveData<User>
         get() {
             val userLive = MutableLiveData<User>()
