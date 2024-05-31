@@ -26,7 +26,7 @@ class OpenAIManager {
             2. A brief description of the city and the itinerary
             3. List of places to visit in that city
             4. A brief description of each place 
-            Avoid destination in cities already visited. The key of the JSON must be:
+            If the destination is set to 'generate automatic destination', you have to avoid destination in cities already visited. The key of the JSON must be:
             1. "City to visit" for the name of the city destination
             2. "Description" for the city description
             3. "Itinerary" for the itinerary description

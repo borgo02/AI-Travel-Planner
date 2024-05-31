@@ -57,6 +57,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var description: String =""
 
     fun confirmClicked() {
+        hasJsonError.value = false
         budget = determineBudget()
         if((sourceInput.value != "" || isActualPosition.value == true) && (destinationInput.value != "" || isAutomaticDestination.value == true) && days.value != "" && days.value!!.toInt() > 0 && budget != ""){
             isFormCompleted.value = true
