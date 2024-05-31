@@ -53,8 +53,8 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
         val doc = travelsCollectionReference.document(idTravel).get().await()
         return if (doc.exists()) {
-            val idUserReferencePath = doc.getDocumentReference("idUser")?.path
-            val idUserRef = idUserReferencePath?.substringAfterLast("/")
+            //val idUserReferencePath = doc.getDocumentReference("idUser")?.path
+            //val idUserRef = idUserReferencePath?.substringAfterLast("/")
             val info = doc.getString("info")
             val name = doc.getString("name")
             val isShared = doc.getBoolean("isShared")
@@ -63,7 +63,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             val timestamp = doc.getTimestamp("timestamp")?.toDate()
             val isLiked = this.isTravelLikedByUser(idTravel, idUser)
             val stages = this.getStagesByTravel(idTravel)
-            Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
+            Travel(idTravel, idUser, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
             null
     }
@@ -98,18 +98,16 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     }
 
     private suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
-        return true;
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){
-            val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
-            val idTravelDoc = idTravelReferencePath.substringAfterLast("/")
+            //val idTravelReferencePath = like.getDocumentReference("idTravel")!!.path
+            val idTravelDoc = like.get("idTravel")
             if(idTravelDoc == idTravel) {
                 isTravelLiked = true
                 break
             }
         }
-
         return isTravelLiked
     }
 }

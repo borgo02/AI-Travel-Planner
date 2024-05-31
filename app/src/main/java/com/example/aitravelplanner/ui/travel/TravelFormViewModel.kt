@@ -1,6 +1,7 @@
 package com.example.aitravelplanner.ui.travel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ import java.util.Date
 
 class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var budget: String = ""
+    var hasJsonError = MutableLiveData<Boolean>(false)
     var isFormCompleted = MutableLiveData<Boolean>(false)
     val sourceInput = MutableLiveData<String>("")
     val isActualPosition = MutableLiveData<Boolean>(false)
@@ -80,11 +82,10 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             )
 
             viewModelScope.launch {
-                for (travel in userRepository.getTravelsByUser(currentUser.value!!.idUser)){
+                for (travel in userRepository.getTravelsByUser(currentUser.value!!.idUser))
                     justVisitedCities.add(travel.name!!)
-                }
 
-                val travelPrompt =  "Source: ${travelMap["Source"]}, " +
+                val travelPrompt = "Source: ${travelMap["Source"]}, " +
                         "Destination: ${travelMap["Destination"]}," +
                         "Days: ${travelMap["Days"]}," +
                         "Budget: ${travelMap["Budget"]}," +
@@ -97,63 +98,59 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         "HistoryInterests: ${interests["story"]}," +
                         "Just visited cities: $justVisitedCities"
 
-                Log.v("json output", travelPrompt)
                 json = openAIManager.preProcessTravel(travelPrompt)
-                Log.v("json output", json.toString())
-                val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
+                if (!json.has("error")) {
+                    hasJsonError.value = false
+                    val placesArray =
+                        json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
 
-                _travelName.value = json.getString("City to visit")
-                description = description + json.getString("Description")
-                description = description + json.getString("Itinerary")
-                var names = arrayListOf<String>()
-                names.add(_travelName.value!!)
-                for (i in 0 until placesArray.length()) {
-                    val placeObject = placesArray.getJSONObject(i)
-                    val place = placeObject.getString("Name")
-                    val description = placeObject.getString("Description")
-                    stageDescriptions.add(description)
-                    names.add(place)
-                    stageSelectedNameList.add(place)
+                    _travelName.value = json.getString("City to visit")
+                    description += json.getString("Description")
+                    description += json.getString("Itinerary")
+                    var names = arrayListOf<String>()
+                    names.add(_travelName.value!!)
+
+                    for (i in 0 until placesArray.length()) {
+                        val placeObject = placesArray.getJSONObject(i)
+                        val place = placeObject.getString("Name")
+                        val description = placeObject.getString("Description")
+                        stageDescriptions.add(description)
+                        names.add(place)
+                        stageSelectedNameList.add(place)
+                    }
+
+                    stageImagesUrl = imagesManager.getImages(names)
+
+                    for (stageDescription in stageDescriptions)
+                        description += stageDescription
+
+                    for (i in 0 until stageImagesUrl.size) {
+                        if (i == 0) {
+                            stageSelectedAffinityList.add(100)
+                            continue
+                        }
+                        stageSelectedAffinityList.add(100)
+                        stageSelectedImageList.add(stageImagesUrl[i])
+                    }
+
+                    /*for(i in 0 until stageImagesUrl.size)
+                    stageSelectedAffinityList.add(100)*/
+
+                    setStageCards(
+                        stageCardList = _stageSelectedCardList.value!!,
+                        stageNameList = stageSelectedNameList,
+                        stageImageList = stageSelectedImageList,
+                        stageAffinityList = stageSelectedAffinityList,
+                        isSelected = true
+                    )
                 }
-                stageImagesUrl = imagesManager.getImages(names)
-                Log.e("immagini", stageImagesUrl.toString())
-
-
-
-                for(stageDescription in stageDescriptions)
-                    description = description + stageDescription
-
-                for (i in 1 until stageImagesUrl.size){
-                    stageSelectedImageList.add(stageImagesUrl[i])
-                }
-
-                for(i in 0 until stageImagesUrl.size)
-                {
-                    stageSelectedAffinityList.add(100)
-                }
-
-                setStageCards(stageCardList = _stageSelectedCardList.value!!, stageNameList = stageSelectedNameList, stageImageList = stageSelectedImageList, stageAffinityList = stageSelectedAffinityList, isSelected = true)
+                else
+                    hasJsonError.value = true
             }
-
-            /*val travelPrompt = "Source: Roma, " +
-                    "Destination: generate automatic destination," +
-                    "Days: 2," +
-                    "Hotel: yes," +
-                    "Budget: economico," +
-                    "ArtInterests: 3/10," +
-                    "EntertainmentInterests: 0/10," +
-                    "NatureInterests: 1/10," +
-                    "PartyInterests: 5/10," +
-                    "ShoppingInterests: 5/10," +
-                    "SportInterests: 0/10," +
-                    "HistoryInterests: 1/10," +
-                    "Just visited cities: [Milano, New York, Sidney, Manhattan]"*/
-
         }
         else
             isFormCompleted.value = false
     }
-
 
     private fun determineBudget(): String {
         return when {
@@ -188,7 +185,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun searchedClicked(){
-        if (searchText.value == "Colosseo") {
+        if(searchText.value == "Colosseo") {
             _stageSearchedCardList.value = arrayListOf<StageCard>()
             stageSearchedNameList = arrayListOf<String>()
             stageSearchedImageList = arrayListOf<String>()
@@ -225,12 +222,9 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         else {
             _stageSearchedCardList.value = arrayListOf<StageCard>()
         }
-
-
     }
 
-    fun savedClicked()
-    {
+    fun savedClicked(){
         val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
         viewModelScope.launch { travelRepository.setTravel(travel) }
     }
