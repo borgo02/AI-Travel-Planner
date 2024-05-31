@@ -35,11 +35,17 @@ class ImagesManager {
                     val response = reader.readText()
                     try {
                         val jsonObject = JSONObject(response)
-                        val itemsArray = jsonObject.getJSONArray("items")
-                        if (itemsArray.length() > 0) {
-                            val item = itemsArray.getJSONObject(0)
-                            item.getString("link")
+                        Log.e("ImagesManager", jsonObject.toString())
+                        if (jsonObject.has("items")) {
+                            val itemsArray = jsonObject.getJSONArray("items")
+                            if (itemsArray.length() > 0) {
+                                val item = itemsArray.getJSONObject(0)
+                                item.getString("link")
+                            } else {
+                                ""
+                            }
                         } else {
+                            Log.e("ImagesManager", "No items found in the response.")
                             ""
                         }
                     } catch (e: Exception) {
@@ -48,6 +54,7 @@ class ImagesManager {
                     }
                 }
             } else {
+                Log.e("ImagesManager", "HTTP error code: $responseCode")
                 ""
             }
         } catch (e: Exception) {

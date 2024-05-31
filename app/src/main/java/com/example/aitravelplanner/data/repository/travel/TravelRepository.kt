@@ -98,7 +98,6 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     }
 
     private suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
-        return true;
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){

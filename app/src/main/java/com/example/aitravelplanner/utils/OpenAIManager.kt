@@ -22,11 +22,17 @@ class OpenAIManager {
             5. Interests
             6. Cities already visited
             Generate a JSON (in according to the given user's information and preferences) with:
-            1. City to visit (if destination is set to 'generate automatic destination')
+            1. City to visit (if destination is set to 'generate automatic destination' you have to generate an automatic destination, otherwise the destination is chosen by the user)
             2. A brief description of the city and the itinerary
             3. List of places to visit in that city
             4. A brief description of each place 
-            Avoid destination in cities already visited.
+            Avoid destination in cities already visited. The key of the JSON must be:
+            1. "City to visit" for the name of the city destination
+            2. "Description" for the city description
+            3. "Itinerary" for the itinerary description
+            4. "Places to visit" for the list of places to visit in that city
+            5. "Place" for the place name
+            6. "Description" for the place description
         """.trimIndent()
 
         val url = URL("https://api.openai.com/v1/chat/completions")
@@ -55,8 +61,14 @@ class OpenAIManager {
                 } else {
                     val choices = jsonResponse.getJSONArray("choices")
                     val message = choices.getJSONObject(0).getJSONObject("message")
-                    Log.e("message", message.getString("content"))
-                    JSONObject(message.getString("content"))
+                    try {
+                        Log.e("OpenAIManager", "${JSONObject(message.getString("content"))}")
+                        JSONObject(message.getString("content"))
+                    }
+                    catch(e: Exception){
+                        Log.e("OpenAIManager", "Error converting String to JSONObject: ${e.message}", e)
+                        JSONObject().put("error", e.message)
+                    }
                 }
             } ?: JSONObject().put("error", "No response from server")
         } catch (e: Exception) {
