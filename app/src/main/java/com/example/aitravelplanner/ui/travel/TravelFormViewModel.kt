@@ -183,16 +183,18 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun searchedClicked(){
-        // Si potrebbe pensare di fare una ricerca delle tappe presenti nel db relative alla città che è stata generata.
-
-        if (searchText.value == "Colosseo") {
+        viewModelScope.launch{
+            val filteredStages: ArrayList<Stage> = travelRepository.getFilteredStagesByCity(searchText.value!!, travelName.value!!)
             _stageSearchedCardList.value = arrayListOf<StageCard>()
             stageSearchedNameList = arrayListOf<String>()
             stageSearchedImageList = arrayListOf<String>()
             stageSearchedAffinityList = arrayListOf<Int>()
-            stageSearchedNameList.add("Colosseo")
-            stageSearchedImageList.add("https://colosseo.it/sito/wp-content/uploads/2023/05/Colosseo_restauro_30-maggio_veduta-dallalto-scaled.jpg")
-            stageSearchedAffinityList.add(100)
+
+            for(stage in filteredStages){
+                stageSearchedNameList.add(stage.name)
+                stageSearchedImageList.add(stage.imageUrl)
+                stageSearchedAffinityList.add(100)
+            }
 
             setStageCards(
                 stageCardList = _stageSearchedCardList.value!!,
@@ -202,25 +204,6 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 isSelected = false
             )
         }
-        else if(searchText.value == "San Pietro"){
-            _stageSearchedCardList.value = arrayListOf<StageCard>()
-            stageSearchedNameList = arrayListOf<String>()
-            stageSearchedImageList = arrayListOf<String>()
-            stageSearchedAffinityList = arrayListOf<Int>()
-            stageSearchedNameList.add("San Pietro")
-            stageSearchedImageList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg/1200px-Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg")
-            stageSearchedAffinityList.add(100)
-
-            setStageCards(
-                stageCardList = _stageSearchedCardList.value!!,
-                stageNameList = stageSearchedNameList,
-                stageImageList = stageSearchedImageList,
-                stageAffinityList = stageSearchedAffinityList,
-                isSelected = false
-            )
-        }
-        else
-            _stageSearchedCardList.value = arrayListOf<StageCard>()
     }
 
     fun savedClicked() {
