@@ -26,7 +26,6 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
             }
         })
     }
-
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
             val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/")) }!!

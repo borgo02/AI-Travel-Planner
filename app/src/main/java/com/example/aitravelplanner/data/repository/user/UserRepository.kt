@@ -178,7 +178,6 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             val likeItem = Likes(idLike, travelRef, timestamp)
             likesList.add(likeItem)
         }
-
         return likesList
     }
 

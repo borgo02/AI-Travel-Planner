@@ -127,12 +127,12 @@ class LoginActivity : AppCompatActivity() {
             //avoid interest selection
             val b = Bundle()
             b.putSerializable("user", dbUser) //Your id
+            dbUser.likedTravels!!.clear()
             b.putBoolean("isInit", true) //Your id
             intent.putExtras(b) //Put your id to your next Intent
             progressBar.visibility = View.GONE
             startActivity(intent)
             finish()
-
         }
         else
         {

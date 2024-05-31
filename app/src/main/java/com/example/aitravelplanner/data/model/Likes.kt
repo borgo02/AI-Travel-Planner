@@ -10,4 +10,4 @@ data class Likes(
     @DocumentId var idLike: String?,
     @PropertyName("idTravel") var idTravel: DocumentReference,
     @PropertyName("timestamp") var timestamp: Date?
-):Serializable
+) : Serializable
