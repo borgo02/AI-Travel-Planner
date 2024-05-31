@@ -26,13 +26,7 @@ class OpenAIManager {
             2. A brief description of the city and the itinerary
             3. List of places to visit in that city
             4. A brief description of each place 
-            Avoid destination in cities already visited and the key of the JSON must be:
-            1. "City to visit" for the city destination 
-            2. "Description" for the city description
-            3. "Itinerary" for the description of the itinerary
-            4. "Places to visit" for the array of places to visit
-            5. "Name" for the name of the place
-            6. "Description" for the place description
+            Avoid destination in cities already visited.
         """.trimIndent()
 
         val url = URL("https://api.openai.com/v1/chat/completions")
@@ -62,12 +56,7 @@ class OpenAIManager {
                     val choices = jsonResponse.getJSONArray("choices")
                     val message = choices.getJSONObject(0).getJSONObject("message")
                     Log.e("message", message.getString("content"))
-                    try {
-                        JSONObject(message.getString("content"))
-                    }
-                    catch(e: Exception){
-                        JSONObject().put("error", e.message)
-                    }
+                    JSONObject(message.getString("content"))
                 }
             } ?: JSONObject().put("error", "No response from server")
         } catch (e: Exception) {

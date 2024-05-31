@@ -2,6 +2,7 @@ package com.example.aitravelplanner.data.model
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
+import com.google.firebase.Timestamp
 import java.util.Date
 
 data class Travel(
