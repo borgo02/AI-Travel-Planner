@@ -118,7 +118,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         names.add(place)
                         stageSelectedNameList.add(place)
                     }
-                    Log.d("OpenAIManage", names.toString())
+
                     stageImagesUrl = imagesManager.getImages(names)
 
                     for (stageDescription in stageDescriptions)
@@ -183,7 +183,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun searchedClicked(){
-        // Si potrebbe pensare di fare una ricerca delle tappe presenti nel db relative all città che è stata generata.
+        // Si potrebbe pensare di fare una ricerca delle tappe presenti nel db relative alla città che è stata generata.
 
         if (searchText.value == "Colosseo") {
             _stageSearchedCardList.value = arrayListOf<StageCard>()
@@ -224,7 +224,10 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun savedClicked() {
-        val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
-        viewModelScope.launch { travelRepository.setTravel(travel) }
+        viewModelScope.launch {
+            val userRef = userRepository.getUserReference(currentUser.value!!.idUser)
+            val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
+            travelRepository.setTravel(travel)
+        }
     }
 }

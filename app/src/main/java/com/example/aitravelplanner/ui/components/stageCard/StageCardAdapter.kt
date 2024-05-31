@@ -35,7 +35,10 @@ class StageCardAdapter(private val data: MutableList<StageCard>, private val cal
         holder.deleteStageButton.visibility = if (stageData.isSelected) View.VISIBLE else View.GONE
         holder.affinityPercentage.text = stageData.stageAffinity.toString()
         holder.stageName.text = stageData.stageName
-        holder.stageImage.setURL(stageData.stageImage)
+        if(stageData.stageImage != "")
+            holder.stageImage.setURL(stageData.stageImage)
+        else
+            holder.stageImage.setImageResource(R.mipmap.ic_image_not_found)
         holder.deleteStageButton.setOnClickListener {callback(stageData)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, itemCount)}

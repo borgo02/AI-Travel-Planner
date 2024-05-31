@@ -3,10 +3,13 @@ package com.example.aitravelplanner.data.repository.user
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.google.firebase.firestore.DocumentReference
 
 interface IUserRepository {
     //Get current User
     fun getUser(): User?
+    // Get the user document reference
+    suspend fun getUserReference(idUser: String): DocumentReference
     //Update current user
     fun updateUser(newUser: User)
     // Add a user into the Firestore database, under "users" collection

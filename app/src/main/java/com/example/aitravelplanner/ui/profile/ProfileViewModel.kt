@@ -2,11 +2,13 @@ package com.example.aitravelplanner.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor() : TravelViewModel() {
@@ -43,8 +45,8 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         _sharedTravelList.value?.add(cardTravel)
         _sharedTravelList.notifyObserver()
 
-        executeWithLoadingSuspend(block = {
+        viewModelScope.launch {
             travelRepository.setTravelToShared(cardTravel.travelId)
-        })
+        }
     }
 }

@@ -34,7 +34,7 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
         }
 
         viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
-            if(!it)
+            if(it)
                 Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
         }
     }

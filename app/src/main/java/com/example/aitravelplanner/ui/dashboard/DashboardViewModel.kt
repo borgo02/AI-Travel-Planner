@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.data.model.Travel
@@ -28,7 +29,7 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
 
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
-            val userTravel: User = userRepository.getUserById(travel.idUser!!)!!
+            val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/")) }!!
             val stageCardList = arrayListOf<StageCard>()
             for (stage in travel.stageList!!){
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))

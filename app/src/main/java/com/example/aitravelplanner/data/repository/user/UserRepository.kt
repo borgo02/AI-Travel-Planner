@@ -9,6 +9,7 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,6 +27,10 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
 
     override fun getUser(): User? {
         return currentUser
+    }
+
+    override suspend fun getUserReference(idUser: String): DocumentReference{
+        return usersCollectionRef.document(idUser)
     }
 
     override fun updateUser(newUser: User) {
