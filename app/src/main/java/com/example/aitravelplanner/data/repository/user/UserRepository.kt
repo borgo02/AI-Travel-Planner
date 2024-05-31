@@ -53,7 +53,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
                 val snapshot = transaction.get(travelRef)
                 val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
                 transaction.update(travelRef, "numberOfLikes", newLikesValue)
-                likedTravelsRef.add(like)
+                likedTravelsRef.document().set(like)
             }.await()
         }else{
             val likes = likedTravelsRef.get().await()

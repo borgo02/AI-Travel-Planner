@@ -33,7 +33,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
 
         MainScope().launch{
-            userRepository.updateLikedTravelByUser(cardTravel.userId,cardTravel.travelId,cardTravel.isLiked)
+            userRepository.updateLikedTravelByUser(currentUser.value!!.idUser,cardTravel.travelId,cardTravel.isLiked)
         }
 
         return cardTravel.isLiked

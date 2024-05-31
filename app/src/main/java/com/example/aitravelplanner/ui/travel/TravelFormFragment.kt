@@ -19,10 +19,12 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
 
         viewModel.isActualPosition.observe(viewLifecycleOwner){it ->
             binding.sourceInput.isEnabled = !it
+            viewModel.sourceInput.value = ""
         }
 
         viewModel.isAutomaticDestination.observe(viewLifecycleOwner){it ->
             binding.destInput.isEnabled = !it
+            viewModel.destinationInput.value = ""
         }
 
         viewModel.isFormCompleted.observe(viewLifecycleOwner){it ->

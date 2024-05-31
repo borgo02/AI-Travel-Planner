@@ -69,7 +69,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     }
 
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
-        var isLiked = false
+        var isLiked: Boolean
         val doc = travelsCollectionReference.document(idTravel).get().await()
         return if (doc.exists()) {
             val idUserRef = doc.getDocumentReference("idUser")
@@ -81,6 +81,8 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             val timestamp = doc.getTimestamp("timestamp")?.toDate()
             if(idUser != "")
                 isLiked = this.isTravelLikedByUser(idTravel, idUser)
+            else
+                isLiked = false
             val stages = this.getStagesByTravel(idTravel)
             Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
