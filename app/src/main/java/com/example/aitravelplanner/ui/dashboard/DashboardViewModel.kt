@@ -33,7 +33,7 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
             for (stage in travel.stageList!!){
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
             }
-            _cardsList.value?.add(CardTravel(username = userTravel.fullname, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = userTravel.idUser, travelId = travel.idTravel!! ))
+            _cardsList.value?.add(CardTravel(username = userTravel.fullname, userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = userTravel.idUser, travelId = travel.idTravel!! ))
         }
         _searchedCardsList.value!!.addAll(_cardsList.value!!)
         _searchedCardsList.notifyObserver()

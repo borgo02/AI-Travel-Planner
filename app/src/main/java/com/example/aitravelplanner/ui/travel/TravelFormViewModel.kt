@@ -28,6 +28,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     val isSmallBudget = MutableLiveData<Boolean>(false)
     val isMediumBudget = MutableLiveData<Boolean>(false)
     val isLargeBudget = MutableLiveData<Boolean>(false)
+    val isTravelCreated = MutableLiveData<Boolean>(false)
 
     private val openAIManager = OpenAIManager()
     private val imagesManager = ImagesManager()
@@ -40,7 +41,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     val travelName: LiveData<String>
         get() = _travelName
 
-    val stageList:ArrayList<Stage> = arrayListOf()
+    var stageList:ArrayList<Stage> = arrayListOf()
     val stageSelectedCardList: LiveData<ArrayList<StageCard>>
         get() = _stageSelectedCardList
     val stageSearchedCardList: LiveData<ArrayList<StageCard>>
@@ -53,7 +54,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var stageSelectedNameList: ArrayList<String> = arrayListOf()
     private var stageSelectedImageList: ArrayList<String> = arrayListOf()
     private var stageSelectedAffinityList: ArrayList<Int> = arrayListOf()
-    private val stageDescriptions = arrayListOf<String>()
+    private var stageDescriptions = arrayListOf<String>()
     private var description: String =""
 
     fun confirmClicked() {
@@ -140,6 +141,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         stageAffinityList = stageSelectedAffinityList,
                         isSelected = true
                     )
+                    _stageSelectedCardList.notifyObserver()
                 }
                 else
                     hasJsonError.value = true
@@ -161,12 +163,9 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
 
     private fun setStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean){
         for( i in (stageNameList.indices)){
-            val stage = Stage(idStage = null, name = stageNameList[i], imageUrl = stageImageList[i], city= travelName.value!!, description= stageDescriptions[i], position = i+1)
             val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i],isSearched = !(isSelected), isSelected = isSelected)
             stageCardList.add(stageCard)
-            stageList.add(stage)
         }
-        _stageSelectedCardList.notifyObserver()
     }
 
     fun deleteStage(stageCard: StageCard){
@@ -203,14 +202,55 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 stageAffinityList = stageSearchedAffinityList,
                 isSelected = false
             )
+            _stageSearchedCardList.notifyObserver()
         }
     }
 
     fun savedClicked() {
         viewModelScope.launch {
+            var i = 1
+            for(stagCard in stageSelectedCardList.value!!){
+                val stage = Stage(idStage = null, name = stagCard.stageName, imageUrl = stagCard.stageImage, city= travelName.value!!, description= stagCard.stageName, position = i)
+                stageList.add(stage)
+                i +=1
+            }
+
             val userRef = userRepository.getUserReference(currentUser.value!!.idUser)
             val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
+            isTravelCreated.value = true
+            isTravelCreated.value = false
+            isFormCompleted.value = false
+            budget = ""
+            hasJsonError.value = false
+            isFormCompleted.value = false
+            sourceInput.value = ""
+            isActualPosition.value = false
+            destinationInput.value =""
+            isAutomaticDestination.value = false
+            days.value = "0"
+            isSmallBudget.value = false
+            isMediumBudget.value = false
+            isLargeBudget.value = false
+            isTravelCreated.value = false
+
+            _travelName.value = ""
+            _stageSelectedCardList.value = arrayListOf<StageCard>()
+            _stageSearchedCardList.value = arrayListOf<StageCard>()
+            searchText.value = ""
+
+
+
+            stageList = arrayListOf()
+            stageImagesUrl = arrayListOf()
+            stageSearchedNameList = arrayListOf()
+            stageSearchedImageList = arrayListOf()
+            stageSearchedAffinityList = arrayListOf()
+            stageSelectedNameList = arrayListOf()
+            stageSelectedImageList = arrayListOf()
+            stageSelectedAffinityList = arrayListOf()
+            stageDescriptions = arrayListOf<String>()
+            description = ""
         }
     }
 }

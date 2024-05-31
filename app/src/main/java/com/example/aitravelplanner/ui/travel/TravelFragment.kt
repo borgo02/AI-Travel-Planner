@@ -46,6 +46,8 @@ class TravelFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.likesIcon
 
+        binding.userImage.setURL(viewModel.selectedTravel.value!!.userImage)
+
         val toolbar = binding.travelTopBar
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack() // Pop this fragment from back stack
@@ -57,7 +59,10 @@ class TravelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.selectedTravel.observe(viewLifecycleOwner){newValue ->
-            binding.travelImage.setURL(newValue.travelImage)
+            if (newValue.travelImage== "")
+                binding.travelImage.setImageResource(R.mipmap.ic_image_not_found)
+            else
+                binding.travelImage.setURL(newValue.travelImage)
             stageCardRecyclerView = binding.stageTravelRecyclerView
             stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageCardRecyclerView.setHasFixedSize(true)

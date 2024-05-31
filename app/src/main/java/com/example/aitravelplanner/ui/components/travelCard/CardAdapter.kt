@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.ui.components.travelCard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,10 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
         val currentCard = cards[position]
 
         holder.username.text = currentCard.username
-        holder.travelImage.setURL(currentCard.travelImage)
+        if(currentCard.travelImage == "")
+            holder.travelImage.setImageResource(R.mipmap.ic_image_not_found)
+        else
+            holder.travelImage.setURL(currentCard.travelImage)
         holder.userImage.setURL(currentCard.userImage)
         holder.travelName.text = currentCard.travelName
 

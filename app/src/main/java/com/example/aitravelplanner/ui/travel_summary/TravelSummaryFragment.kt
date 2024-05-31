@@ -50,5 +50,11 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
 
             stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, viewModel::addStage)
         }
+
+        viewModel.isTravelCreated.observe(viewLifecycleOwner){newValue: Boolean ->
+            if(newValue){
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
     }
 }
