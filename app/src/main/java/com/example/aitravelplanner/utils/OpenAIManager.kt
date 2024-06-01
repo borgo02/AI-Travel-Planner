@@ -10,30 +10,54 @@ import java.net.URL
 
 class OpenAIManager {
 
+    private var systemPrompt: String = ""
     private val apiKey = "sk-proj-TN1VtdJdvoAktmWubUDPT3BlbkFJz4cu4afqhqZXo7hdg7VJ"
 
-    suspend fun preProcessTravel(travel: String): JSONObject {
-        val systemPrompt = """
-            You are a travel planner. The user provides details for a trip:
-            1. Source position
-            2. Destination
-            3. Number of days
-            4. Budget
-            5. Interests
-            6. Cities already visited
-            Generate a JSON (in according to the given user's information and preferences) with:
-            1. City to visit (if destination is set to 'generate automatic destination' you have to generate an automatic destination, otherwise the destination is chosen by the user)
-            2. A brief description of the city and the itinerary
-            3. List of places to visit in that city
-            4. A brief description of each place 
-            If the destination is set to 'generate automatic destination', you have to avoid destination in cities already visited. The key of the JSON must be:
-            1. "City to visit" for the name of the city destination
-            2. "Description" for the city description
-            3. "Itinerary" for the itinerary description
-            4. "Places to visit" for the list of places to visit in that city
-            5. "Place" for the place name
-            6. "Description" for the place description
-        """.trimIndent()
+    suspend fun preProcessTravel(travel: String, isAutomaticDestination: Boolean): JSONObject {
+        if(isAutomaticDestination)
+            systemPrompt = """
+                You are a travel planner. The user provides details for a trip:
+                1. Source position
+                2. Destination
+                3. Number of days
+                4. Budget
+                5. Interests
+                6. Cities already visited
+                Generate a JSON (in according to the given user's information and preferences) with:
+                1. City to visit (if destination is set to 'generate automatic destination' you have to generate an automatic destination)
+                2. A brief description of the city and the itinerary
+                3. List of places to visit in that city
+                4. A brief description of each place 
+                You have to avoid destination in cities already visited. The key of the JSON must be:
+                1. "City to visit" for the name of the city destination
+                2. "Description" for the city description
+                3. "Itinerary" for the itinerary description
+                4. "Places to visit" for the list of places to visit in that city
+                5. "Place" for the place name
+                6. "Description" for the place description
+            """.trimIndent()
+        else
+            systemPrompt = """
+                You are a travel planner. The user provides details for a trip:
+                1. Source position
+                2. Destination
+                3. Number of days
+                4. Budget
+                5. Interests
+                6. Cities already visited
+                Generate a JSON (in according to the given user's information and preferences) with:
+                1. City to visit (is equal to destination the user gave you)
+                2. A brief description of the city and the itinerary
+                3. List of places to visit in that city
+                4. A brief description of each place 
+                The key of the JSON must be:
+                1. "City to visit" for the name of the city destination (the same the user gave you)
+                2. "Description" for the city description
+                3. "Itinerary" for the itinerary description
+                4. "Places to visit" for the list of places to visit in that city
+                5. "Place" for the place name
+                6. "Description" for the place description
+            """.trimIndent()
 
         val url = URL("https://api.openai.com/v1/chat/completions")
         val headers = mapOf(
@@ -67,6 +91,7 @@ class OpenAIManager {
                     }
                     catch(e: Exception){
                         Log.e("OpenAIManager", "Error converting String to JSONObject: ${e.message}", e)
+                        Log.e("OpenAIManager", "Value ```json: ${message.getString("content")}")
                         JSONObject().put("error", e.message)
                     }
                 }

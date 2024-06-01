@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aitravelplanner.BaseViewModel
-import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.utils.notifyObserver
 import javax.inject.Inject
@@ -37,7 +36,6 @@ class TravelSummaryViewModel @Inject constructor() : BaseViewModel() {
     }
 
     init{
-
         _travelName.value = "Roma"
         stageSelectedNameList.add("Colosseo")
         stageSelectedImageList.add("https://colosseo.it/sito/wp-content/uploads/2023/05/Colosseo_restauro_30-maggio_veduta-dallalto-scaled.jpg")
@@ -98,18 +96,9 @@ class TravelSummaryViewModel @Inject constructor() : BaseViewModel() {
                 isSelected = false
             )
         }
-        else {
+        else
             _stageSearchedCardList.value = arrayListOf<StageCard>()
-        }
-
-
     }
-
-    fun savedClicked()
-    {
-
-    }
-
 }
 
 

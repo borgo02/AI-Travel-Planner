@@ -101,7 +101,11 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         "HistoryInterests: ${interests["story"]}," +
                         "Just visited cities: $justVisitedCities"
 
-                json = openAIManager.preProcessTravel(travelPrompt)
+                json = if(travelMap["Destination"] == "generate automatic destination")
+                    openAIManager.preProcessTravel(travelPrompt, true)
+                else
+                    openAIManager.preProcessTravel(travelPrompt, false)
+
                 if (!json.has("error")) {
                     hasJsonError.value = false
                     val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
@@ -219,38 +223,40 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
-            isTravelCreated.value = false
-            isFormCompleted.value = false
-            budget = ""
-            hasJsonError.value = false
-            isFormCompleted.value = false
-            sourceInput.value = ""
-            isActualPosition.value = false
-            destinationInput.value =""
-            isAutomaticDestination.value = false
-            days.value = "0"
-            isSmallBudget.value = false
-            isMediumBudget.value = false
-            isLargeBudget.value = false
-            isTravelCreated.value = false
-
-            _travelName.value = ""
-            _stageSelectedCardList.value = arrayListOf<StageCard>()
-            _stageSearchedCardList.value = arrayListOf<StageCard>()
-            searchText.value = ""
-
-
-
-            stageList = arrayListOf()
-            stageImagesUrl = arrayListOf()
-            stageSearchedNameList = arrayListOf()
-            stageSearchedImageList = arrayListOf()
-            stageSearchedAffinityList = arrayListOf()
-            stageSelectedNameList = arrayListOf()
-            stageSelectedImageList = arrayListOf()
-            stageSelectedAffinityList = arrayListOf()
-            stageDescriptions = arrayListOf<String>()
-            description = ""
+            clearViewModel()
         }
+    }
+
+    fun clearViewModel(){
+        isTravelCreated.value = false
+        isFormCompleted.value = false
+        budget = ""
+        hasJsonError.value = false
+        isFormCompleted.value = false
+        sourceInput.value = ""
+        isActualPosition.value = false
+        destinationInput.value =""
+        isAutomaticDestination.value = false
+        days.value = "0"
+        isSmallBudget.value = false
+        isMediumBudget.value = false
+        isLargeBudget.value = false
+        isTravelCreated.value = false
+
+        _travelName.value = ""
+        _stageSelectedCardList.value = arrayListOf<StageCard>()
+        _stageSearchedCardList.value = arrayListOf<StageCard>()
+        searchText.value = ""
+
+        stageList = arrayListOf()
+        stageImagesUrl = arrayListOf()
+        stageSearchedNameList = arrayListOf()
+        stageSearchedImageList = arrayListOf()
+        stageSearchedAffinityList = arrayListOf()
+        stageSelectedNameList = arrayListOf()
+        stageSelectedImageList = arrayListOf()
+        stageSelectedAffinityList = arrayListOf()
+        stageDescriptions = arrayListOf<String>()
+        description = ""
     }
 }
