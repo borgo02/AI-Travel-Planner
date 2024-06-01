@@ -24,13 +24,12 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         })
     }
 
-
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
             val stageCardList = arrayListOf<StageCard>()
-            for (stage in travel.stageList!!){
+            for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
-            }
+
             val cardTravel = CardTravel(username = currentUser.value!!.fullname, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = "JoC41EXyP1LKpTviLoEQ", travelId = travel.idTravel!! , isShared = travel.isShared!!)
             _cardsList.value?.add(cardTravel)
             if (travel.isShared == true)

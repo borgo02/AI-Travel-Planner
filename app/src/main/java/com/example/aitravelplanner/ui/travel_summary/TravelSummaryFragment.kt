@@ -1,6 +1,7 @@
 package com.example.aitravelplanner.ui.travel_summary
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,8 +37,6 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
             stageSelectedCardRecyclerView.setHasFixedSize(true)
 
             stageSelectedCardList = newValue
-
-
             stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, viewModel::deleteStage)}
 
 
@@ -46,15 +45,17 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
             stageSearchedCardRecyclerView.setHasFixedSize(true)
 
             stageSearchedCardList = newValue
-
-
             stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, viewModel::addStage)
         }
 
         viewModel.isTravelCreated.observe(viewLifecycleOwner){newValue: Boolean ->
-            if(newValue){
+            if(newValue)
                 requireActivity().supportFragmentManager.popBackStack()
-            }
+        }
+
+        viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
+            if(it)
+                Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
         }
     }
 }

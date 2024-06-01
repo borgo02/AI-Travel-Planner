@@ -13,7 +13,6 @@ import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_dashboard
-
     override val viewModel: DashboardViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter

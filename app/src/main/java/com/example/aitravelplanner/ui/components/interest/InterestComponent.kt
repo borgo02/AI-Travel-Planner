@@ -19,7 +19,6 @@ class InterestComponent @JvmOverloads constructor(
     private val labelText: TextView
     val slider: Slider
 
-
     fun getSliderValue(): Float {
         return slider.value
     }
@@ -42,12 +41,10 @@ class InterestComponent @JvmOverloads constructor(
         val labelText = typedArray.getString(R.styleable.InterestComponent_labelText)
         typedArray.recycle()
 
-        if (imageRes != 0) {
+        if (imageRes != 0)
             imageView.setImageResource(imageRes)
-        }
 
-        if (labelText != null) {
+        if (labelText != null)
             this.labelText.text = labelText
-        }
     }
 }

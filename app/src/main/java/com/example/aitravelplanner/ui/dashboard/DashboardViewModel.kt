@@ -21,18 +21,16 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     init{
         executeWithLoadingSuspend(block = {
             if (currentUser.value != null)
-            {
                 setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-            }
         })
     }
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
             val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/")) }!!
             val stageCardList = arrayListOf<StageCard>()
-            for (stage in travel.stageList!!){
+            for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
-            }
+
             _cardsList.value?.add(CardTravel(username = userTravel.fullname, userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = userTravel.idUser, travelId = travel.idTravel!! ))
         }
         _searchedCardsList.value!!.addAll(_cardsList.value!!)

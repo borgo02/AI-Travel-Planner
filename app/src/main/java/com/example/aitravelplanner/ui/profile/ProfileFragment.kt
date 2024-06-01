@@ -15,12 +15,9 @@ import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_profile
-
     override val viewModel: ProfileViewModel by activityViewModels()
-
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
-
 
     override fun onReady(savedInstanceState: Bundle?) {
         val textView: TextView = binding.sharedTravels

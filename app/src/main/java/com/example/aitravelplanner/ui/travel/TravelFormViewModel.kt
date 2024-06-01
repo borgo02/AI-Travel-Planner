@@ -55,7 +55,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var stageSelectedImageList: ArrayList<String> = arrayListOf()
     private var stageSelectedAffinityList: ArrayList<Int> = arrayListOf()
     private var stageDescriptions = arrayListOf<String>()
-    private var description: String =""
+    private var description: String = ""
 
     fun confirmClicked() {
         hasJsonError.value = false
@@ -80,8 +80,6 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 "Days" to days,
                 "Budget" to budget
             )
-
-            Log.d("Debug", travelMap["Destination"].toString())
 
             viewModelScope.launch {
                 for (travel in userRepository.getTravelsByUser(currentUser.value!!.idUser)) {
@@ -227,7 +225,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun clearViewModel(){
+    private fun clearViewModel(){
         isTravelCreated.value = false
         isFormCompleted.value = false
         budget = ""

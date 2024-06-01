@@ -16,7 +16,6 @@ class SharedTravelsFragment : Fragment() {
 
     private var _binding: FragmentSharedTravelsProfileBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
@@ -30,7 +29,6 @@ class SharedTravelsFragment : Fragment() {
         val root: View = binding.root
         binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         cardTravelRecyclerView = binding.sharedTravelRecyclerView
 
         viewModel.sharedTravelList.observe(viewLifecycleOwner){ newValue ->

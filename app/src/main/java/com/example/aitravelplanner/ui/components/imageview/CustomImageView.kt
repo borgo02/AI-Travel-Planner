@@ -6,7 +6,6 @@ import com.squareup.picasso.Picasso
 
 class CustomImageView : AppCompatImageView{
     constructor(context: Context) : super(context) {}
-
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
 
     fun setURL(url: String) {

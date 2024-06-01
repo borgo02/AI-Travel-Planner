@@ -14,12 +14,12 @@ import com.squareup.picasso.Picasso
 
 class StageCardAdapter(private val data: MutableList<StageCard>, private val callback: (StageCard) -> Unit = {}) : RecyclerView.Adapter<StageCardAdapter.StageCardHolder>() {
     class StageCardHolder(val row: View) : RecyclerView.ViewHolder(row) {
-        val stageName = row.findViewById<TextView>(R.id.stageName)
-        val stageImage = row.findViewById<CustomImageView>(R.id.stageImage)
-        val affinityPercentage = row.findViewById<TextView>(R.id.affinityPercentage)
-        val stageAffinityImage = row.findViewById<ImageView>(R.id.stageAffinityImage)
-        val addStageButton = row.findViewById<ImageButton>(R.id.addStageButton)
-        val deleteStageButton = row.findViewById<Button>(R.id.deleteStageButton)
+        val stageName: TextView = row.findViewById<TextView>(R.id.stageName)
+        val stageImage: CustomImageView = row.findViewById<CustomImageView>(R.id.stageImage)
+        val affinityPercentage: TextView = row.findViewById<TextView>(R.id.affinityPercentage)
+        val stageAffinityImage: ImageView = row.findViewById<ImageView>(R.id.stageAffinityImage)
+        val addStageButton: ImageButton = row.findViewById<ImageButton>(R.id.addStageButton)
+        val deleteStageButton: Button = row.findViewById<Button>(R.id.deleteStageButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StageCardHolder {

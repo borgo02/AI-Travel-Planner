@@ -34,10 +34,5 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
             else
                 Toast.makeText(requireContext(), "Inserisci tutti i campi", Toast.LENGTH_SHORT).show()
         }
-
-        viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
-            if(it)
-                Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
-        }
     }
 }
