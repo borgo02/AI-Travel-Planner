@@ -26,7 +26,7 @@ class OpenAIManager {
                 Generate a JSON (in according to the given user's information and preferences) with:
                 1. City to visit (if destination is set to 'generate automatic destination' you have to generate an automatic destination)
                 2. A brief description of the city and the itinerary
-                3. List of places to visit in that city
+                3. List of places to visit in that city (based on to the number of days the user wants to stay)
                 4. A brief description of each place 
                 You have to avoid destination in cities already visited. The key of the JSON must be:
                 1. "City to visit" for the name of the city destination
@@ -48,7 +48,7 @@ class OpenAIManager {
                 Generate a JSON (in according to the given user's information and preferences) with:
                 1. City to visit (is equal to destination the user gave you)
                 2. A brief description of the city and the itinerary
-                3. List of places to visit in that city
+                3. List of places to visit in that city (based on the number the user wants to stay)
                 4. A brief description of each place 
                 The key of the JSON must be:
                 1. "City to visit" for the name of the city destination (the same the user gave you)
@@ -73,6 +73,10 @@ class OpenAIManager {
         val body = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
             put("messages", messages)
+            put("temperature", 0.8)
+            put("top_p", 0.8)
+            put("frequency_penalty", 0.5)
+            put("presence_penalty", 0.5)
         }.toString()
 
         return try {
@@ -88,8 +92,7 @@ class OpenAIManager {
                     try {
                         Log.e("OpenAIManager", "${JSONObject(message.getString("content"))}")
                         JSONObject(message.getString("content"))
-                    }
-                    catch(e: Exception){
+                    } catch (e: Exception) {
                         Log.e("OpenAIManager", "Error converting String to JSONObject: ${e.message}", e)
                         Log.e("OpenAIManager", "Value ```json: ${message.getString("content")}")
                         JSONObject().put("error", e.message)
