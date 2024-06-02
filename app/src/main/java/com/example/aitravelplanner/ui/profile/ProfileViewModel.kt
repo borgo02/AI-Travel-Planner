@@ -7,7 +7,9 @@ import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
+import com.example.aitravelplanner.utils.EventBus
 import com.example.aitravelplanner.utils.notifyObserver
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,17 +21,19 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         get() = _sharedTravelList
 
     init{
-        travelRepository.travelsCollectionReference.addSnapshotListener{ newValue, error ->
-            if (error != null) {
-                return@addSnapshotListener
-            }
-            if (newValue != null) {
-                _cardsList.value?.clear()
-                _sharedTravelList.value?.clear()
-                executeWithLoadingSuspend(block = {
+        executeWithLoadingSuspend(block = {
+            setTravelCards(userRepository.getTravelsByUser(currentUser.value!!.idUser))
+        })
+
+        EventBus.dashboardDataChanged.observeForever{hasChanged ->
+            executeWithLoadingSuspend(block = {
+                if(hasChanged) {
+                    _sharedTravelList.value?.clear()
+                    _cardsList.value?.clear()
                     setTravelCards(userRepository.getTravelsByUser(currentUser.value!!.idUser))
-                })
-            }
+                    EventBus.resetDashboardDataChanged()
+                }
+            })
         }
     }
 
@@ -56,5 +60,29 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         viewModelScope.launch {
             travelRepository.setTravelToShared(cardTravel.travelId)
         }
+    }
+
+    public override fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean{
+        if(vmReference == "dashboard")
+            EventBus.notifyDashboardDataChanged()
+        else if(vmReference == "profile")
+            EventBus.notifyProfileDataChanged()
+
+        cardTravel.isLiked = !cardTravel.isLiked
+        if(cardTravel.isLiked)
+            cardTravel.travelLikes = cardTravel.travelLikes!! + 1
+        else
+            cardTravel.travelLikes = cardTravel.travelLikes!! - 1
+
+        MainScope().launch {
+            userRepository.updateLikedTravelByUser(currentUser.value!!.idUser,cardTravel.travelId,cardTravel.isLiked)
+        }
+
+        return cardTravel.isLiked
+    }
+
+    override fun clickLike(){
+        this.isLiked(selectedTravel.value!!, "dashboard")
+        _selectedTravel.notifyObserver()
     }
 }

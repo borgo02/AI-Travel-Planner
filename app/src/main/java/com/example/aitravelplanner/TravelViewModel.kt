@@ -25,7 +25,8 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
         _selectedTravel.value = cardTravel
     }
 
-    fun isLiked(cardTravel: CardTravel): Boolean{
+    protected abstract fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean
+    /*fun isLiked(cardTravel: CardTravel): Boolean{
         cardTravel.isLiked = !cardTravel.isLiked
         if(cardTravel.isLiked)
             cardTravel.travelLikes = cardTravel.travelLikes!! + 1
@@ -37,11 +38,10 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
         }
 
         return cardTravel.isLiked
-    }
-
-    fun clickLike(){
-        this.isLiked(selectedTravel.value!!)
+    }*/
+    abstract fun clickLike()/*{
+        this.isLiked(selectedTravel.value!!, "travel")
         _selectedTravel.notifyObserver()
-    }
+    }*/
 
 }

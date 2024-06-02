@@ -8,21 +8,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.ui.components.imageview.CustomImageView
+import com.example.aitravelplanner.ui.dashboard.DashboardFragment
 import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.ui.profile.ProfileFragment
 import com.example.aitravelplanner.ui.profile.ProfileFragmentDirections
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
 
-class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null, private val shareTravel: ((CardTravel) -> Unit)? = null, ) : ListAdapter<CardTravel, CardAdapter.CardHolder>(RowItemDiffCallback()) {
+class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel, String) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null, private val shareTravel: ((CardTravel) -> Unit)? = null, ) : RecyclerView.Adapter<CardAdapter.CardHolder>(){
     private val isProfileFragment = fragment is ProfileFragment
     private val isSharedTravelsFragment = fragment is SharedTravelsFragment
+    private val isDashboardFragment = fragment is DashboardFragment
+    private var fragment = ""
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: CustomImageView = row.findViewById(R.id.userImage)
@@ -46,6 +47,13 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
     }
 
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
+        if(isDashboardFragment)
+            fragment = "dashboard"
+        else if(isSharedTravelsFragment)
+            fragment = "profile"
+        else if(isProfileFragment)
+            fragment = "profile"
+
         val currentCard = cards[position]
 
         holder.username.text = currentCard.username
@@ -125,7 +133,7 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
                 holder.likesImage.setImageResource(R.drawable.dashboard_heart_not_selected)
 
             holder.likesImage.setOnClickListener {
-                if(isLiked!!(currentCard)) {
+                if(isLiked!!(currentCard, fragment)) {
                     holder.likesImage.setImageResource(R.drawable.dashboard_heart_selected)
                     holder.likesNumber.text = currentCard.travelLikes.toString()
                 }
@@ -136,24 +144,18 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
             }
         }
 
-        if(position == this.itemCount - 1) {
-            val params: LayoutParams =
-                holder.row.layoutParams as LayoutParams
-            params.bottomMargin = 500
-            holder.row.layoutParams = params
+        if (position == itemCount - 1) {
+            val layoutParams = holder.itemView.layoutParams as LayoutParams
+            layoutParams.bottomMargin = 300
+            holder.itemView.layoutParams = layoutParams
+        } else {
+            val layoutParams = holder.itemView.layoutParams as LayoutParams
+            layoutParams.bottomMargin = 0
+            holder.itemView.layoutParams = layoutParams
         }
+
     }
 
     override fun getItemCount(): Int = cards.size
-
-    class RowItemDiffCallback : DiffUtil.ItemCallback<CardTravel>() {
-        override fun areItemsTheSame(oldItem: CardTravel, newItem: CardTravel): Boolean {
-            return oldItem.travelLikes == newItem.travelLikes && oldItem.travelId == newItem.travelId
-        }
-        override fun areContentsTheSame(oldItem: CardTravel, newItem: CardTravel): Boolean
-        {
-            return oldItem == newItem
-        }
-    }
 
 }

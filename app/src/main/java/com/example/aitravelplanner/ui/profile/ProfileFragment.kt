@@ -29,9 +29,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
-            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            cardAdapter =
-                CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
+            cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter
         }
     }

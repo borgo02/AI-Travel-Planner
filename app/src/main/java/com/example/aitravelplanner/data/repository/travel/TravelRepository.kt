@@ -79,10 +79,10 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
             val imageUrl = doc.getString("imageUrl")
             val timestamp = doc.getTimestamp("timestamp")?.toDate()
-            if(idUser != "")
-                isLiked = this.isTravelLikedByUser(idTravel, idUser)
+            isLiked = if(idUser != "")
+                this.isTravelLikedByUser(idTravel, idUser)
             else
-                isLiked = false
+                false
             val stages = this.getStagesByTravel(idTravel)
             Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
