@@ -23,9 +23,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun onReady(savedInstanceState: Bundle?) {
         cardTravelRecyclerView = binding.travelCardsRecyclerView
-
+        cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
-            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             cardAdapter = CardAdapter(newValue, viewModel::isLiked,this,viewModel::loadSelectedTravel)
             cardTravelRecyclerView.adapter = cardAdapter
         }

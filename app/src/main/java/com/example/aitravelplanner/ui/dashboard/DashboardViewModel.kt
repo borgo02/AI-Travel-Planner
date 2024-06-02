@@ -19,11 +19,22 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     val searchText = MutableLiveData<String>("")
 
     init{
-        executeWithLoadingSuspend(block = {
-            if (currentUser.value != null)
-                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-        })
+        if (currentUser.value != null) {
+            travelRepository.travelsCollectionReference.addSnapshotListener { newValue, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                if (newValue != null) {
+                    _searchedCardsList.value?.clear()
+                    _cardsList.value?.clear()
+                    executeWithLoadingSuspend(block = {
+                        setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
+                    })
+                }
+            }
+        }
     }
+
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
         for (travel in travels){
             val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/")) }!!

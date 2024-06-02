@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
     private val usersCollectionRef: CollectionReference = db.collection("users")
-    private val travelsCollectionReference: CollectionReference = db.collection("travels")
+    val travelsCollectionReference: CollectionReference = db.collection("travels")
     override suspend fun setTravel(travel: Travel) {
         val documentReference = travelsCollectionReference.document()
         travel.idTravel = documentReference.id

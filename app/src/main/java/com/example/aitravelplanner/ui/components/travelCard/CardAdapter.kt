@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.aitravelplanner.R
@@ -18,7 +20,7 @@ import com.example.aitravelplanner.ui.profile.ProfileFragmentDirections
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
 
-class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null, private val shareTravel: ((CardTravel) -> Unit)? = null, ) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
+class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked: ((CardTravel) -> Boolean)? = null, fragment: Fragment, private val loadSelectedTravel: ((CardTravel) -> Unit)? = null, private val shareTravel: ((CardTravel) -> Unit)? = null, ) : ListAdapter<CardTravel, CardAdapter.CardHolder>(RowItemDiffCallback()) {
     private val isProfileFragment = fragment is ProfileFragment
     private val isSharedTravelsFragment = fragment is SharedTravelsFragment
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -143,5 +145,15 @@ class CardAdapter(private val cards: ArrayList<CardTravel>, private val isLiked:
     }
 
     override fun getItemCount(): Int = cards.size
+
+    class RowItemDiffCallback : DiffUtil.ItemCallback<CardTravel>() {
+        override fun areItemsTheSame(oldItem: CardTravel, newItem: CardTravel): Boolean {
+            return oldItem.travelLikes == newItem.travelLikes && oldItem.travelId == newItem.travelId
+        }
+        override fun areContentsTheSame(oldItem: CardTravel, newItem: CardTravel): Boolean
+        {
+            return oldItem == newItem
+        }
+    }
 
 }

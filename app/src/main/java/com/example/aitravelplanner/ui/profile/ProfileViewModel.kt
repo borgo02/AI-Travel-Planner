@@ -19,9 +19,18 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         get() = _sharedTravelList
 
     init{
-        executeWithLoadingSuspend(block = {
-            setTravelCards(userRepository.getTravelsByUser(currentUser.value!!.idUser))
-        })
+        travelRepository.travelsCollectionReference.addSnapshotListener{ newValue, error ->
+            if (error != null) {
+                return@addSnapshotListener
+            }
+            if (newValue != null) {
+                _cardsList.value?.clear()
+                _sharedTravelList.value?.clear()
+                executeWithLoadingSuspend(block = {
+                    setTravelCards(userRepository.getTravelsByUser(currentUser.value!!.idUser))
+                })
+            }
+        }
     }
 
     override suspend fun setTravelCards(travels: ArrayList<Travel>){
@@ -30,7 +39,7 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
             for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
 
-            val cardTravel = CardTravel(username = currentUser.value!!.fullname, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = "JoC41EXyP1LKpTviLoEQ", travelId = travel.idTravel!! , isShared = travel.isShared!!)
+            val cardTravel = CardTravel(username = currentUser.value!!.fullname, userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = "JoC41EXyP1LKpTviLoEQ", travelId = travel.idTravel!! , isShared = travel.isShared!!)
             _cardsList.value?.add(cardTravel)
             if (travel.isShared == true)
                 _sharedTravelList.value?.add(cardTravel)
