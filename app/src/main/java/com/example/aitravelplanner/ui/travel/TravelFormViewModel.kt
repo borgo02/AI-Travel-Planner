@@ -81,7 +81,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 "Budget" to budget
             )
 
-            viewModelScope.launch {
+            executeWithLoadingSuspend(block = {
                 for (travel in userRepository.getTravelsByUser(currentUser.value!!.idUser)) {
                     justVisitedCities.add(travel.name!!)
                 }
@@ -147,7 +147,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 }
                 else
                     hasJsonError.value = true
-            }
+            })
         }
         else
             isFormCompleted.value = false
@@ -209,7 +209,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun savedClicked() {
-        viewModelScope.launch {
+        executeWithLoadingSuspend(block = {
             var i = 1
             for(stagCard in stageSelectedCardList.value!!){
                 val stage = Stage(idStage = null, name = stagCard.stageName, imageUrl = stagCard.stageImage, city= travelName.value!!, description= stagCard.stageName, position = i)
@@ -222,10 +222,10 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
             clearViewModel()
-        }
+        })
     }
 
-    private fun clearViewModel(){
+    fun clearViewModel(){
         isTravelCreated.value = false
         isFormCompleted.value = false
         budget = ""
@@ -258,3 +258,4 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         description = ""
     }
 }
+

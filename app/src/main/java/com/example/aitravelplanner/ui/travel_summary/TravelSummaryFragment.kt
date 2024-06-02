@@ -30,6 +30,7 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         val toolbar = binding.travelSummaryTopBar
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
+            viewModel.clearViewModel()
             viewModel.isFormCompleted.value = false
         }
         viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
