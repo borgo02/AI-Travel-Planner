@@ -10,8 +10,8 @@ import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.EventBus
 import com.example.aitravelplanner.utils.notifyObserver
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor() : TravelViewModel() {
@@ -22,37 +22,61 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     val searchText = MutableLiveData<String>("")
 
     init{
-        executeWithLoadingSuspend(block = {
-            if (currentUser.value != null) {
+        if (currentUser.value != null)
+            executeWithLoadingSuspend(block = {
                 setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-            }
-        })
+            })
 
         EventBus.profileDataChanged.observeForever{hasChanged ->
-            executeWithLoadingSuspend(block = {
-                if(hasChanged) {
-                    _searchedCardsList.value?.clear()
-                    _cardsList.value?.clear()
+            if(hasChanged) {
+                executeWithLoadingSuspend(block = {
+                    Log.d("DahsboardViewModel", "Chiamiamo il metodo setTravels()")
                     setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
                     EventBus.resetProfileDataChanged()
-                }
-            })
+                })
+            }
         }
     }
 
-    override suspend fun setTravelCards(travels: ArrayList<Travel>){
-        for (travel in travels){
-            val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/")) }!!
-            val stageCardList = arrayListOf<StageCard>()
-            for (stage in travel.stageList!!)
-                stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
+    override suspend fun setTravelCards(travels: ArrayList<Travel>) {
+        withContext(Dispatchers.Main) {
+            val newCardsList = arrayListOf<CardTravel>()
+            val newSearchedCardsList = arrayListOf<CardTravel>()
 
-            _cardsList.value?.add(CardTravel(username = userTravel.fullname, userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = userTravel.idUser, travelId = travel.idTravel!! ))
+            for (travel in travels) {
+                val userTravel: User = travel.idUser?.path?.let {
+                    userRepository.getUserById(it.substringAfterLast("/"))
+                }!!
+
+                val stageCardList = arrayListOf<StageCard>()
+                for (stage in travel.stageList!!)
+                    stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
+
+                val cardTravel = CardTravel(
+                    username = userTravel.fullname,
+                    userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png",
+                    travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s",
+                    travelName = travel.name!!,
+                    affinityPerc = "",
+                    travelLikes = travel.numberOfLikes,
+                    timestamp = travel.timestamp.toString(),
+                    isLiked = travel.isLiked!!,
+                    info = travel.info!!,
+                    stageCardList = stageCardList,
+                    userId = userTravel.idUser,
+                    travelId = travel.idTravel!!
+                )
+
+                newCardsList.add(cardTravel)
+                newSearchedCardsList.add(cardTravel)
+            }
+
+            _cardsList.value = newCardsList
+            _searchedCardsList.value = newSearchedCardsList
         }
-        _searchedCardsList.value!!.addAll(_cardsList.value!!)
-        Log.d("Ciao", "Card List: ${_searchedCardsList.value!!}")
-        _searchedCardsList.notifyObserver()
     }
+
+
 
     fun search(){
         executeWithLoading(block = {
@@ -66,27 +90,8 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
         })
     }
 
-    public override fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean{
-        if(vmReference == "dashboard")
-            EventBus.notifyDashboardDataChanged()
-        else if(vmReference == "profile")
-            EventBus.notifyProfileDataChanged()
-
-        cardTravel.isLiked = !cardTravel.isLiked
-        if(cardTravel.isLiked)
-            cardTravel.travelLikes = cardTravel.travelLikes!! + 1
-        else
-            cardTravel.travelLikes = cardTravel.travelLikes!! - 1
-
-        MainScope().launch {
-            userRepository.updateLikedTravelByUser(currentUser.value!!.idUser,cardTravel.travelId,cardTravel.isLiked)
-        }
-
-        return cardTravel.isLiked
-    }
-
     override fun clickLike(){
-        this.isLiked(selectedTravel.value!!, "dashboard")
+        super.isLiked(selectedTravel.value!!, "dashboard")
         _selectedTravel.notifyObserver()
     }
 }

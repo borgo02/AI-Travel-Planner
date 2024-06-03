@@ -1,11 +1,13 @@
 package com.example.aitravelplanner
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
+import com.example.aitravelplanner.utils.EventBus
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -25,23 +27,24 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
         _selectedTravel.value = cardTravel
     }
 
-    protected abstract fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean
-    /*fun isLiked(cardTravel: CardTravel): Boolean{
+    open fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean {
         cardTravel.isLiked = !cardTravel.isLiked
-        if(cardTravel.isLiked)
+        if (cardTravel.isLiked)
             cardTravel.travelLikes = cardTravel.travelLikes!! + 1
         else
             cardTravel.travelLikes = cardTravel.travelLikes!! - 1
 
-        MainScope().launch{
-            userRepository.updateLikedTravelByUser(currentUser.value!!.idUser,cardTravel.travelId,cardTravel.isLiked)
+        MainScope().launch {
+            userRepository.updateLikedTravelByUser(currentUser.value!!.idUser, cardTravel.travelId, cardTravel.isLiked)
         }
 
-        return cardTravel.isLiked
-    }*/
-    abstract fun clickLike()/*{
-        this.isLiked(selectedTravel.value!!, "travel")
-        _selectedTravel.notifyObserver()
-    }*/
+        if(vmReference == "dashboard")
+            EventBus.notifyDashboardDataChanged()
+        else if(vmReference == "shared_travels")
+            EventBus.notifyProfileDataChanged()
 
+        return cardTravel.isLiked
+    }
+
+    abstract fun clickLike()
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
 import com.example.aitravelplanner.ui.BaseFragment
@@ -14,7 +13,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override val layoutId: Int = R.layout.fragment_dashboard
     override val viewModel: DashboardViewModel by activityViewModels()
-    private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 
     private val searchTextObserver = Observer<String> { _ ->
@@ -22,15 +20,15 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
-        cardTravelRecyclerView = binding.travelCardsRecyclerView
-        cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        cardAdapter = CardAdapter(mutableListOf(), viewModel::isLiked, this, viewModel::loadSelectedTravel)
+        binding.travelCardsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.travelCardsRecyclerView.adapter = cardAdapter
 
-        viewModel.searchedCardsList.observe(viewLifecycleOwner){newValue ->
-            cardAdapter = CardAdapter(newValue, viewModel::isLiked,this,viewModel::loadSelectedTravel)
-            cardTravelRecyclerView.adapter = cardAdapter
+        viewModel.searchedCardsList.observe(viewLifecycleOwner) { newValue ->
+            cardAdapter.updateData(newValue)
         }
+
         viewModel.checkIfUserHaveInterest()
         viewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
     }
-
 }
