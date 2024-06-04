@@ -2,11 +2,9 @@ package com.example.aitravelplanner
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.databinding.ActivityMainBinding
-import com.example.aitravelplanner.utils.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 import kotlinx.coroutines.launch

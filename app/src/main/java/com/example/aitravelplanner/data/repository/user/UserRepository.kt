@@ -5,17 +5,16 @@ import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
-import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +22,7 @@ import javax.inject.Singleton
 class UserRepository @Inject private constructor(): IUserRepository, BaseRepository() {
     private var currentUser: User? = null
     private val travelRepository: TravelRepository = TravelRepository()
-    private val usersCollectionRef: CollectionReference = db.collection("users")
+    var usersCollectionRef: CollectionReference = db.collection("users")
     private val travelsCollectionReference: CollectionReference = db.collection("travels")
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()

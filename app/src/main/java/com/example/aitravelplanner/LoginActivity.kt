@@ -11,10 +11,8 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.transition.Visibility
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
-import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity

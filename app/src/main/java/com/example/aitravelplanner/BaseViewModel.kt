@@ -11,7 +11,6 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.utils.Event
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
