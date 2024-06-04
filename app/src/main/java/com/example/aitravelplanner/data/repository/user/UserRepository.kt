@@ -19,11 +19,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject private constructor(): IUserRepository, BaseRepository() {
+class UserRepository @Inject private constructor(): IUserRepository, BaseRepository(){
     private var currentUser: User? = null
-    private val travelRepository: TravelRepository = TravelRepository()
+    var travelRepository: TravelRepository = TravelRepository()
     var usersCollectionRef: CollectionReference = db.collection("users")
-    private val travelsCollectionReference: CollectionReference = db.collection("travels")
+    var travelsCollectionReference: CollectionReference = db.collection("travels")
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
 
