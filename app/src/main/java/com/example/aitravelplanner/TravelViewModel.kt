@@ -1,14 +1,9 @@
 package com.example.aitravelplanner
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.aitravelplanner.data.model.Travel
-import com.example.aitravelplanner.data.repository.travel.TravelRepository
-import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
-import com.example.aitravelplanner.utils.EventBus
-import com.example.aitravelplanner.utils.notifyObserver
+import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +16,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
     val selectedTravel: LiveData<CardTravel>
         get() = _selectedTravel
 
-    protected abstract suspend fun setTravelCards(travels: ArrayList<Travel>)
+    protected abstract suspend fun setTravelCards()
 
     fun loadSelectedTravel(cardTravel: CardTravel){
         _selectedTravel.value = cardTravel
@@ -38,11 +33,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
             userRepository.updateLikedTravelByUser(currentUser.value!!.idUser, cardTravel.travelId, cardTravel.isLiked)
         }
 
-        if(vmReference == "dashboard")
-            EventBus.notifyDashboardDataChanged()
-        else if(vmReference == "shared_travels")
-            EventBus.notifyProfileDataChanged()
-
+        TravelCardsSingleton.notifyChanges()
         return cardTravel.isLiked
     }
 
