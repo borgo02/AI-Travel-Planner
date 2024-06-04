@@ -48,6 +48,30 @@ object TravelCardsSingleton {
         }
     }
 
+    fun addTravel(travel: Travel, userTravel: User){
+        val stageCardList = arrayListOf<StageCard>()
+        for (stage in travel.stageList!!)
+            stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
+
+        val cardTravel = CardTravel(
+            username = userTravel.fullname,
+            userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png",
+            travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s",
+            travelName = travel.name!!,
+            affinityPerc = "",
+            travelLikes = travel.numberOfLikes,
+            timestamp = travel.timestamp.toString(),
+            isLiked = travel.isLiked!!,
+            info = travel.info!!,
+            stageCardList = stageCardList,
+            userId = userTravel.idUser,
+            travelId = travel.idTravel!!,
+            isShared = travel.isShared!!
+        )
+        travelCardsList.value!!.add(cardTravel)
+        travelCardsList.notifyObserver()
+    }
+
     fun notifyChanges(){
         travelCardsList.notifyObserver()
     }

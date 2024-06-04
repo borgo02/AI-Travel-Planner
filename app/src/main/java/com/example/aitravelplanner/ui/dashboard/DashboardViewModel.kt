@@ -57,7 +57,7 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     }
 
     override fun clickLike(){
-        super.isLiked(selectedTravel.value!!, "dashboard")
+        super.isLiked(selectedTravel.value!!)
         _selectedTravel.notifyObserver()
     }
 }

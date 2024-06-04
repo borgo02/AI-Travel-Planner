@@ -1,6 +1,5 @@
 package com.example.aitravelplanner.ui.travel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -51,10 +50,11 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var stageSearchedNameList: ArrayList<String> = arrayListOf()
     private var stageSearchedImageList: ArrayList<String> = arrayListOf()
     private var stageSearchedAffinityList: ArrayList<Int> = arrayListOf()
+    private var stageSearchedDescriptions = arrayListOf<String>()
     private var stageSelectedNameList: ArrayList<String> = arrayListOf()
     private var stageSelectedImageList: ArrayList<String> = arrayListOf()
     private var stageSelectedAffinityList: ArrayList<Int> = arrayListOf()
-    private var stageDescriptions = arrayListOf<String>()
+    private var stageSelectedDescriptions = arrayListOf<String>()
     private var description: String = ""
 
     fun confirmClicked() {
@@ -109,23 +109,20 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                     val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
 
                     _travelName.value = json.getString("City to visit")
-                    description += json.getString("Description")
-                    description += json.getString("Itinerary")
+                    description += json.getString("Description") + "\n"
                     val names = arrayListOf<String>()
                     names.add(_travelName.value!!)
                     for (i in 0 until placesArray.length()) {
                         val placeObject = placesArray.getJSONObject(i)
                         val place = placeObject.getString("Place")
                         val description = placeObject.getString("Description")
-                        stageDescriptions.add(description)
+                        stageSelectedDescriptions.add(description)
                         names.add(place)
                         stageSelectedNameList.add(place)
                     }
 
                     stageImagesUrl = imagesManager.getImages(names)
 
-                    for (stageDescription in stageDescriptions)
-                        description += stageDescription
 
                     for (i in 0 until stageImagesUrl.size) {
                         if(i == 0){
@@ -141,7 +138,8 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         stageNameList = stageSelectedNameList,
                         stageImageList = stageSelectedImageList,
                         stageAffinityList = stageSelectedAffinityList,
-                        isSelected = true
+                        isSelected = true,
+                        descriptionList = stageSelectedDescriptions
                     )
                     _stageSelectedCardList.notifyObserver()
                 }
@@ -163,9 +161,9 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    private fun setStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean){
+    private fun setStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean, descriptionList: ArrayList<String>){
         for( i in (stageNameList.indices)){
-            val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i],isSearched = !(isSelected), isSelected = isSelected)
+            val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i],isSearched = !(isSelected), isSelected = isSelected, description = descriptionList[i])
             stageCardList.add(stageCard)
         }
     }
@@ -190,11 +188,15 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             stageSearchedNameList = arrayListOf<String>()
             stageSearchedImageList = arrayListOf<String>()
             stageSearchedAffinityList = arrayListOf<Int>()
+            stageSearchedDescriptions = arrayListOf<String>()
 
             for(stage in filteredStages){
-                stageSearchedNameList.add(stage.name)
-                stageSearchedImageList.add(stage.imageUrl)
-                stageSearchedAffinityList.add(100)
+                if(stage.name !in _stageSelectedCardList.value!!.map { it.stageName }) {
+                    stageSearchedNameList.add(stage.name)
+                    stageSearchedImageList.add(stage.imageUrl)
+                    stageSearchedAffinityList.add(100)
+                    stageSearchedDescriptions.add(stage.description)
+                }
             }
 
             setStageCards(
@@ -202,7 +204,9 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 stageNameList = stageSearchedNameList,
                 stageImageList = stageSearchedImageList,
                 stageAffinityList = stageSearchedAffinityList,
-                isSelected = false
+                isSelected = false,
+                descriptionList = stageSearchedDescriptions
+
             )
             _stageSearchedCardList.notifyObserver()
         }
@@ -211,16 +215,28 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     fun savedClicked() {
         executeWithLoadingSuspend(block = {
             var i = 1
-            for(stagCard in stageSelectedCardList.value!!){
-                val stage = Stage(idStage = null, name = stagCard.stageName, imageUrl = stagCard.stageImage, city= travelName.value!!, description= stagCard.stageName, position = i)
+            for (stagCard in stageSelectedCardList.value!!) {
+                val stage = Stage(
+                    idStage = null,
+                    name = stagCard.stageName,
+                    imageUrl = stagCard.stageImage,
+                    city = travelName.value!!,
+                    description = stagCard.description,
+                    position = i
+                )
                 stageList.add(stage)
-                i +=1
+                i += 1
+            }
+            for (stage in stageList){
+                description += stage.name + ": "
+                description += stage.description + "\n"
             }
 
             val userRef = userRepository.getUserReference(currentUser.value!!.idUser)
             val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
+            TravelCardsSingleton.addTravel(travel, currentUser.value!!)
             clearViewModel()
         })
     }
@@ -254,7 +270,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         stageSelectedNameList = arrayListOf()
         stageSelectedImageList = arrayListOf()
         stageSelectedAffinityList = arrayListOf()
-        stageDescriptions = arrayListOf<String>()
+        stageSelectedDescriptions = arrayListOf<String>()
         description = ""
     }
 }

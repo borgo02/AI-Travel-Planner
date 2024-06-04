@@ -22,7 +22,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
         _selectedTravel.value = cardTravel
     }
 
-    open fun isLiked(cardTravel: CardTravel, vmReference: String): Boolean {
+    open fun isLiked(cardTravel: CardTravel): Boolean {
         cardTravel.isLiked = !cardTravel.isLiked
         if (cardTravel.isLiked)
             cardTravel.travelLikes = cardTravel.travelLikes!! + 1

@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
     }
 
     override fun clickLike(){
-        super.isLiked(selectedTravel.value!!, "profile")
+        super.isLiked(selectedTravel.value!!)
         _selectedTravel.notifyObserver()
     }
 }

@@ -21,7 +21,7 @@ import com.example.aitravelplanner.utils.CardDiffCallback
 
 class CardAdapter(
     private val cards: MutableList<CardTravel>,
-    private val isLiked: ((CardTravel, String) -> Boolean)? = null,
+    private val isLiked: ((CardTravel) -> Boolean)? = null,
     fragment: Fragment,
     private val loadSelectedTravel: ((CardTravel) -> Unit)? = null,
     private val shareTravel: ((CardTravel) -> Unit)? = null
@@ -84,8 +84,8 @@ class CardAdapter(
                 holder.timestamp?.text = currentCard.timestamp
                 holder.shareImage?.setImageResource(R.drawable.profile_share)
                 holder.shareImage?.setOnClickListener {
-                    shareTravel?.invoke(currentCard)
                     holder.shareImage.visibility = View.GONE
+                    shareTravel?.invoke(currentCard)
                 }
                 holder.travelImage.setOnClickListener { view ->
                     val action = ProfileFragmentDirections.actionNavigationProfileToTravelFragment(0)
@@ -115,7 +115,7 @@ class CardAdapter(
                 )
 
                 holder.likesImage?.setOnClickListener {
-                    val liked = isLiked?.invoke(currentCard, fragmentType.name.lowercase()) ?: false
+                    val liked = isLiked?.invoke(currentCard) ?: false
                     holder.likesImage.setImageResource(
                         if (liked) R.drawable.dashboard_heart_selected
                         else R.drawable.dashboard_heart_not_selected
@@ -146,7 +146,7 @@ class CardAdapter(
                 )
 
                 holder.likesImage?.setOnClickListener {
-                    val liked = isLiked?.invoke(currentCard, fragmentType.name.lowercase()) ?: false
+                    val liked = isLiked?.invoke(currentCard) ?: false
                     holder.likesImage.setImageResource(
                         if (liked) R.drawable.dashboard_heart_selected
                         else R.drawable.dashboard_heart_not_selected
@@ -172,26 +172,5 @@ class CardAdapter(
 
         val diffResult = DiffUtil.calculateDiff(CardDiffCallback(oldCards, newCardList))
         diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun addCard(card: CardTravel) {
-        cards.add(card)
-        notifyItemInserted(cards.size - 1)
-    }
-
-    fun removeCard(card: CardTravel) {
-        val index = cards.indexOf(card)
-        if (index != -1) {
-            cards.removeAt(index)
-            notifyItemRemoved(index)
-        }
-    }
-
-    fun updateCard(card: CardTravel) {
-        val index = cards.indexOf(card)
-        if (index != -1) {
-            cards[index] = card
-            notifyItemChanged(index)
-        }
     }
 }
