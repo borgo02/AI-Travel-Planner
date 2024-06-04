@@ -18,7 +18,7 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
 
     init{
         executeWithLoadingSuspend(block ={
-            if (currentUser.value != null)
+            if(currentUser.value != null)
                 TravelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
                 setTravelCards()
         })
