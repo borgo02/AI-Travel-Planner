@@ -11,8 +11,8 @@ import com.example.aitravelplanner.utils.notifyObserver
 
 object TravelCardsSingleton {
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
-    private val travelRepository: TravelRepository = TravelRepository()
-    private val userRepository: UserRepository = UserRepository.getInstance()
+    var travelRepository: TravelRepository = TravelRepository()
+    var userRepository: UserRepository = UserRepository.getInstance()
     suspend fun setTravelCards(userId: String){
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
