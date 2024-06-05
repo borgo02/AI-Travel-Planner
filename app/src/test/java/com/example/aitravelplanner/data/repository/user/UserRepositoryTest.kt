@@ -24,7 +24,6 @@ import java.util.Date
 
 @ExtendWith(MockKExtension::class)
 class UserRepositoryTest {
-
     private lateinit var userRepository: UserRepository
     @MockK private lateinit var mockFirestore: FirebaseFirestore
     @MockK private lateinit var mockUserCollectionReference: CollectionReference
