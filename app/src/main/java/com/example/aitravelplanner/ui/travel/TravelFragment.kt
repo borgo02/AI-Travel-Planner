@@ -9,9 +9,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
-import com.example.aitravelplanner.ui.TravelViewModel
 import com.example.aitravelplanner.databinding.FragmentTravelBinding
-import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.ui.TravelViewModel
 import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.dashboard.DashboardViewModel
 import com.example.aitravelplanner.ui.profile.ProfileViewModel
@@ -24,7 +23,6 @@ class TravelFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: TravelViewModel
     private lateinit var stageCardRecyclerView: RecyclerView
-    private lateinit var stageCardList: ArrayList<StageCard>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +59,7 @@ class TravelFragment : Fragment() {
             stageCardRecyclerView = binding.stageTravelRecyclerView
             stageCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
             stageCardRecyclerView.setHasFixedSize(true)
-            stageCardList = newValue.stageCardList
-            stageCardRecyclerView.adapter = StageCardAdapter(stageCardList)
+            stageCardRecyclerView.adapter = StageCardAdapter(newValue.stageCardList)
             when(args.flag){
                 0 -> {
                     binding.likesIcon.visibility = View.GONE
