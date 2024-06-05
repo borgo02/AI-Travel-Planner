@@ -1,6 +1,5 @@
 package com.example.aitravelplanner.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.TravelViewModel
@@ -18,9 +17,10 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
 
     init{
         executeWithLoadingSuspend(block ={
-            if (currentUser.value != null)
+            if (currentUser.value != null) {
                 TravelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
                 setTravelCards()
+            }
         })
     }
 
