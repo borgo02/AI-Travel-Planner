@@ -3,7 +3,7 @@ package com.example.aitravelplanner.ui.travel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.ui.BaseViewModel
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.ui.components.stageCard.StageCard

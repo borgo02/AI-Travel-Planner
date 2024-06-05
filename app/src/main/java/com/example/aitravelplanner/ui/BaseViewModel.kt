@@ -1,4 +1,4 @@
-package com.example.aitravelplanner
+package com.example.aitravelplanner.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

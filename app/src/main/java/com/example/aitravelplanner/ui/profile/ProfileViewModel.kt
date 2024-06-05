@@ -2,7 +2,7 @@ package com.example.aitravelplanner.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.aitravelplanner.TravelViewModel
+import com.example.aitravelplanner.ui.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import com.example.aitravelplanner.utils.notifyObserver
