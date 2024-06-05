@@ -8,10 +8,14 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,9 +26,14 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
     private val usersCollectionRef: CollectionReference = db.collection("users")
     private val travelsCollectionReference: CollectionReference = db.collection("travels")
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val mutex = Mutex()
 
     override fun getUser(): User? {
         return currentUser
+    }
+
+    override suspend fun getUserReference(idUser: String): DocumentReference{
+        return usersCollectionRef.document(idUser)
     }
 
     override fun updateUser(newUser: User) {
@@ -39,33 +48,32 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
     }
 
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
-        val travelRef = travelsCollectionReference.document(idTravel)
-        val likedTravelsRef = usersCollectionRef.document(idUser).collection("likedTravels")
-        if(isLiked) {
-            val like = Likes(null, travelRef, Timestamp.now().toDate())
-            db.runTransaction{transaction ->
+        mutex.withLock {
+            val travelRef = travelsCollectionReference.document(idTravel)
+            val likedTravelsRef = usersCollectionRef.document(idUser).collection("likedTravels")
+            val likedTravelQuery = likedTravelsRef.whereEqualTo("idTravel", travelRef).get().await()
+
+            db.runTransaction { transaction ->
                 val snapshot = transaction.get(travelRef)
-                val newLikesValue = snapshot.getLong("numberOfLikes")!! + 1
-                transaction.update(travelRef, "numberOfLikes", newLikesValue)
-                likedTravelsRef.add(like)
-            }.await()
-        }else{
-            val likes = likedTravelsRef.get().await()
-            for(like in likes.documents) {
-                val idLike = like.id
-                val idTravelReferencePath = like.getDocumentReference("idTravel")?.path
-                val idTravelDoc = idTravelReferencePath?.substringAfterLast("/")
-                if (idTravelDoc == idTravel) {
-                    db.runTransaction{transaction ->
-                        val snapshot = transaction.get(travelRef)
-                        val newLikesValue = snapshot.getLong("numberOfLikes")!! - 1
-                        transaction.update(travelRef, "numberOfLikes", newLikesValue)
+                val currentLikesValue = snapshot.getLong("numberOfLikes") ?: 0
+
+                if (isLiked)
+                    if (likedTravelQuery.isEmpty) {
+                        val like = Likes(null, travelRef, Timestamp.now().toDate())
+                        transaction.update(travelRef, "numberOfLikes", currentLikesValue + 1)
+                        likedTravelsRef.document().set(like)
+                    }
+                else
+                    for (like in likedTravelQuery.documents) {
+                        val idLike = like.id
+                        transaction.update(travelRef, "numberOfLikes", currentLikesValue - 1)
                         likedTravelsRef.document(idLike).delete()
-                    }.await()
-                }
-            }
+                        break
+                    }
+            }.await()
         }
     }
+
 
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
         val userRef = usersCollectionRef.document(idUser)
@@ -78,6 +86,16 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         }
 
         return sharedTravelList
+    }
+
+    override suspend fun getInterestsByUser(idUser: String): Map<String, Float>? {
+        val userRef = db.collection("users").document(idUser).get().await()
+
+        return if(userRef.exists()){
+            val interests = userRef.get("interests") as Map<String, Float>
+            interests
+        }else
+            null
     }
 
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
@@ -130,9 +148,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             likedTravelList = this.getLikesByUser(idUser)
             val user = User(idUser, email!!, fullname!!, isInit!!, interests, likedTravelList)
             if (isCurrentUser)
-            {
                 currentUser = user
-            }
             user
         }else
             null
@@ -164,7 +180,6 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             val likeItem = Likes(idLike, travelRef, timestamp)
             likesList.add(likeItem)
         }
-
         return likesList
     }
 

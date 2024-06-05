@@ -29,11 +29,20 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.example.aitravelplanner.ui.components.imageview.CustomImageView
-                    android:id="@+id/userImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/profile_user" />
+                <androidx.cardview.widget.CardView
+                    android:layout_marginStart="2dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    app:cardCornerRadius="13dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9">
+                    <com.example.aitravelplanner.ui.components.imageview.CustomImageView
+                        android:id="@+id/userImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/profile_user" />
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/username"

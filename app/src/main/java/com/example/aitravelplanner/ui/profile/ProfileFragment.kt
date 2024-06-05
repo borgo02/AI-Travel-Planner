@@ -10,20 +10,17 @@ import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
+import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_profile
-
     override val viewModel: ProfileViewModel by activityViewModels()
-
     private lateinit var cardTravelRecyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
 
-
     override fun onReady(savedInstanceState: Bundle?) {
         val textView: TextView = binding.sharedTravels
-
         textView.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_profile_to_fragment_shared_profile)
         }
@@ -32,9 +29,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
-            cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            cardAdapter =
-                CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
+            cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter
         }
     }

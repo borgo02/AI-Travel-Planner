@@ -90,12 +90,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_margin="20dp">
 
-                        <com.example.aitravelplanner.ui.components.imageview.CustomImageView
-                            android:id="@+id/userImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/content_description_user_icon"
-                            android:src="@drawable/profile_user" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginStart="2dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:cardCornerRadius="15dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9">
+                            <com.example.aitravelplanner.ui.components.imageview.CustomImageView
+                                android:id="@+id/userImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/content_description_user_icon"
+                                android:src="@drawable/profile_user" />
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/usernameText"

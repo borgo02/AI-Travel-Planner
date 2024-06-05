@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.data.repository.travel
 
+import android.util.Log
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
@@ -10,9 +11,15 @@ import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
     private val usersCollectionRef: CollectionReference = db.collection("users")
-    private val travelsCollectionReference: CollectionReference = db.collection("travels")
+    val travelsCollectionReference: CollectionReference = db.collection("travels")
     override suspend fun setTravel(travel: Travel) {
-        travelsCollectionReference.document().set(travel).await()
+        val documentReference = travelsCollectionReference.document()
+        travel.idTravel = documentReference.id
+        documentReference.set(travel).await()
+        travel.stageList?.let {
+            for (stage in it)
+                this.setStageByTravel(travel.idTravel!!, stage)
+        }
     }
 
     override suspend fun setTravelToShared(idTravel: String) {
@@ -20,7 +27,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         val travelRef = travelDoc.get().await()
         if(travelRef.exists()) {
             val newShareData = mapOf(
-                "isShared" to true
+                "shared" to true
             )
             travelDoc.update(newShareData)
         }
@@ -29,10 +36,21 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     override suspend fun setStageByTravel(idTravel: String, stage: Stage){
         val travelDoc = travelsCollectionReference.document(idTravel)
         val travelRef = travelDoc.get().await()
-        if(travelRef.exists()){
+        if(travelRef.exists())
             travelDoc.collection("stages").add(stage)
+    }
+
+    override suspend fun getTravels(): ArrayList<Travel>{
+        val travelsDoc = travelsCollectionReference.get().await()
+        val travelList: ArrayList<Travel> = arrayListOf()
+        for (doc in travelsDoc.documents) {
+            val idTravel = doc.id
+            val travelData = this.getTravelById(idTravel, "")
+            if (travelData != null)
+                    travelList.add(travelData)
         }
 
+        return travelList
     }
 
     override suspend fun getSharedTravels(idUser: String): ArrayList<Travel>{
@@ -51,17 +69,20 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     }
 
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
+        var isLiked: Boolean
         val doc = travelsCollectionReference.document(idTravel).get().await()
         return if (doc.exists()) {
-            val idUserReferencePath = doc.getDocumentReference("idUser")?.path
-            val idUserRef = idUserReferencePath?.substringAfterLast("/")
+            val idUserRef = doc.getDocumentReference("idUser")
             val info = doc.getString("info")
             val name = doc.getString("name")
-            val isShared = doc.getBoolean("isShared")
+            val isShared = doc.getBoolean("shared")
             val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
             val imageUrl = doc.getString("imageUrl")
             val timestamp = doc.getTimestamp("timestamp")?.toDate()
-            val isLiked = this.isTravelLikedByUser(idTravel, idUser)
+            isLiked = if(idUser != "")
+                this.isTravelLikedByUser(idTravel, idUser)
+            else
+                false
             val stages = this.getStagesByTravel(idTravel)
             Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
@@ -85,6 +106,19 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return stagesList
     }
 
+    override suspend fun getFilteredStagesByCity(filter: String, city: String): ArrayList<Stage>{
+        val travels = this.getTravels()
+        val stageList: ArrayList<Stage> = arrayListOf()
+        for(travel in travels) {
+            val stages = getStagesByTravel(travel.idTravel!!)
+            for (stage in stages)
+                if (stage.city.lowercase() == city.lowercase() && filter.lowercase() in stage.name.lowercase())
+                    stageList.add(stage)
+        }
+
+        return stageList
+    }
+
     override suspend fun getTravelsCreatedByUser(user: User): ArrayList<Travel> {
         val travels = travelsCollectionReference.whereEqualTo("idUser", user.idUser).get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
@@ -98,7 +132,6 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     }
 
     private suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
-        return true;
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){

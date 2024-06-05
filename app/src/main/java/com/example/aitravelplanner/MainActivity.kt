@@ -2,11 +2,13 @@ package com.example.aitravelplanner
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
@@ -15,6 +17,7 @@ import com.example.aitravelplanner.databinding.ActivityMainBinding
 import com.example.aitravelplanner.utils.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +36,12 @@ class MainActivity : AppCompatActivity() {
                 b.getSerializable("user") as User
             }
             isInit = b.getBoolean("isInit")
-            userRepository.updateUser(user!!)
+            lifecycleScope.launch {
+                val likes = userRepository.getLikesByUser(user!!.idUser)
+                for(like in likes)
+                    user!!.likedTravels!!.add(like)
+                userRepository.updateUser(user!!)
+            }
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         centralIconView.layoutParams = centralIconViewParams
 
 
-        // setting the nav controller for the bottom vavigation view
+        // setting the nav controller for the bottom navigation view
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
 

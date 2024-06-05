@@ -3,10 +3,13 @@ package com.example.aitravelplanner.data.repository.user
 import com.example.aitravelplanner.data.model.Likes
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.google.firebase.firestore.DocumentReference
 
 interface IUserRepository {
     //Get current User
     fun getUser(): User?
+    // Get the user document reference
+    suspend fun getUserReference(idUser: String): DocumentReference
     //Update current user
     fun updateUser(newUser: User)
     // Add a user into the Firestore database, under "users" collection
@@ -25,6 +28,8 @@ interface IUserRepository {
     suspend fun getUserByTravel(idTravel: String): User?
     // Get likes of a users, with idTravel and timestamp
     suspend fun getLikesByUser(idUser: String): ArrayList<Likes>
+    // Return the interests of a given user
+    suspend fun getInterestsByUser(idUser: String): Map<String, Float>?
     // Update number of likes of a specific travel and user's liked travel list of
     suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean)
 }

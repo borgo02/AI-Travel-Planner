@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewModel>() {
     override val layoutId: Int = R.layout.fragment_interests
     override val viewModel: InterestsViewModel by activityViewModels()
-
     private var navBar: BottomNavigationView? = null
 
     override fun onReady(savedInstanceState: Bundle?) {

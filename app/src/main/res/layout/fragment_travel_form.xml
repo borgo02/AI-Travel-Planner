@@ -9,19 +9,48 @@
             name="viewmodel"
             type="com.example.aitravelplanner.ui.travel.TravelFormViewModel" />
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/lighter_blue"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:background="@color/lighter_blue">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/travelTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/style_top_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/travelName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_creation"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.90"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/style_rounded_corners"
-            android:backgroundTint="@color/white">
+            android:backgroundTint="@color/white"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="50dp
+">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,7 +89,7 @@
                         android:backgroundTint="@color/lighter_lighter_blue"
                         android:padding="@dimen/edit_text_padding"
                         android:textSize="@dimen/text_font_size"
-                        android:text="@={viewmodel.sourceInput}" />
+                        android:text="@={viewmodel.sourceInput}"/>
 
                 </LinearLayout>
 
@@ -142,7 +171,8 @@
                         android:paddingEnd="10dp"
                         android:scaleX="1.5"
                         android:scaleY="1.5"
-                        app:trackTint="@drawable/track_color_selector" />
+                        app:trackTint="@drawable/track_color_selector"
+                        android:checked="@={viewmodel.isAutomaticDestination}"/>
 
                 </LinearLayout>
 
@@ -171,30 +201,6 @@
                         android:backgroundTint="@color/lighter_lighter_blue"
                         android:padding="@dimen/edit_text_padding"
                         android:text="@={viewmodel.days}"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_vertical_margin">
-
-                    <TextView
-                        android:id="@+id/hotel_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hotelText"
-                        android:textColor="@color/black"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_font_size"/>
-
-                    <CheckBox
-                        android:id="@+id/hotel_check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:textSize="@dimen/text_font_size"
-                        android:checked="@={viewmodel.isHotelChecked}"/>
                 </LinearLayout>
 
                 <TextView

@@ -1,12 +1,11 @@
 package com.example.aitravelplanner.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.aitravelplanner.data.model.Travel
-import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.TravelViewModel
-import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
+import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import com.example.aitravelplanner.utils.notifyObserver
 import javax.inject.Inject
 
@@ -18,25 +17,31 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     val searchText = MutableLiveData<String>("")
 
     init{
-        executeWithLoadingSuspend(block = {
+        executeWithLoadingSuspend(block ={
             if (currentUser.value != null)
-            {
-                setTravelCards(travelRepository.getSharedTravels(currentUser.value!!.idUser))
-            }
+                TravelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
+                setTravelCards()
         })
     }
 
-    override suspend fun setTravelCards(travels: ArrayList<Travel>){
-        for (travel in travels){
-            val userTravel: User = userRepository.getUserById(travel.idUser!!)!!
-            val stageCardList = arrayListOf<StageCard>()
-            for (stage in travel.stageList!!){
-                stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
+    override suspend fun setTravelCards() {
+        TravelCardsSingleton.travelCardsList.observeForever { it ->
+            val newSearchedTravelList = arrayListOf<CardTravel>()
+            val newCardList = arrayListOf<CardTravel>()
+            for (cardTravel in it) {
+                if (cardTravel.isShared) {
+                    newCardList.add(cardTravel)
+                    if(searchText.value == "") {
+                        newSearchedTravelList.add(cardTravel)
+                    }
+                }
             }
-            _cardsList.value?.add(CardTravel(username = userTravel.fullname, userImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s", travelName = travel.name!!, affinityPerc = "", travelLikes = travel.numberOfLikes, timestamp = travel.timestamp.toString(), isLiked = travel.isLiked!!, info = travel.info!!, stageCardList = stageCardList, userId = userTravel.idUser, travelId = travel.idTravel!! ))
+            _cardsList.value = newCardList
+            if(searchText.value == "")
+                _searchedCardsList.value = newSearchedTravelList
+            else
+                _searchedCardsList.notifyObserver()
         }
-        _searchedCardsList.value!!.addAll(_cardsList.value!!)
-        _searchedCardsList.notifyObserver()
     }
 
     fun search(){
@@ -49,5 +54,10 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
                 _searchedCardsList.notifyObserver()
             }
         })
+    }
+
+    override fun clickLike(){
+        super.isLiked(selectedTravel.value!!)
+        _selectedTravel.notifyObserver()
     }
 }
