@@ -18,14 +18,14 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
     init{
         executeWithLoadingSuspend(block ={
             if (currentUser.value != null) {
-                TravelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
+                travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
                 setTravelCards()
             }
         })
     }
 
     override suspend fun setTravelCards() {
-        TravelCardsSingleton.travelCardsList.observeForever { it ->
+        travelCardsSingleton.travelCardsList.observeForever { it ->
             val newSearchedTravelList = arrayListOf<CardTravel>()
             val newCardList = arrayListOf<CardTravel>()
             for (cardTravel in it) {

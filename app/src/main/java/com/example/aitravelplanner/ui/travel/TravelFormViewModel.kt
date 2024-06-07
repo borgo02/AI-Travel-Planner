@@ -236,7 +236,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
-            TravelCardsSingleton.addTravel(travel, currentUser.value!!)
+            TravelCardsSingleton.getInstance().addTravel(travel, currentUser.value!!)
             clearViewModel()
         })
     }

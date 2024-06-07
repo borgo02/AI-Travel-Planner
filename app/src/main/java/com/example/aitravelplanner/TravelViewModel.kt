@@ -11,7 +11,7 @@ import javax.inject.Inject
 abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
-
+    protected val travelCardsSingleton = TravelCardsSingleton.getInstance()
     protected var _selectedTravel = MutableLiveData<CardTravel>()
     val selectedTravel: LiveData<CardTravel>
         get() = _selectedTravel
@@ -33,7 +33,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
             userRepository.updateLikedTravelByUser(currentUser.value!!.idUser, cardTravel.travelId, cardTravel.isLiked)
         }
 
-        TravelCardsSingleton.notifyChanges()
+        travelCardsSingleton.notifyChanges()
         return cardTravel.isLiked
     }
 

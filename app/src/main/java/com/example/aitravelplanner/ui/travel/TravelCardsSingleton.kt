@@ -9,7 +9,7 @@ import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
 
-object TravelCardsSingleton {
+class TravelCardsSingleton() {
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
     private val travelRepository: TravelRepository = TravelRepository()
     private val userRepository: UserRepository = UserRepository.getInstance()
@@ -74,5 +74,15 @@ object TravelCardsSingleton {
 
     fun notifyChanges(){
         travelCardsList.notifyObserver()
+    }
+    companion object {
+        @Volatile
+        private var instance: TravelCardsSingleton? = null
+
+        fun getInstance(): TravelCardsSingleton {
+            return instance ?: synchronized(this) {
+                instance ?: TravelCardsSingleton().also { instance = it }
+            }
+        }
     }
 }
