@@ -52,21 +52,14 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
     protected fun <T> executeWithLoadingSuspend(
         block: suspend () -> T
     ) {
-        _isLoading.value = true
-
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 block()
-                withContext(Dispatchers.Main) {
-                    _isLoading.value = false
-                }
-            } catch (_: Exception) {
-
-            }
-            finally {
-                withContext(Dispatchers.Main) {
-                    _isLoading.value = false
-                }
+            } catch (e: Exception) {
+                
+            } finally {
+                _isLoading.value = false
             }
         }
     }
