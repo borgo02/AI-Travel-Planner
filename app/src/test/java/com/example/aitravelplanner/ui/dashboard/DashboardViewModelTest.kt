@@ -4,7 +4,9 @@ import com.example.aitravelplanner.MainCoroutineRule
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.travel.TravelRepositoryMock
 import com.example.aitravelplanner.data.repository.user.UserRepository
+import com.example.aitravelplanner.data.repository.user.UserRepositoryMock
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import io.mockk.coEvery
 import io.mockk.every
@@ -30,61 +32,16 @@ class DashboardViewModelTest {
 
     private lateinit var viewModel: DashboardViewModel
     private val userId: String = "1"
-    @MockK  private lateinit var mockUserRepository: UserRepository
-    @MockK  private lateinit var mockTravelRepository: TravelRepository
+    private lateinit var mockUserRepository: UserRepositoryMock
+    private lateinit var mockTravelRepository: TravelRepositoryMock
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
+        mockUserRepository = UserRepositoryMock.getInstance()
+        mockTravelRepository = TravelRepositoryMock()
 
-        every { mockUserRepository.getUser() } returns User(
-            userId,
-            "test@test",
-            "test",
-            true,
-            mapOf("interest1" to 1.5.toFloat(),
-            "interest2" to 2.5.toFloat(),
-            "interest3" to 3.5.toFloat())
-        )
-
-        coEvery  { mockUserRepository.getUserReference(userId) } returns mockk(relaxed = true)
-
-        coEvery  { mockTravelRepository.getSharedTravels(userId) } returns arrayListOf(
-            Travel("1",
-                idUser = mockk(name = "2"),
-                name = "test1",
-                imageUrl = "test1",
-                numberOfLikes = 1,
-                timestamp = Date(),
-                isLiked = true,
-                info = "test1",
-                isShared = true,
-                stageList = arrayListOf()
-            ))
-
-        coEvery  { mockUserRepository.getNotSharedTravelsByUser(userId) } returns arrayListOf(
-            Travel("2",
-                idUser = mockk(userId),
-                name = "test2",
-                imageUrl = "test2",
-                numberOfLikes = 1,
-                timestamp = Date(),
-                isLiked = true,
-                info = "test2",
-                isShared = true,
-                stageList = arrayListOf()
-            ))
-
-            /*TravelCardsSingleton.apply {
-                travelRepository = mockTravelRepository
-                userRepository = mockUserRepository
-            }*/
-
-            // Initialize the DashboardViewModel
-            viewModel = DashboardViewModel().apply {
-                userRepository = mockUserRepository
-                travelRepository = mockTravelRepository}
-        }
+        viewModel = DashboardViewModel(mockUserRepository, mockTravelRepository, TravelCardsSingleton(mockUserRepository, mockTravelRepository))
+    }
 
     @Test
     fun testSearch() = runBlocking {
