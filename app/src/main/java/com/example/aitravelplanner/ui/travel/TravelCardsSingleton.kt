@@ -10,9 +10,11 @@ import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import java.text.SimpleDateFormat
 
 class TravelCardsSingleton() {
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
+    private val formatter = SimpleDateFormat("dd MMM yyyy")
     private val travelRepository: TravelRepository = TravelRepository()
     private val userRepository: UserRepository = UserRepository.getInstance()
     suspend fun setTravelCards(userId: String){
@@ -38,7 +40,7 @@ class TravelCardsSingleton() {
                 travelName = travel.name!!,
                 affinityPerc = affinity,
                 travelLikes = travel.numberOfLikes,
-                timestamp = travel.timestamp.toString(),
+                timestamp = formatter.format(travel.timestamp).toString(),
                 isLiked = travel.isLiked!!,
                 info = travel.info!!,
                 stageCardList = stageCardList,
