@@ -1,10 +1,11 @@
 package com.example.aitravelplanner.ui.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
-import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -16,12 +17,16 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
     private var _sharedTravelList = MutableLiveData(arrayListOf<CardTravel>())
     val sharedTravelList: LiveData<ArrayList<CardTravel>>
         get() = _sharedTravelList
+    val isProfileLoading = MutableLiveData<Boolean>(false)
 
 
     init{
-        executeWithLoadingSuspend(block = {
+        viewModelScope.launch {
+            isProfileLoading.value = true
+            travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
             setTravelCards()
-        })
+            isProfileLoading.value = false
+        }
     }
 
     override suspend fun setTravelCards() {

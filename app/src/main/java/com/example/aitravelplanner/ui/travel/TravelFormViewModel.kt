@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.ui.travel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private val _stageSelectedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
     private val _stageSearchedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
     val searchText = MutableLiveData<String>("")
+    val isTravelLoading = MutableLiveData<Boolean>(false)
 
     val travelName: LiveData<String>
         get() = _travelName
@@ -62,6 +64,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         budget = determineBudget()
         if((sourceInput.value != "" || isActualPosition.value == true) && (destinationInput.value != "" || isAutomaticDestination.value == true) && days.value != "" && days.value!!.toInt() > 0 && budget != ""){
             isFormCompleted.value = true
+            isTravelLoading.value = true
             val interests = currentUser.value!!.interests as Map<String,Float>
             var json = JSONObject()
             val justVisitedCities: ArrayList<String> = arrayListOf()
@@ -81,7 +84,8 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 "Budget" to budget
             )
 
-            executeWithLoadingSuspend(block = {
+            viewModelScope.launch {
+
                 for (travel in userRepository.getTravelsByUser(currentUser.value!!.idUser)) {
                     justVisitedCities.add(travel.name!!)
                 }
@@ -106,8 +110,8 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
 
                 if (!json.has("error")) {
                     hasJsonError.value = false
-                    val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
 
+                    val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
                     _travelName.value = json.getString("City to visit")
                     description += json.getString("Description") + "\n"
                     val names = arrayListOf<String>()
@@ -122,7 +126,6 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                     }
 
                     stageImagesUrl = imagesManager.getImages(names)
-
 
                     for (i in 0 until stageImagesUrl.size) {
                         if(i == 0){
@@ -145,7 +148,9 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                 }
                 else
                     hasJsonError.value = true
-            })
+                isTravelLoading.value = false
+                Log.d("AAA", "Sono qui ${isTravelLoading.value}")
+            }
         }
         else
             isFormCompleted.value = false

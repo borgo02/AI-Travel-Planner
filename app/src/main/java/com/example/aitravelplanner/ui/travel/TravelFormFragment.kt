@@ -1,6 +1,8 @@
 package com.example.aitravelplanner.ui.travel
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -33,6 +35,13 @@ class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormVie
             }
             else
                 Toast.makeText(requireContext(), "Inserisci tutti i campi", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.isTravelLoading.observe(viewLifecycleOwner){isLoading ->
+            if(isLoading)
+                progressBar.visibility = View.VISIBLE
+            else
+                progressBar.visibility = View.GONE
         }
     }
 }

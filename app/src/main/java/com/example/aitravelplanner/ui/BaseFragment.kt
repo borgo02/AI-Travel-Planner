@@ -24,7 +24,7 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
 
     protected lateinit var binding: BINDING
 
-    private lateinit var progressBar: ProgressBar
+    protected lateinit var progressBar: ProgressBar
 
     protected abstract fun onReady(savedInstanceState: Bundle?)
 
@@ -62,9 +62,9 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
             }
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        /*viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
+        }*/
     }
 
     private fun handleNavigation(navCommand: NavigationCommand) {

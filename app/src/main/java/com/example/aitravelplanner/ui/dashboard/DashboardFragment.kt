@@ -1,6 +1,8 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
         viewModel.searchedCardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter.updateData(newValue)
+        }
+
+        viewModel.isDashboardLoading.observe(viewLifecycleOwner){isLoading ->
+            if(isLoading)
+                progressBar.visibility = View.VISIBLE
+            else
+                progressBar.visibility = View.GONE
         }
 
         viewModel.checkIfUserHaveInterest()

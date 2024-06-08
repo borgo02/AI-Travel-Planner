@@ -1,6 +1,8 @@
 package com.example.aitravelplanner.ui.profile
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +33,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter
+        }
+
+        viewModel.isProfileLoading.observe(viewLifecycleOwner) { isLoading ->
+            if(isLoading)
+                progressBar.visibility = View.VISIBLE
+            else
+                progressBar.visibility = View.GONE
         }
     }
 }

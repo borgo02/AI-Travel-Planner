@@ -1,6 +1,8 @@
 package com.example.aitravelplanner.ui.travel_summary
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -57,6 +59,29 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
             if(it)
                 Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.isTravelLoading.observe(viewLifecycleOwner) {isLoading ->
+            if(isLoading) {
+                binding.linearLayout.visibility = View.GONE
+                binding.secondLinearLayout.visibility = View.GONE
+                binding.travelSummaryName.visibility = View.GONE
+                binding.textView5.visibility = View.GONE
+                binding.textView4.visibility = View.GONE
+                binding.filterButton.visibility = View.GONE
+                binding.saveTravelButton.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }
+            else {
+                binding.linearLayout.visibility = View.VISIBLE
+                binding.secondLinearLayout.visibility = View.VISIBLE
+                binding.travelSummaryName.visibility = View.VISIBLE
+                binding.textView5.visibility = View.VISIBLE
+                binding.textView4.visibility = View.VISIBLE
+                binding.filterButton.visibility = View.VISIBLE
+                binding.saveTravelButton.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
         }
     }
 }

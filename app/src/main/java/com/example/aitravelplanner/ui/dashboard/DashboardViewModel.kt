@@ -2,25 +2,29 @@ package com.example.aitravelplanner.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor() : TravelViewModel() {
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
         get() = _searchedCardsList
-
     val searchText = MutableLiveData<String>("")
+    val isDashboardLoading = MutableLiveData<Boolean>(false)
 
     init{
-        executeWithLoadingSuspend(block ={
+        viewModelScope.launch {
+            isDashboardLoading.value = true
             if (currentUser.value != null) {
                 travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
                 setTravelCards()
             }
-        })
+            isDashboardLoading.value = false
+        }
     }
 
     override suspend fun setTravelCards() {
