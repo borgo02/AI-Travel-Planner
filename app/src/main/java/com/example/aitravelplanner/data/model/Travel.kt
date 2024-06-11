@@ -7,6 +7,9 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Exclude
 import java.util.Date
 
+/** Data class che modella uno specifico viaggio
+ *
+ */
 data class Travel(
     @DocumentId var idTravel: String?,
     @PropertyName("idUser") var idUser: DocumentReference?,

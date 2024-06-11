@@ -8,6 +8,11 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
+/** Questa classe si occupa della generazione di un viaggio tramite API di OpenAI (chatGPT).
+ *
+ * Vengono passate in input delle informazioni fondamentali ai fini della generazione del viaggio più opportuno per un utente.
+ *
+ */
 class OpenAIManager {
 
     private var systemPrompt: String = ""

@@ -4,6 +4,9 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 
+/** Data class che modella un utente specifico
+ *
+ */
 data class User(
     @DocumentId var idUser: String = "",
     @PropertyName("email") var email: String = "",

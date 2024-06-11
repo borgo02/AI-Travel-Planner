@@ -9,6 +9,9 @@ import com.example.aitravelplanner.databinding.FragmentDashboardBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 
+/** Fragment che si occupa della visualizzazione della dashboard in cui sono presenti i viaggi pubblicati dagli utenti
+ *
+ */
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_dashboard
@@ -24,6 +27,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         binding.travelCardsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.travelCardsRecyclerView.adapter = cardAdapter
 
+        // Osserva le modifiche effettuate alla lista searchedCardsList del Dashboard View Model
         viewModel.searchedCardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter.updateData(newValue)
         }

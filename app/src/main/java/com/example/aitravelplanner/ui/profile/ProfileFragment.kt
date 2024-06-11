@@ -12,6 +12,9 @@ import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
+/** Fragment che si occupa della visualizzazione del profilo dell'utente
+ *
+ */
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_profile
@@ -28,6 +31,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // Osserva la lista cardsList in cui sono presenti i viaggi nel profilo dell'utente corrente
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter

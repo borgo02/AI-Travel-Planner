@@ -12,6 +12,10 @@ import kotlinx.coroutines.tasks.await
 class TravelRepository: ITravelRepository, BaseRepository() {
     private val usersCollectionRef: CollectionReference = db.collection("users")
     val travelsCollectionReference: CollectionReference = db.collection("travels")
+
+    /** Inserisce un nuovo viaggio nel database Firestore
+     *
+     */
     override suspend fun setTravel(travel: Travel) {
         val documentReference = travelsCollectionReference.document()
         travel.idTravel = documentReference.id
@@ -22,6 +26,10 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         }
     }
 
+    /** Modifica il valore "shared" di un viaggio da false a true.
+     *
+     * In questo modo il viaggio sarà pubblicato in dashboard
+     */
     override suspend fun setTravelToShared(idTravel: String) {
         val travelDoc = travelsCollectionReference.document(idTravel)
         val travelRef = travelDoc.get().await()
@@ -33,6 +41,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         }
     }
 
+    /** Inserisce una nuova tappa ad un viaggio specifico
+     *
+     */
     override suspend fun setStageByTravel(idTravel: String, stage: Stage){
         val travelDoc = travelsCollectionReference.document(idTravel)
         val travelRef = travelDoc.get().await()
@@ -40,6 +51,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             travelDoc.collection("stages").add(stage)
     }
 
+    /** Ritorna tutti i viaggi presenti nel database
+     *
+     */
     override suspend fun getTravels(): ArrayList<Travel>{
         val travelsDoc = travelsCollectionReference.get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
@@ -53,6 +67,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return travelList
     }
 
+    /** Ritorna tutti i viaggi presenti nel database che sono stati pubblicati
+     *
+     */
     override suspend fun getSharedTravels(idUser: String): ArrayList<Travel>{
         val travelsDoc = travelsCollectionReference.get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
@@ -68,6 +85,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return travelList
     }
 
+    /** Ritorna un viaggio identificato da uno specifico id
+     *
+     */
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
         var isLiked: Boolean
         val doc = travelsCollectionReference.document(idTravel).get().await()
@@ -89,6 +109,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
             null
     }
 
+    /** Ritorna tutte le tappe collegate ad uno specifico viaggio
+     *
+     */
     override suspend fun getStagesByTravel(idTravel: String): ArrayList<Stage> {
         val stagesRef = travelsCollectionReference.document(idTravel).collection("stages").get().await()
         val stagesList: ArrayList<Stage> = arrayListOf()
@@ -106,6 +129,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return stagesList
     }
 
+    /** Ritorna tutte le tappe filtrate per città e per una "stringa filtro" inserita dall'utente
+     *
+     */
     override suspend fun getFilteredStagesByCity(filter: String, city: String): ArrayList<Stage>{
         val travels = this.getTravels()
         val stageList: ArrayList<Stage> = arrayListOf()
@@ -119,6 +145,9 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return stageList
     }
 
+    /** Ritorna tutti i viaggi creati da uno specifico utente
+     *
+     */
     override suspend fun getTravelsCreatedByUser(user: User): ArrayList<Travel> {
         val travels = travelsCollectionReference.whereEqualTo("idUser", user.idUser).get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
@@ -131,7 +160,14 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return travelList
     }
 
-    private suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
+    /** Presi come input gli id di un viaggio e di utente, ritorna:
+     *
+     * - false se l'utente non ha messo like al viaggio
+     *
+     * - true altrimenti.
+     *
+     */
+    override suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
         var isTravelLiked: Boolean = false
         for(like in likesRef.documents){

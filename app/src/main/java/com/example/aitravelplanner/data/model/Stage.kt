@@ -3,6 +3,9 @@ package com.example.aitravelplanner.data.model
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
 
+/** Data class che modella la singola tappa collegata ad uno specifico viaggio
+ *
+ */
 data class Stage(
     @DocumentId var idStage: String?,
     @PropertyName("name") var name: String,
