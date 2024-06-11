@@ -67,12 +67,6 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
     }
 
-    // [START logout]
-    private fun logout() {
-        Firebase.auth.signOut()
-    }
-    // [END logout]
-
     private fun handleSignInResult(data: Intent?) {
         // Result returned from launching the Sign In PendingIntent
         try {

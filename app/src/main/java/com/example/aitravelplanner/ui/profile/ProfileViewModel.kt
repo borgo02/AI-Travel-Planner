@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +20,10 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
     private var _sharedTravelList = MutableLiveData(arrayListOf<CardTravel>())
     val sharedTravelList: LiveData<ArrayList<CardTravel>>
         get() = _sharedTravelList
+
+    private var _logout = MutableLiveData<Boolean>(false)
+    val logout: LiveData<Boolean>
+        get() = _logout
 
 
     init{
@@ -65,5 +71,10 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
     override fun clickLike(){
         super.isLiked(selectedTravel.value!!)
         _selectedTravel.notifyObserver()
+    }
+
+    fun logout() {
+        Firebase.auth.signOut()
+        _logout.value = true
     }
 }

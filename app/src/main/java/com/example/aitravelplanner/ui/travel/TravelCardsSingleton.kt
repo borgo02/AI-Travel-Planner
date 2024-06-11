@@ -8,6 +8,8 @@ import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
+import kotlin.math.abs
+import kotlin.math.roundToInt
 import java.text.SimpleDateFormat
 
 class TravelCardsSingleton() {
@@ -18,15 +20,15 @@ class TravelCardsSingleton() {
     suspend fun setTravelCards(userId: String){
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
-        addTravels(sharedTravels)
-        addTravels(notSharedTravels)
+        addTravels(sharedTravels, userId)
+        addTravels(notSharedTravels, userId)
         notifyChanges()
     }
 
-    private suspend fun addTravels(travels: ArrayList<Travel>){
+    private suspend fun addTravels(travels: ArrayList<Travel>, userId: String){
         for (travel in travels) {
             val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/"))}!!
-
+            val affinity = evaluateAffinity(userRepository.getUserById(userId)!!.interests!!, userTravel.interests!!)
             val stageCardList = arrayListOf<StageCard>()
             for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
@@ -36,7 +38,7 @@ class TravelCardsSingleton() {
                 userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png",
                 travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s",
                 travelName = travel.name!!,
-                affinityPerc = "",
+                affinityPerc = affinity,
                 travelLikes = travel.numberOfLikes,
                 timestamp = formatter.format(travel.timestamp).toString(),
                 isLiked = travel.isLiked!!,
@@ -48,6 +50,16 @@ class TravelCardsSingleton() {
             )
             travelCardsList.value!!.add(cardTravel)
         }
+    }
+
+    private fun evaluateAffinity(currentUserMap: Map<String, Float>, travelMap: Map<String, Float>): String {
+        val keys = currentUserMap.keys
+        var differences = 0.0
+        for (key in keys) {
+            differences += abs(currentUserMap[key]!! - travelMap[key]!!)
+        }
+        val percentage = ((1-(differences/(keys.size*10)))*100).roundToInt()
+        return "$percentage%"
     }
 
     fun addTravel(travel: Travel, userTravel: User){

@@ -1,11 +1,13 @@
 package com.example.aitravelplanner.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.LoginActivity
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.BaseFragment
@@ -35,6 +37,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter
+        }
+
+        viewModel.logout.observe(viewLifecycleOwner) { newValue ->
+            if (newValue) {
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
         }
     }
 }
