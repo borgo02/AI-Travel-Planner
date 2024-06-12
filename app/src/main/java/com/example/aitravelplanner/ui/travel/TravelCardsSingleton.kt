@@ -3,16 +3,17 @@ package com.example.aitravelplanner.ui.travel
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.travel.ITravelRepository
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.IUserRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.utils.notifyObserver
 
-class TravelCardsSingleton() {
+class TravelCardsSingleton(private val travelRepository: ITravelRepository = TravelRepository(), private val userRepository: IUserRepository = UserRepository.getInstance()) {
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
-    var travelRepository: TravelRepository = TravelRepository()
-    var userRepository: UserRepository = UserRepository.getInstance()
+
     suspend fun setTravelCards(userId: String){
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)

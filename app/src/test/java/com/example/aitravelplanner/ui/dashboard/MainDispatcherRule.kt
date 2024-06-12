@@ -1,16 +1,21 @@
-package com.example.aitravelplanner
+package com.example.aitravelplanner.ui.dashboard
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
+
 @ExperimentalCoroutinesApi
-class MainCoroutineRule(private val dispatcher: TestDispatcher = StandardTestDispatcher()): TestWatcher() {
+class MainDispatcherRule(val dispatcher: TestDispatcher = StandardTestDispatcher()): TestWatcher() {
 
     override fun starting(description: Description?) = Dispatchers.setMain(dispatcher)
 

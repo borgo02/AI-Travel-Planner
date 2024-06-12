@@ -2,14 +2,19 @@ package com.example.aitravelplanner.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.aitravelplanner.ui.BaseViewModel
+import com.example.aitravelplanner.data.repository.travel.ITravelRepository
+import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.IUserRepository
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
+abstract class TravelViewModel@Inject constructor(override val userRepository: IUserRepository = UserRepository.getInstance(), override val travelRepository: ITravelRepository = TravelRepository(),
+                                                  open val travelCardsSingleton: TravelCardsSingleton = TravelCardsSingleton.getInstance(), private val coroutineScopeProvider: CoroutineScope? = null) : BaseViewModel(userRepository,travelRepository, coroutineScopeProvider) {
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
 
@@ -34,7 +39,7 @@ abstract class TravelViewModel@Inject constructor() : BaseViewModel() {
             userRepository.updateLikedTravelByUser(currentUser.value!!.idUser, cardTravel.travelId, cardTravel.isLiked)
         }
 
-        TravelCardsSingleton.notifyChanges()
+        travelCardsSingleton.notifyChanges()
         return cardTravel.isLiked
     }
 
