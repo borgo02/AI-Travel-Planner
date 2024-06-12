@@ -3,8 +3,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.3.2")
-        classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.android.tools.build:gradle:8.4.2")
+        classpath("com.google.gms:google-services:4.4.2")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
     }
 }

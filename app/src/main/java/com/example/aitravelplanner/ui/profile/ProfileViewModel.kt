@@ -24,7 +24,7 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
     }
 
     override suspend fun setTravelCards() {
-        TravelCardsSingleton.travelCardsList.observeForever { it ->
+        travelCardsSingleton.travelCardsList.observeForever { it ->
             val newSharedTravelList =arrayListOf<CardTravel>()
             val cardList = arrayListOf<CardTravel>()
             for (cardTravel in it) {
@@ -45,7 +45,7 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         MainScope().launch {
             travelRepository.setTravelToShared(cardTravel.travelId)
         }
-        TravelCardsSingleton.notifyChanges()
+        travelCardsSingleton.notifyChanges()
     }
 
     override fun clickLike(){

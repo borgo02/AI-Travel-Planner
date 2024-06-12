@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.aitravelplanner.ui.BaseViewModel
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
+import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import javax.inject.Inject
 import com.example.aitravelplanner.utils.OpenAIManager
@@ -15,7 +17,7 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class TravelFormViewModel @Inject constructor() : BaseViewModel() {
+class TravelFormViewModel @Inject constructor(override val userRepository: UserRepository = UserRepository.getInstance(), override val travelRepository: TravelRepository = TravelRepository()) : BaseViewModel() {
     private var budget: String = ""
     var hasJsonError = MutableLiveData<Boolean>(false)
     var isFormCompleted = MutableLiveData<Boolean>(false)
@@ -236,7 +238,7 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
             val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
-            TravelCardsSingleton.addTravel(travel, currentUser.value!!)
+            TravelCardsSingleton.getInstance().addTravel(travel, currentUser.value!!)
             clearViewModel()
         })
     }
