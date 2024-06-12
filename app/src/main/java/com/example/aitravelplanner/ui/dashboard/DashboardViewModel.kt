@@ -70,10 +70,11 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
     fun search(){
         executeWithLoading(block = {
             _searchedCardsList.value!!.clear()
-            for(card in _cardsList.value!!)
+            for(card in _cardsList.value!!) {
                 if (searchText.value.toString().lowercase() in card.travelName.lowercase())
                     _searchedCardsList.value!!.add(card)
                 _searchedCardsList.notifyObserver()
+            }
         })
     }
 

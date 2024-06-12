@@ -21,7 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.rules.TestRule
 import kotlinx.coroutines.test.advanceUntilIdle
 
-
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @ExtendWith(InstantExecutorExtension::class)
@@ -43,7 +42,6 @@ class DashboardViewModelTest  {
     private var mockTravelRepository: TravelRepositoryMock = TravelRepositoryMock()
     private lateinit var viewModel: DashboardViewModel
     private val testDispatcher = StandardTestDispatcher()
-
 
     @BeforeEach
     fun setUp() {
