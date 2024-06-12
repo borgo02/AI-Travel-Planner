@@ -18,6 +18,9 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/** Repository della classe User che estende la superclasse BaseRepository
+ *
+ */
 @Singleton
 class UserRepository @Inject private constructor(): IUserRepository, BaseRepository(){
     private var currentUser: User? = null
@@ -27,14 +30,23 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
 
+    /** Ritorna l'utente corrente
+     *
+     */
     override fun getUser(): User? {
         return currentUser
     }
 
+    /** Ritorna il riferimento di uno specifico utente nel database Firestore
+     *
+     */
     override suspend fun getUserReference(idUser: String): DocumentReference{
         return usersCollectionRef.document(idUser)
     }
 
+    /** Set o update dell'utente corrente
+     *
+     */
     override fun updateUser(newUser: User) {
         currentUser = newUser
         repositoryScope.launch {
@@ -42,10 +54,16 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         }
     }
 
+    /** Inserimento di un nuovo utente nel database
+     *
+     */
     override suspend fun setUser(user: User) {
         db.collection("users").document(user.idUser).set(user).await()
     }
 
+    /** Aggiornamento del numero di like e della lista dei viaggi che sono piaciuti ad un utente
+     *
+     */
     override suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean) {
         mutex.withLock {
             val travelRef = travelsCollectionReference.document(idTravel)
@@ -73,7 +91,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         }
     }
 
-
+    /** Ritornare i viaggi generati da un utente specifico
+     *
+     */
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
@@ -87,6 +107,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         return sharedTravelList
     }
 
+    /** Ritorna gli interessi che sono stati inseriti dopo il primo login da un utente specifico.
+     *
+     */
     override suspend fun getInterestsByUser(idUser: String): Map<String, Float>? {
         val userRef = db.collection("users").document(idUser).get().await()
 
@@ -97,6 +120,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             null
     }
 
+    /** Ritorna i viaggi pubblicati da un utente specifico
+     *
+     */
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
@@ -110,6 +136,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         return sharedTravelList
     }
 
+    /** Ritorna i viaggi non pubblicati da un utente specifico
+     *
+     */
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
         val userRef = usersCollectionRef.document(idUser)
         val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
@@ -123,6 +152,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         return notSharedTravelList
     }
 
+    /** Ritorna tutti gli utenti presenti nel database
+     *
+     */
     override suspend fun getUsers(): ArrayList<User> {
         val users = usersCollectionRef.get().await()
         val userList: ArrayList<User> = arrayListOf()
@@ -136,6 +168,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         return userList
     }
 
+    /** Ritorna uno utente identificato da uno specifico id
+     *
+     */
     override suspend fun getUserById(idUser: String, isCurrentUser: Boolean): User? {
         val userDoc = usersCollectionRef.document(idUser).get().await()
         val likedTravelList: ArrayList<Likes>
@@ -153,6 +188,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             null
     }
 
+    /** Ritorna il proprietario (utente) di uno specifico viaggio passato in input
+     *
+     */
     override suspend fun getUserByTravel(idTravel: String): User? {
         val travelRef = travelsCollectionReference.document(idTravel).get().await()
         return if(travelRef.exists()){
@@ -167,6 +205,9 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             null
     }
 
+    /** Ritorna la lista dei like inseriti da un utente a degli specifici viaggi
+     *
+     */
     override suspend fun getLikesByUser(idUser: String): ArrayList<Likes> {
         val likesList: ArrayList<Likes> = arrayListOf()
         val likesRef = usersCollectionRef.document(idUser).collection("likedTravels").get().await()
@@ -182,6 +223,10 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
         return likesList
     }
 
+    /** Oggetto per l'implementazione del pattern Singleton.
+     *
+     * Permette di utilizzare una sola istanza di UserRepository all'interno dell'intera applicazione.
+     */
     companion object {
         @Volatile
         private var instance: UserRepository? = null

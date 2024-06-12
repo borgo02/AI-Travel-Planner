@@ -28,7 +28,7 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             viewModel.clearViewModel()
-            viewModel.isFormCompleted.value = false
+            viewModel.isFormEmpty.value = false
         }
         viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
             stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
@@ -47,11 +47,6 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         viewModel.isTravelCreated.observe(viewLifecycleOwner){newValue: Boolean ->
             if(newValue)
                 requireActivity().supportFragmentManager.popBackStack()
-        }
-
-        viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
-            if(it)
-                Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
         }
     }
 }

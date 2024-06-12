@@ -6,6 +6,9 @@ import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 import java.util.Date
 
+/** Data class che modella il singolo like inserito dall'utente ad uno specifico viaggio
+ *
+ */
 data class Likes(
     @DocumentId var idLike: String?,
     @PropertyName("idTravel") var idTravel: DocumentReference,

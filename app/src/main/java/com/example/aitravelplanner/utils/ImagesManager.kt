@@ -10,6 +10,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 
+/** Questa classe si occupa di ottenere delle immagini data una lista di stringhe in input tramite API di Google.
+ *
+ * Questa classe è fondamentale nella generazione e visualizzazione di un viaggio.
+ *
+ */
 class ImagesManager {
     suspend fun getImages(places: ArrayList<String>): ArrayList<String> {
         val urlImages: ArrayList<String> = arrayListOf()

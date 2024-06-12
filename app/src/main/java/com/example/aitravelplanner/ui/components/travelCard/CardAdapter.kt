@@ -19,6 +19,15 @@ import com.example.aitravelplanner.ui.profile.SharedTravelsFragment
 import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
 import com.example.aitravelplanner.utils.CardDiffCallback
 
+/**
+ * Adapter per gestire la visualizzazione delle card dei viaggi in una RecyclerView.
+ *
+ * @param cards Lista mutabile delle card di viaggio.
+ * @param isLiked Funzione opzionale per gestire il click sul like di una card.
+ * @param fragment Fragment che utilizza l'adapter, utilizzato per determinare il tipo di visualizzazione.
+ * @param loadSelectedTravel Funzione opzionale per caricare un viaggio selezionato.
+ * @param shareTravel Funzione opzionale per condividere un viaggio.
+ */
 class CardAdapter(
     private val cards: MutableList<CardTravel>,
     private val isLiked: ((CardTravel) -> Boolean)? = null,
@@ -27,6 +36,7 @@ class CardAdapter(
     private val shareTravel: ((CardTravel) -> Unit)? = null
 ) : RecyclerView.Adapter<CardAdapter.CardHolder>() {
 
+    // Determina il tipo di Fragment che utilizza l'adapter
     private val fragmentType: FragmentType = when (fragment) {
         is DashboardFragment -> FragmentType.DASHBOARD
         is ProfileFragment -> FragmentType.PROFILE
@@ -34,10 +44,12 @@ class CardAdapter(
         else -> FragmentType.UNKNOWN
     }
 
+    // Enum per i diversi tipi di Fragment
     enum class FragmentType {
         DASHBOARD, PROFILE, SHARED_TRAVELS, UNKNOWN
     }
 
+    // ViewHolder per la visualizzazione della card
     class CardHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val username: TextView = row.findViewById(R.id.username)
         val userImage: CustomImageView = row.findViewById(R.id.userImage)
@@ -52,6 +64,9 @@ class CardAdapter(
         val profileBar: View = row.findViewById(R.id.profileBar)
     }
 
+    /** Crea il ViewHolder per la visualizzazione della card
+     *
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.component_travel_card,
@@ -60,6 +75,9 @@ class CardAdapter(
         return CardHolder(layout)
     }
 
+    /** Collega i dati della card al ViewHolder che si occupa della visualizzazione nella recycler view
+     *
+     */
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         val currentCard = cards[position]
 
@@ -71,6 +89,7 @@ class CardAdapter(
         holder.userImage.setURL(currentCard.userImage)
         holder.travelName.text = currentCard.travelName
 
+        // Configura la visualizzazione delle card in base al tipo di Fragment
         when (fragmentType) {
             FragmentType.PROFILE -> {
                 holder.profileBar.visibility = View.GONE
@@ -158,13 +177,20 @@ class CardAdapter(
             FragmentType.UNKNOWN -> TODO()
         }
 
+        // Aggiusta il margine inferiore dell'ultima card
         val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
         layoutParams.bottomMargin = if (position == itemCount - 1) 300 else 0
         holder.itemView.layoutParams = layoutParams
     }
 
+    /** Restituisce il numero totale di card
+     *
+     */
     override fun getItemCount(): Int = cards.size
 
+    /**Aggiorna i dati della lista delle card
+     *
+     */
     fun updateData(newCardList: List<CardTravel>) {
         val oldCards = ArrayList(cards)
         cards.clear()

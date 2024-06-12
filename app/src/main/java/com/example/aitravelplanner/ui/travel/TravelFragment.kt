@@ -19,7 +19,7 @@ import com.example.aitravelplanner.ui.profile.ProfileViewModel
 class TravelFragment : Fragment() {
     private val args: TravelFragmentArgs by navArgs()
     private var _binding: FragmentTravelBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
+
     private val binding get() = _binding!!
     private lateinit var viewModel: TravelViewModel
     private lateinit var stageCardRecyclerView: RecyclerView
@@ -27,7 +27,7 @@ class TravelFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTravelBinding.inflate(inflater,container, false)
 
         viewModel = when (args.flag){
@@ -86,5 +86,4 @@ class TravelFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

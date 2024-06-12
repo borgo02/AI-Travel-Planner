@@ -8,11 +8,14 @@ import com.example.aitravelplanner.data.repository.user.IUserRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
-import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import com.example.aitravelplanner.utils.notifyObserver
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
+/** Questo View Model si occupa di gestire la logica legata al fragment della dashboard e di chiamare metodi del repository per aggiornamento del database.
+ *
+ */
+class DashboardViewModel @Inject constructor() : TravelViewModel() {
 class DashboardViewModel @Inject constructor(override val userRepository: IUserRepository = UserRepository.getInstance(), override val travelRepository: ITravelRepository = TravelRepository(), override val travelCardsSingleton: TravelCardsSingleton = TravelCardsSingleton.getInstance(), private val coroutineScopeProvider: CoroutineScope? = null) : TravelViewModel(userRepository,travelRepository, travelCardsSingleton, coroutineScopeProvider) {
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
@@ -22,13 +25,18 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
 
     init{
         executeWithLoadingSuspend(block ={
-            if(currentUser.value != null) {
+            if (currentUser.value != null) {
                 travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
                 setTravelCards()
             }
         })
     }
 
+    /** Questa funzione imposta la lista di viaggi da visualizzare nella dashboard.
+     *
+     * Viene osservata la lista travelCardsList della classe travelCardsSingleton che si occupa di gestire le
+     * liste relative ai viaggi sia nella dashboard che ne profilo dell'utente
+     */
     override suspend fun setTravelCards() {
         travelCardsSingleton.travelCardsList.observeForever { it ->
             val newSearchedTravelList = arrayListOf<CardTravel>()
@@ -49,6 +57,9 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         }
     }
 
+    /** Questa funzione viene chiamata quando l'utente cerca una tappa da inserire nel viaggio generato
+     *
+     */
     fun search(){
         executeWithLoading(block = {
             _searchedCardsList.value!!.clear()
@@ -61,6 +72,19 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         })
     }
 
+    fun refreshItems()
+    {
+        executeWithLoadingSuspend(block ={
+            if (currentUser.value != null) {
+                travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
+                setTravelCards()
+            }
+        })
+    }
+
+    /** Questa funzione viene chiamata quando l'utente clicca il bottone di like di uno specifico viaggio
+     *
+     */
     override fun clickLike(){
         super.isLiked(selectedTravel.value!!)
         _selectedTravel.notifyObserver()

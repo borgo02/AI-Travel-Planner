@@ -6,30 +6,68 @@ import com.example.aitravelplanner.data.model.User
 import com.google.firebase.firestore.DocumentReference
 
 interface IUserRepository {
-    //Get current User
+    /** Ritorna l'utente corrente
+     *
+     */
     fun getUser(): User?
-    // Get the user document reference
+
+    /** Ritorna il riferimento di uno specifico utente nel database Firestore
+     *
+     */
     suspend fun getUserReference(idUser: String): DocumentReference
-    //Update current user
+
+    /** Set o update dell'utente corrente
+     *
+     */
     fun updateUser(newUser: User)
-    // Add a user into the Firestore database, under "users" collection
+
+    /** Inserimento di un nuovo utente nel database
+     *
+     */
     suspend fun setUser(user: User)
-    // Return all the travels created by a given user
+
+    /** Ritornare i viaggi generati da un utente specifico
+     *
+     */
     suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
-    // Get only shared travels by a given idUser as a String
+
+    /** Ritorna i viaggi pubblicati da un utente specifico
+     *
+     */
     suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
-    // Get only not yet shared travels by a given idUser as a String
+
+    /** Ritorna i viaggi non pubblicati da un utente specifico
+     *
+     */
     suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel>
-    // Get all the users in the Firestore database
+
+    /** Ritorna tutti gli utenti presenti nel database
+     *
+     */
     suspend fun getUsers(): ArrayList<User>
-    // If exists, get a user with a specif Id
+
+    /** Ritorna uno utente identificato da uno specifico id
+     *
+     */
     suspend fun getUserById(idUser: String, isCurrentUser: Boolean = false): User?
-    // Get the owner user of a travel with specific idTravel
+
+    /** Ritorna il proprietario (utente) di uno specifico viaggio passato in input
+     *
+     */
     suspend fun getUserByTravel(idTravel: String): User?
-    // Get likes of a users, with idTravel and timestamp
+
+    /** Ritorna la lista dei like inseriti da un utente a degli specifici viaggi
+     *
+     */
     suspend fun getLikesByUser(idUser: String): ArrayList<Likes>
-    // Return the interests of a given user
+
+    /** Ritorna gli interessi che sono stati inseriti dopo il primo login da un utente specifico.
+     *
+     */
     suspend fun getInterestsByUser(idUser: String): Map<String, Float>?
-    // Update number of likes of a specific travel and user's liked travel list of
+
+    /** Aggiornamento del numero di like e della lista dei viaggi che sono piaciuti ad un utente
+     *
+     */
     suspend fun updateLikedTravelByUser(idUser: String, idTravel: String, isLiked: Boolean)
 }

@@ -1,17 +1,22 @@
 package com.example.aitravelplanner.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aitravelplanner.LoginActivity
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
+/** Fragment che si occupa della visualizzazione del profilo dell'utente
+ *
+ */
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_profile
@@ -28,9 +33,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // Osserva la lista cardsList in cui sono presenti i viaggi nel profilo dell'utente corrente
         viewModel.cardsList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter = CardAdapter(newValue, null, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
             cardTravelRecyclerView.adapter = cardAdapter
+        }
+
+        viewModel.logout.observe(viewLifecycleOwner) { newValue ->
+            if (newValue) {
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
         }
     }
 }

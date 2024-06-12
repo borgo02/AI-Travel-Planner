@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aitravelplanner.databinding.FragmentSharedTravelsProfileBinding
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
 
+/** Fragment che si occupa della visualizzazione dei viaggi pubblicati da un utente nella sezione specifica del suo profilo
+ *
+ */
 class SharedTravelsFragment : Fragment() {
 
     private var _binding: FragmentSharedTravelsProfileBinding? = null
@@ -30,6 +33,7 @@ class SharedTravelsFragment : Fragment() {
         binding.sharedTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.sharedTravelRecyclerView.adapter = cardAdapter
 
+        // Osserva la lista sharedTravelList del View Model contenente i viaggi pubblicati dall'utente corrente
         viewModel.sharedTravelList.observe(viewLifecycleOwner) { newValue ->
             cardAdapter.updateData(newValue)
         }

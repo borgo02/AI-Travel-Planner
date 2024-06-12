@@ -28,11 +28,27 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
         }
 
     private val _isLoading = MutableLiveData<Boolean>()
-    private val isTest = true
     val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
 
     private val coroutineScope = getViewModelScope(null)
+    private var _isBusy: ArrayList<Int> = ArrayList<Int>()
+    private var _isBusyLock: Any = Any()
+
+    private fun addBusy()
+    {
+        synchronized(_isBusyLock) {
+            _isBusy.add(1)
+        }
+    }
+
+    private fun popBusy(): Boolean
+    {
+        synchronized(_isBusyLock) {
+            _isBusy.removeLastOrNull()
+            return _isBusy.isEmpty()
+        }
+    }
 
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
@@ -40,30 +56,29 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     fun <T> executeWithLoading(
         block: () -> T
     ) {
-        if (!isTest)
-            _isLoading.value = true
-
+        _isLoading.value = true
+        addBusy()
         try {
             block()
         } catch (_: Exception) {
         }
         finally {
-            if (!isTest)
-                _isLoading.value =false
+            if (popBusy())
+                _isLoading.value = false
         }
     }
 
     protected fun <T> executeWithLoadingSuspend(
         block: suspend () -> T
     ) {
-        if (!isTest)
-            _isLoading.value = true
-
+        _isLoading.value = true
+        addBusy()
         coroutineScope.launch {
             try {
                 block()
                 withContext(Dispatchers.Main) {
-                    if (!isTest)
+                    val status = popBusy()
+                    if (status)
                         _isLoading.value = false
                 }
             } catch (_: Exception) {
@@ -71,7 +86,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
             }
             finally {
                 withContext(Dispatchers.Main) {
-                    if (!isTest)
+                    if (popBusy())
                         _isLoading.value = false
                 }
             }
@@ -85,7 +100,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
         }
     }
 
-    private fun navigate(navDirections: NavDirections) {
+    fun navigate(navDirections: NavDirections) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 
