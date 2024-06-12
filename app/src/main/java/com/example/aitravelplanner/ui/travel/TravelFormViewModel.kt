@@ -235,8 +235,7 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                 description += stage.description + "\n"
             }
 
-            val userRef = userRepository.getUserReference(currentUser.value!!.idUser)
-            val travel = Travel(idTravel = null, idUser = userRef, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
+            val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
             TravelCardsSingleton.getInstance().addTravel(travel, currentUser.value!!)

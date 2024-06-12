@@ -23,7 +23,7 @@ abstract class TravelViewModel@Inject constructor(override val userRepository: I
  * @constructor Viene iniettato un costruttore utilizzando l'annotazione @Inject
  */
     // Lista delle card di viaggi osservabile, inizializzata come una lista vuota.
-    protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
+    public var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
     // Viaggio selezionato attualmente, osservabile.
     protected var _selectedTravel = MutableLiveData<CardTravel>()

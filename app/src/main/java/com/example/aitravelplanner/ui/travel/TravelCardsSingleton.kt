@@ -29,8 +29,8 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
 
     private suspend fun addTravels(travels: ArrayList<Travel>, userId: String){
         for (travel in travels) {
-            val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/"))}!!
-            val affinity = evaluateAffinity(userRepository.getUserById(userId)!!.interests!!, userTravel.interests!!)
+            val userTravel: User = travel.idUser?.let { userRepository.getUserById(it)}!!
+            val affinity = evaluateAffinity(userRepository.getUser()!!.interests!!, userTravel.interests!!)
             val stageCardList = arrayListOf<StageCard>()
             for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))

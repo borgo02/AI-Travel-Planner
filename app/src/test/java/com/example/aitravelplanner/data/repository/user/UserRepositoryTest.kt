@@ -66,12 +66,10 @@ class UserRepositoryTest {
         val userId = "xotoF1gCuOdGMxgRUX7moQrsbjC2"
         val travelId = "travelId"
 
-        val mockUserRef = mockk<DocumentReference>()
         val mockTravelRef = mockk<QuerySnapshot>()
         val mockTask = mockk<Task<QuerySnapshot>>()
 
-        every { mockUserCollectionReference.document(userId) } returns mockUserRef
-        every { mockTravelCollectionReference.whereEqualTo("idUser", mockUserRef).get() } returns mockTask
+        every { mockTravelCollectionReference.whereEqualTo("idUser", userId).get() } returns mockTask
         every { mockTask.isSuccessful } returns true
         every { mockTask.isComplete } returns true
         every { mockTask.result } returns mockTravelRef
@@ -83,7 +81,7 @@ class UserRepositoryTest {
 
         val mockTravel = Travel(
             idTravel = travelId,
-            idUser = mockUserRef,
+            idUser = userId,
             info = "info",
             name = "name",
             isShared = true,

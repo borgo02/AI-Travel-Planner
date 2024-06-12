@@ -9,11 +9,11 @@ import java.util.Calendar
 import java.util.TimeZone
 
 class UserRepositoryMock: IUserRepository {
-    private val users = mutableListOf<User>()
+    private var currentUser: User = User("idUserTest1", "usertest1@mail", "User Test 1", true, mapOf("interest1" to 0.5f, "interest2" to 0.3f, ))
+    private val users = mutableListOf<User>(currentUser)
     private val travels = mutableListOf<Travel>()
     private val likes = mutableListOf<Likes>()
 
-    private var currentUser: User = User("idUserTest1", "usertest1@mail", "User Test 1", true, mapOf("interest1" to 0.5f, "interest2" to 0.3f, ))
     init{users.add(currentUser)}
     override fun getUser(): User?{
         return currentUser
@@ -51,11 +51,11 @@ class UserRepositoryMock: IUserRepository {
     }
 
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.idUser == mockk(idUser) && it.isShared == true })
+        return ArrayList(travels.filter { it.isShared == true })
     }
 
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.idUser == mockk(idUser) && it.isShared == true })
+        return ArrayList(travels.filter { it.idUser == mockk(idUser) && it.isShared == false })
     }
 
     override suspend fun getUsers(): ArrayList<User> {

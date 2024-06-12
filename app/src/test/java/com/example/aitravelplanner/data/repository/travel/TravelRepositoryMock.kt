@@ -15,9 +15,9 @@ class TravelRepositoryMock : ITravelRepository {
     private val dateString = "10-10-2002"
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy")
     private val date: Date? = dateFormat.parse(dateString)
-    private val travel1 = Travel(idTravel = "1", idUser = null, info = "Info", name = "test1", isShared = false, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = null, isLiked = false)
-    private val travel2 = Travel(idTravel = "2", idUser = null, info = "Info", name = "Milano", isShared = false, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = null, isLiked = true)
-    private val travel3 = Travel(idTravel = "3", idUser = null, info = "Info", name = "New York", isShared = true, timestamp = date, numberOfLikes = 10, imageUrl = "imageURL", stageList = null, isLiked = false)
+    private val travel1 = Travel(idTravel = "1", idUser = "idUserTest1", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = null, isLiked = false)
+    private val travel2 = Travel(idTravel = "2", idUser = "idUserTest1", info = "Info", name = "Milano", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = null, isLiked = true)
+    private val travel3 = Travel(idTravel = "3", idUser = "idUserTest1", info = "Info", name = "New York", isShared = true, timestamp = date, numberOfLikes = 10, imageUrl = "imageURL", stageList = null, isLiked = false)
     private val travels = mutableListOf(travel1, travel2, travel3)
     private val stages = mutableListOf<Stage>()
 
@@ -57,5 +57,9 @@ class TravelRepositoryMock : ITravelRepository {
 
     override suspend fun getTravelsCreatedByUser(user: User): ArrayList<Travel> {
         return ArrayList(travels.filter { it.idUser == mockk( user.idUser) })
+    }
+
+    override suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
+        return travels.find { it.idTravel == idTravel }?.isLiked ?: false
     }
 }

@@ -10,6 +10,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -45,7 +46,7 @@ class DashboardViewModelTest  {
 
 
     @BeforeEach
-    fun setUp() = runTest(StandardTestDispatcher()) {
+    fun setUp() = runBlocking {
         Dispatchers.setMain(testDispatcher)
         MockKAnnotations.init(this, relaxed = true)
         mockUserRepository = UserRepositoryMock.getInstance()
