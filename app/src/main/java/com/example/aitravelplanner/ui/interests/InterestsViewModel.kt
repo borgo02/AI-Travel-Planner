@@ -1,16 +1,15 @@
 package com.example.aitravelplanner.ui.interests
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.BaseViewModel
 import javax.inject.Inject
 
+/**
+ * ViewModel che gestisce la logica per la visualizzazione degli interessi dell'utente.
+ *
+ * @property userRepository Repository per la gestione degli utenti.
+ */
 class InterestsViewModel @Inject constructor() : BaseViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
-
     val storyValue = MutableLiveData(5.0f)
     val artValue = MutableLiveData(5.0f)
     val partyValue = MutableLiveData(5.0f)
@@ -19,6 +18,10 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
     val sportValue = MutableLiveData(5.0f)
     val shoppingValue = MutableLiveData(5.0f)
 
+    /**
+     * Metodo chiamato quando viene confermata la selezione degli interessi.
+     * Aggiorna gli interessi dell'utente nel repository.
+     */
     fun confirmClicked() {
         executeWithLoading(block = {
             val interestEntity = mapOf("story" to storyValue.value!!,

@@ -16,6 +16,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * BaseViewModel è una classe base per tutti i ViewModels dell'applicazione che la estendono.
+ * Gestisce operazioni comuni come il caricamento, la navigazione e l'accesso all'utente corrente.
+ */
 open class BaseViewModel @Inject constructor() : ViewModel() {
     val userRepository = UserRepository.getInstance()
     val travelRepository = TravelRepository()
@@ -29,10 +33,12 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
-
     private var _isBusy: ArrayList<Int> = ArrayList<Int>()
     private var _isBusyLock: Any = Any()
 
+    /**
+     * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
+     */
     private fun addBusy()
     {
         synchronized(_isBusyLock) {
@@ -40,6 +46,9 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
+     */
     private fun popBusy(): Boolean
     {
         synchronized(_isBusyLock) {
@@ -51,6 +60,9 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
+    /**
+     * Esegue un blocco di codice con una progress bar visibile.
+     */
     fun <T> executeWithLoading(
         block: () -> T
     ) {
@@ -66,6 +78,9 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+    * Esegue un blocco di codice suspend con una progress bar visibile.
+    */
     protected fun <T> executeWithLoadingSuspend(
         block: suspend () -> T
     ) {
@@ -91,6 +106,9 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Controlla se l'utente corrente ha inserito i suoi interessi dopo il login
+     */
     fun checkIfUserHaveInterest() {
         if (!currentUser.value!!.isInitialized)
         {
@@ -105,6 +123,10 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     fun navigateBack() {
         _navigation.value = Event(NavigationCommand.Back)
     }
+
+    /**
+     * Naviga verso il Fragment degli interessi
+     */
     private fun goToInterestFragment() {
         try
         {

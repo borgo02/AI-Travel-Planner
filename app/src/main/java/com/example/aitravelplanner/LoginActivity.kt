@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
-import com.example.aitravelplanner.ui.interests.InterestsFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -69,6 +68,13 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
     }
 
+    /**
+     * Gestisce il risultato del tentativo di accesso con Google.
+     * Viene chiamata dopo che l'utente ha completato il flusso di accesso di Google.
+     * Se l'accesso è riuscito, autentica l'utente con Firebase utilizzando il token ID di Google.
+     * Se l'accesso fallisce, mostra un messaggio di errore.
+     *
+     */
     private fun handleSignInResult(data: Intent?) {
         // Risultato restituito dal lancio del PendingIntent di accesso
         try {
@@ -92,29 +98,41 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Autentica l'utente con Firebase utilizzando il token ID di Google.
+     * Viene chiamata dopo che l'utente ha completato con successo l'accesso con Google.
+     * Se l'autenticazione è riuscita, avvia MainActivity e aggiorna l'UI con le informazioni dell'utente.
+     * Se l'autenticazione fallisce, mostra un messaggio di errore.
+     *
+     */
     private fun firebaseAuthWithGoogle(idToken: String) {
         progressBar.visibility = View.VISIBLE
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val intent: Intent = Intent(this, MainActivity::class.java)
-                    lifecycleScope.launch {
-                        // Accesso riuscito, aggiorna l'UI con le informazioni dell'utente autenticato
-                        Log.d(TAG, "signInWithCredential:success")
-                        val user = auth.currentUser
-                        val dbUser = userRepo.getUserById(user!!.uid, true)
-                        handleUserInitialization(dbUser, user, intent)
-                    }
-                } else {
-                    // Se l'accesso fallisce, mostra un messaggio all'utente
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    val rootView: View = findViewById(android.R.id.content)
-                    Snackbar.make(rootView, "Autenticazione fallita.", Snackbar.LENGTH_SHORT).show()
+        auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                val intent: Intent = Intent(this, MainActivity::class.java)
+                lifecycleScope.launch {
+                    // Accesso riuscito, aggiorna l'UI con le informazioni dell'utente autenticato
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    val dbUser = userRepo.getUserById(user!!.uid, true)
+                    handleUserInitialization(dbUser, user, intent)
                 }
+            } else {
+                // Se l'accesso fallisce, mostra un messaggio all'utente
+                Log.w(TAG, "signInWithCredential:failure", task.exception)
+                val rootView: View = findViewById(android.R.id.content)
+                Snackbar.make(rootView, "Autenticazione fallita.", Snackbar.LENGTH_SHORT).show()
             }
+        }
     }
 
+    /**
+     * Gestisce l'inizializzazione dell'utente dopo l'accesso.
+     * Se l'utente esiste nel database ed è già inizializzato, salta la selezione degli interessi.
+     * Altrimenti, crea un nuovo utente e richiede la selezione degli interessi.
+     *
+     */
     private fun handleUserInitialization(dbUser: User?, user: FirebaseUser, intent: Intent) {
         if (dbUser != null && dbUser.isInitialized) {
             // Evita la selezione degli interessi
@@ -139,11 +157,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Avvia il processo di accesso tramite Google quando l'utente fa clic su un pulsante di accesso.
+     * Richiede un intent di accesso a Google e lo lancia per iniziare il processo di autenticazione.
+     *
+     */
     fun signIn(view: View) {
         val signInRequest = GetSignInIntentRequest.builder()
             .setServerClientId(getString(R.string.web_client_id))
             .build()
-
         signInClient.getSignInIntent(signInRequest)
             .addOnSuccessListener { pendingIntent ->
                 launchSignIn(pendingIntent)
@@ -153,6 +175,10 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Avvia il processo di accesso One Tap di Google per l'utente.
+     * Configura e mostra l'interfaccia utente di One Tap per l'accesso o la registrazione.
+     */
     private fun oneTapSignIn() {
         // Configura l'interfaccia utente One Tap
         val oneTapRequest = BeginSignInRequest.builder()
@@ -164,7 +190,6 @@ class LoginActivity : AppCompatActivity() {
                     .build()
             )
             .build()
-
         // Mostra l'interfaccia utente One Tap
         signInClient.beginSignIn(oneTapRequest)
             .addOnSuccessListener { result ->
@@ -176,6 +201,11 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Avvia l'accesso utilizzando l'intent fornito.
+     * Questo metodo viene utilizzato per avviare l'intent per l'accesso One Tap.
+     *
+     */
     private fun launchSignIn(pendingIntent: PendingIntent) {
         try {
             val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent)

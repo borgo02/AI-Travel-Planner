@@ -28,7 +28,6 @@ class SharedTravelsFragment : Fragment() {
         _binding = FragmentSharedTravelsProfileBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         cardAdapter = CardAdapter(mutableListOf(), viewModel::isLiked, this, viewModel::loadSelectedTravel, viewModel::shareTravel)
         binding.sharedTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.sharedTravelRecyclerView.adapter = cardAdapter

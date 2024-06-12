@@ -12,13 +12,11 @@ import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentProfileBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
-import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
-/** Fragment che si occupa della visualizzazione del profilo dell'utente
- *
+/**
+ * Fragment che si occupa della visualizzazione del profilo dell'utente
  */
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
-
     override val layoutId: Int = R.layout.fragment_profile
     override val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var cardTravelRecyclerView: RecyclerView
@@ -29,7 +27,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         textView.setOnClickListener {
             findNavController().navigate(R.id.action_fragment_profile_to_fragment_shared_profile)
         }
-
         cardTravelRecyclerView = binding.cardTravelRecyclerView
         cardTravelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 

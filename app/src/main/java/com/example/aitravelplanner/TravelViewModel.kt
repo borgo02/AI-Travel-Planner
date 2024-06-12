@@ -16,14 +16,8 @@ import javax.inject.Inject
  * @constructor Viene iniettato un costruttore utilizzando l'annotazione @Inject
  */
 abstract class TravelViewModel @Inject constructor() : BaseViewModel() {
-
-    // Lista delle card di viaggi osservabile, inizializzata come una lista vuota.
     protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
-
-    // Singleton per la gestione delle card di viaggi.
     protected val travelCardsSingleton = TravelCardsSingleton.getInstance()
-
-    // Viaggio selezionato attualmente, osservabile.
     protected var _selectedTravel = MutableLiveData<CardTravel>()
     val selectedTravel: LiveData<CardTravel>
         get() = _selectedTravel

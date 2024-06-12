@@ -16,14 +16,18 @@ import com.example.aitravelplanner.R
 import com.example.aitravelplanner.data.model.NavigationCommand
 import com.example.aitravelplanner.utils.observeNonNull
 
+/**
+ * BaseFragment è una classe astratta che estende Fragment e gestisce le operazioni comuni
+ * per tutti i fragment dell'applicazione che la estendono.
+ *
+ * @param BINDING Tipo di ViewDataBinding specifico per il layout del Fragment.
+ * @param VM Tipo di ViewModel associato al Fragment.
+ */
 abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : Fragment() {
     @get:LayoutRes
     protected abstract val layoutId: Int
-
     protected abstract val viewModel: VM
-
     protected lateinit var binding: BINDING
-
     private lateinit var progressBar: ProgressBar
 
     protected abstract fun onReady(savedInstanceState: Bundle?)
@@ -51,22 +55,28 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
         super.onViewCreated(view, savedInstanceState)
         addObservers()
         progressBar = requireActivity().findViewById(R.id.progressBar)
-
         onReady(savedInstanceState)
     }
 
+    /**
+     * Metodo privato che aggiunge gli observers per la navigazione e il progresso di caricamento
+     * dal ViewModel associato.
+     */
     private fun addObservers() {
         viewModel.navigation.observeNonNull(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { navigationCommand ->
                 handleNavigation(navigationCommand)
             }
         }
-
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
+    /**
+    * Metodo che gestisce i comandi di navigazione ricevuti dal ViewModel.
+    *
+    */
     private fun handleNavigation(navCommand: NavigationCommand) {
         when (navCommand) {
             is NavigationCommand.ToDirection -> findNavController().navigate(navCommand.directions)

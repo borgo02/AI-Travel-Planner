@@ -2,11 +2,9 @@ package com.example.aitravelplanner
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -14,11 +12,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.databinding.ActivityMainBinding
-import com.example.aitravelplanner.utils.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarItemView
 import kotlinx.coroutines.launch
 
+/**
+ * MainActivity gestisce l'interfaccia utente principale dell'applicazione, inclusa la navigazione
+ * tramite BottomNavigationView e l'inizializzazione dell'utente corrente.
+*/
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //retrieving the central icon of the bottom navigation and setting the size differently
+        // Recupera l'icona centrale della bottom navigation e imposta dimensioni diverse
         val navView: BottomNavigationView = binding.navView
         val menu = navView.menu
         val menuItem = menu.getItem(1)
@@ -59,21 +60,10 @@ class MainActivity : AppCompatActivity() {
         centralIconViewParams.topMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2F, resources.displayMetrics).toInt()
         centralIconView.layoutParams = centralIconViewParams
 
-
-        // setting the nav controller for the bottom navigation view
+        // Imposta il NavController per la BottomNavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
-        if (!isInit)
-        {
-            addConditionalFragment()
-        }
-    }
-
-    private fun addConditionalFragment() {
-        /*val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(android.R.id.content, InterestsFragment())
-        fragmentTransaction.commit()*/
     }
 }

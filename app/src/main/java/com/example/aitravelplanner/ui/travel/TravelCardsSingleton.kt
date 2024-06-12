@@ -12,11 +12,21 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 import java.text.SimpleDateFormat
 
+ /**
+ * Singleton che gestisce la lista di CardTravel associate ai viaggi sia nella dashboard che nel profilo.
+ */
 class TravelCardsSingleton() {
+
+    // Lista MutableLiveData di CardTravel
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
     private val formatter = SimpleDateFormat("dd MMM yyyy")
     private val travelRepository: TravelRepository = TravelRepository()
     private val userRepository: UserRepository = UserRepository.getInstance()
+
+    /**
+     * Imposta le CardTravel per l'utente specificato.
+     *
+     */
     suspend fun setTravelCards(userId: String){
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
@@ -25,6 +35,10 @@ class TravelCardsSingleton() {
         notifyChanges()
     }
 
+    /**
+     * Aggiunge i viaggi specificati alla lista di CardTravel.
+     *
+     */
     private suspend fun addTravels(travels: ArrayList<Travel>, userId: String){
         for (travel in travels) {
             val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/"))}!!
@@ -52,16 +66,24 @@ class TravelCardsSingleton() {
         }
     }
 
+    /**
+     * Valuta l'affinità tra due mappe di interessi.
+     *
+     */
     private fun evaluateAffinity(currentUserMap: Map<String, Float>, travelMap: Map<String, Float>): String {
         val keys = currentUserMap.keys
         var differences = 0.0
-        for (key in keys) {
+        for (key in keys)
             differences += abs(currentUserMap[key]!! - travelMap[key]!!)
-        }
+
         val percentage = ((1-(differences/(keys.size*10)))*100).roundToInt()
         return "$percentage%"
     }
 
+    /**
+     * Aggiunge un viaggio alla lista di CardTravel.
+     *
+     */
     fun addTravel(travel: Travel, userTravel: User){
         val stageCardList = arrayListOf<StageCard>()
         for (stage in travel.stageList!!)
@@ -86,13 +108,21 @@ class TravelCardsSingleton() {
         travelCardsList.notifyObserver()
     }
 
+    /**
+     * Notifica agli observer i cambiamenti nella lista di CardTravel.
+     */
     fun notifyChanges(){
         travelCardsList.notifyObserver()
     }
+
     companion object {
         @Volatile
         private var instance: TravelCardsSingleton? = null
 
+        /**
+         * Ottiene l'istanza Singleton di TravelCardsSingleton.
+         *
+         */
         fun getInstance(): TravelCardsSingleton {
             return instance ?: synchronized(this) {
                 instance ?: TravelCardsSingleton().also { instance = it }
