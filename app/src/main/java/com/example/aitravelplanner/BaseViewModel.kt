@@ -116,7 +116,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun navigate(navDirections: NavDirections) {
+    fun navigate(navDirections: NavDirections) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 

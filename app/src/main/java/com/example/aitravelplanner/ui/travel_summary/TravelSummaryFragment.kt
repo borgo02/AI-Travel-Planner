@@ -32,7 +32,7 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             viewModel.clearViewModel()
-            viewModel.isFormCompleted.value = false
+            viewModel.isFormEmpty.value = false
         }
 
         // Osserva le modifiche nella lista delle CardStage selezionate nel ViewModel
@@ -55,12 +55,6 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         viewModel.isTravelCreated.observe(viewLifecycleOwner) { newValue: Boolean ->
             if (newValue)
                 requireActivity().supportFragmentManager.popBackStack()
-        }
-
-        // Osserva il flag che indica se si è verificato un errore durante il caricamento delle informazioni
-        viewModel.hasJsonError.observe(viewLifecycleOwner) { hasError: Boolean ->
-            if (hasError)
-                Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -18,7 +18,7 @@ import org.json.JSONObject
 class TravelFormViewModel @Inject constructor() : BaseViewModel() {
     private var budget: String = ""
     var hasJsonError = MutableLiveData<Boolean>(false)
-    var isFormCompleted = MutableLiveData<Boolean>(false)
+    var isFormEmpty = MutableLiveData<Boolean>(false)
     val sourceInput = MutableLiveData<String>("")
     val isActualPosition = MutableLiveData<Boolean>(false)
     val destinationInput = MutableLiveData<String>("")
@@ -62,7 +62,6 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
         hasJsonError.value = false
         budget = determineBudget()
         if((sourceInput.value != "" || isActualPosition.value == true) && (destinationInput.value != "" || isAutomaticDestination.value == true) && days.value != "" && days.value!!.toInt() > 0 && budget != ""){
-            isFormCompleted.value = true
             val interests = currentUser.value!!.interests as Map<String,Float>
             var json: JSONObject
             val justVisitedCities: ArrayList<String> = arrayListOf()
@@ -140,13 +139,14 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
                         descriptionList = stageSelectedDescriptions
                     )
                     _stageSelectedCardList.notifyObserver()
+                    navigate(TravelFormFragmentDirections.actionTravelFormFragmentToTravelSummaryFragment())
                 }
                 else
                     hasJsonError.value = true
             })
         }
         else
-            isFormCompleted.value = false
+            isFormEmpty.value = true
     }
 
     /**
@@ -268,10 +268,10 @@ class TravelFormViewModel @Inject constructor() : BaseViewModel() {
      */
     fun clearViewModel(){
         isTravelCreated.value = false
-        isFormCompleted.value = false
+        isFormEmpty.value = false
         budget = ""
         hasJsonError.value = false
-        isFormCompleted.value = false
+        isFormEmpty.value = false
         sourceInput.value = ""
         isActualPosition.value = false
         destinationInput.value =""

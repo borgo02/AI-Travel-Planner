@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
 import com.example.aitravelplanner.ui.BaseFragment
@@ -23,6 +24,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
+        val pullToRefresh: SwipeRefreshLayout = requireActivity().findViewById(R.id.pullToRefresh)
         cardAdapter = CardAdapter(mutableListOf(), viewModel::isLiked, this, viewModel::loadSelectedTravel)
         binding.travelCardsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.travelCardsRecyclerView.adapter = cardAdapter
@@ -34,5 +36,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
         viewModel.checkIfUserHaveInterest()
         viewModel.searchText.observe(viewLifecycleOwner, searchTextObserver)
+
+        pullToRefresh.setOnRefreshListener {
+            viewModel.refreshItems()
+            pullToRefresh.isRefreshing = false
+        }
     }
 }

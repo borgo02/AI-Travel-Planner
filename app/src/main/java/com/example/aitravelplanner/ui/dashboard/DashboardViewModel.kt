@@ -62,6 +62,16 @@ class DashboardViewModel @Inject constructor() : TravelViewModel() {
         })
     }
 
+    fun refreshItems()
+    {
+        executeWithLoadingSuspend(block ={
+            if (currentUser.value != null) {
+                travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
+                setTravelCards()
+            }
+        })
+    }
+
     /** Questa funzione viene chiamata quando l'utente clicca il bottone di like di uno specifico viaggio
      *
      */
