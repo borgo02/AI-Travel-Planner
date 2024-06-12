@@ -32,7 +32,7 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         })
     }
 
-    /** Questa funzione imposta la lista di viaggi da visualizzare nel profilo utente.
+    /** Questo metodo imposta la lista di viaggi da visualizzare nel profilo utente.
      *
      * Viene osservata la lista travelCardsList della classe travelCardsSingleton che si occupa di gestire le
      * liste relative ai viaggi sia nella dashboard che ne profilo dell'utente
@@ -53,9 +53,9 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         }
     }
 
-    /** Questa funziona si occupa della condivisione di un viaggio da parte di un utente nel suo profilo.
-     *
-     * Viene richiamata quando l'utente clicca il bottone di "share" di una card di uno specifico viaggio
+    /**
+     * Questo metodo si occupa della condivisione di un viaggio da parte di un utente nel suo profilo.
+     * Viene richiamato quando l'utente clicca il bottone di "share" di una card di uno specifico viaggio
      */
     fun shareTravel(cardTravel: CardTravel){
         cardTravel.isShared = true
@@ -65,14 +65,17 @@ class ProfileViewModel @Inject constructor() : TravelViewModel() {
         travelCardsSingleton.notifyChanges()
     }
 
-    /** Questa funzione si occupa dell'aggiornamento del numero di like dei viaggi generati e condivisi da un utente specifico
-     *
+    /**
+     * Questo metodo si occupa dell'aggiornamento del numero di like dei viaggi generati e condivisi da un utente specifico
      */
     override fun clickLike(){
         super.isLiked(selectedTravel.value!!)
         _selectedTravel.notifyObserver()
     }
 
+    /**
+     * Metodo per la gestione del logout dall'applicazione
+     */
     fun logout() {
         Firebase.auth.signOut()
         _logout.value = true

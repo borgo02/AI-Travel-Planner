@@ -195,7 +195,6 @@ class CardAdapter(
         val oldCards = ArrayList(cards)
         cards.clear()
         cards.addAll(newCardList)
-
         val diffResult = DiffUtil.calculateDiff(CardDiffCallback(oldCards, newCardList))
         diffResult.dispatchUpdatesTo(this)
     }

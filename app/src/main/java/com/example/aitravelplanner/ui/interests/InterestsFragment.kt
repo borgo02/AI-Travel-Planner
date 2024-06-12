@@ -3,14 +3,14 @@ package com.example.aitravelplanner.ui.interests
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.aitravelplanner.MainActivity
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentInterestsBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
+/**
+ * Fragment che gestisce la visualizzazione degli interessi dell'utente.
+ */
 class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewModel>() {
     override val layoutId: Int = R.layout.fragment_interests
     override val viewModel: InterestsViewModel by activityViewModels()

@@ -31,10 +31,8 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
     val isMediumBudget = MutableLiveData<Boolean>(false)
     val isLargeBudget = MutableLiveData<Boolean>(false)
     val isTravelCreated = MutableLiveData<Boolean>(false)
-
     private val openAIManager = OpenAIManager()
     private val imagesManager = ImagesManager()
-
     private val _travelName = MutableLiveData<String>("")
     private val _stageSelectedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
     private val _stageSearchedCardList = MutableLiveData<ArrayList<StageCard>>(arrayListOf<StageCard>())
@@ -42,8 +40,7 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
 
     val travelName: LiveData<String>
         get() = _travelName
-
-    var stageList:ArrayList<Stage> = arrayListOf()
+    private var stageList:ArrayList<Stage> = arrayListOf()
     val stageSelectedCardList: LiveData<ArrayList<StageCard>>
         get() = _stageSelectedCardList
     val stageSearchedCardList: LiveData<ArrayList<StageCard>>
@@ -60,12 +57,16 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
     private var stageSelectedDescriptions = arrayListOf<String>()
     private var description: String = ""
 
+    /**
+     * Metodo chiamato quando l'utente conferma la creazione del viaggio.
+     * Esegue la validazione del form e l'elaborazione delle informazioni per creare il viaggio.
+     */
     fun confirmClicked() {
         hasJsonError.value = false
         budget = determineBudget()
         if((sourceInput.value != "" || isActualPosition.value == true) && (destinationInput.value != "" || isAutomaticDestination.value == true) && days.value != "" && days.value!!.toInt() > 0 && budget != ""){
             val interests = currentUser.value!!.interests as Map<String,Float>
-            var json = JSONObject()
+            var json: JSONObject
             val justVisitedCities: ArrayList<String> = arrayListOf()
 
             val source = sourceInput.value ?: ""
@@ -109,7 +110,6 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                 if (!json.has("error")) {
                     hasJsonError.value = false
                     val placesArray = json.getJSONArray("Places to visit") ?: json.getJSONArray("Places to Visit")
-
                     _travelName.value = json.getString("City to visit")
                     description += json.getString("Description") + "\n"
                     val names = arrayListOf<String>()
@@ -122,9 +122,7 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                         names.add(place)
                         stageSelectedNameList.add(place)
                     }
-
                     stageImagesUrl = imagesManager.getImages(names)
-
 
                     for (i in 0 until stageImagesUrl.size) {
                         if(i == 0){
@@ -154,7 +152,9 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
             isFormEmpty.value = true
     }
 
-
+    /**
+     * Determina la categoria di budget selezionata.
+     */
     private fun determineBudget(): String {
         return when {
             isSmallBudget.value == true -> "Economico"
@@ -164,6 +164,16 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         }
     }
 
+    /**
+     * Imposta le CardStage nella lista specificata.
+     *
+     * @param stageCardList Lista di CardStage da aggiornare.
+     * @param stageNameList Nomi dei luoghi di interesse.
+     * @param stageImageList Immagini associate ai luoghi di interesse.
+     * @param stageAffinityList Affinità associate ai luoghi di interesse.
+     * @param isSelected Indica se le CardStage sono selezionate.
+     * @param descriptionList Descrizioni associate ai luoghi di interesse.
+     */
     private fun setStageCards(stageCardList: ArrayList<StageCard>, stageNameList: ArrayList<String>, stageImageList: ArrayList<String>, stageAffinityList: ArrayList<Int>, isSelected: Boolean, descriptionList: ArrayList<String>){
         for( i in (stageNameList.indices)){
             val stageCard = StageCard(stageName = stageNameList[i], stageImage = stageImageList[i], stageAffinity = stageAffinityList[i],isSearched = !(isSelected), isSelected = isSelected, description = descriptionList[i])
@@ -171,11 +181,17 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         }
     }
 
+    /**
+     * Rimuove la CardStage specificata dalla lista delle CardStage selezionate.
+     */
     fun deleteStage(stageCard: StageCard){
         _stageSelectedCardList.value!!.remove(stageCard)
         _stageSelectedCardList.notifyObserver()
     }
 
+    /**
+     * Aggiunge la CardStage specificata dalla lista delle CardStage selezionate.
+     */
     fun addStage(stageCard: StageCard){
         _stageSearchedCardList.value!!.remove(stageCard)
         stageCard.isSearched = false
@@ -184,6 +200,9 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         _stageSelectedCardList.notifyObserver()
     }
 
+    /**
+     * Esegue la ricerca dei luoghi di interesse basata sul testo inserito.
+     */
     fun searchedClicked(){
         viewModelScope.launch{
             val filteredStages: ArrayList<Stage> = travelRepository.getFilteredStagesByCity(searchText.value!!, travelName.value!!)
@@ -215,6 +234,9 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         }
     }
 
+    /**
+     * Esegue il salvataggio del viaggio creato.
+     */
     fun savedClicked() {
         executeWithLoadingSuspend(block = {
             var i = 1
@@ -243,6 +265,9 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         })
     }
 
+    /**
+     * Metodo utilizzato per resetta tutti i valori del ViewModel al loro stato iniziale.
+     */
     fun clearViewModel(){
         isTravelCreated.value = false
         isFormEmpty.value = false
@@ -258,12 +283,10 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
         isMediumBudget.value = false
         isLargeBudget.value = false
         isTravelCreated.value = false
-
         _travelName.value = ""
         _stageSelectedCardList.value = arrayListOf<StageCard>()
         _stageSearchedCardList.value = arrayListOf<StageCard>()
         searchText.value = ""
-
         stageList = arrayListOf()
         stageImagesUrl = arrayListOf()
         stageSearchedNameList = arrayListOf()

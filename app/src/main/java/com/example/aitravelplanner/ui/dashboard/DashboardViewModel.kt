@@ -49,14 +49,13 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         travelCardsSingleton.travelCardsList.observeForever { it ->
             val newSearchedTravelList = arrayListOf<CardTravel>()
             val newCardList = arrayListOf<CardTravel>()
-            for (cardTravel in it) {
+            for (cardTravel in it)
                 if (cardTravel.isShared) {
                     newCardList.add(cardTravel)
-                    if(searchText.value == "") {
+                    if(searchText.value == "")
                         newSearchedTravelList.add(cardTravel)
-                    }
                 }
-            }
+
             _cardsList.value = newCardList
             if(searchText.value == "")
                 _searchedCardsList.value = newSearchedTravelList
@@ -71,12 +70,10 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
     fun search(){
         executeWithLoading(block = {
             _searchedCardsList.value!!.clear()
-
-            for(card in _cardsList.value!!) {
+            for(card in _cardsList.value!!)
                 if (searchText.value.toString().lowercase() in card.travelName.lowercase())
                     _searchedCardsList.value!!.add(card)
                 _searchedCardsList.notifyObserver()
-            }
         })
     }
 

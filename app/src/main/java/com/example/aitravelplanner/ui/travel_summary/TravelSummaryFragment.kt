@@ -12,40 +12,47 @@ import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
+/**
+ * Fragment che visualizza un riepilogo del viaggio, mostrando le tappe generate.
+ */
 class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelFormViewModel>() {
     override val layoutId: Int = R.layout.fragment_travel_summary
     override val viewModel: TravelFormViewModel by activityViewModels()
-
     private lateinit var stageSelectedCardRecyclerView: RecyclerView
+    private lateinit var stageSelectedCardList: ArrayList<StageCard>
     private lateinit var stageSearchedCardRecyclerView: RecyclerView
+    private lateinit var stageSearchedCardList: ArrayList<StageCard>
 
     override fun onReady(savedInstanceState: Bundle?) {
         stageSelectedCardRecyclerView = binding.selectedStageRecyclerView
         stageSearchedCardRecyclerView = binding.searchedStageRecyclerView
 
-
         val toolbar = binding.travelSummaryTopBar
+        // Gestisce il click sul pulsante di navigazione della toolbar
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             viewModel.clearViewModel()
             viewModel.isFormEmpty.value = false
         }
-        viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
-            stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        // Osserva le modifiche nella lista delle CardStage selezionate nel ViewModel
+        viewModel.stageSelectedCardList.observe(viewLifecycleOwner) { newValue: ArrayList<StageCard> ->
+            stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             stageSelectedCardRecyclerView.setHasFixedSize(true)
-
-            stageSelectedCardRecyclerView.adapter = StageCardAdapter(newValue, viewModel::deleteStage)}
-
-
-        viewModel.stageSearchedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
-            stageSearchedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-            stageSearchedCardRecyclerView.setHasFixedSize(true)
-
-            stageSearchedCardRecyclerView.adapter = StageCardAdapter(newValue, viewModel::addStage)
+            stageSelectedCardList = newValue
+            stageSelectedCardRecyclerView.adapter = StageCardAdapter(stageSelectedCardList, viewModel::deleteStage)
         }
 
-        viewModel.isTravelCreated.observe(viewLifecycleOwner){newValue: Boolean ->
-            if(newValue)
+        // Osserva le modifiche nella lista delle CardStage cercate nel ViewModel
+        viewModel.stageSearchedCardList.observe(viewLifecycleOwner) { newValue: ArrayList<StageCard> ->
+            stageSearchedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            stageSearchedCardRecyclerView.setHasFixedSize(true)
+            stageSearchedCardList = newValue
+            stageSearchedCardRecyclerView.adapter = StageCardAdapter(stageSearchedCardList, viewModel::addStage)
+        }
+
+        // Osserva il flag che indica se il viaggio è stato creato con successo
+        viewModel.isTravelCreated.observe(viewLifecycleOwner) { newValue: Boolean ->
+            if (newValue)
                 requireActivity().supportFragmentManager.popBackStack()
         }
     }
