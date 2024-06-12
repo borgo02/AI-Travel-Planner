@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
     private val usersCollectionRef: CollectionReference = db.collection("users")
-    val travelsCollectionReference: CollectionReference = db.collection("travels")
+    var travelsCollectionReference: CollectionReference = db.collection("travels")
 
     /** Inserisce un nuovo viaggio nel database Firestore
      *
@@ -92,7 +92,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         var isLiked: Boolean
         val doc = travelsCollectionReference.document(idTravel).get().await()
         return if (doc.exists()) {
-            val idUserRef = doc.getDocumentReference("idUser")
+            val idUserRef = doc.getString("idUser")
             val info = doc.getString("info")
             val name = doc.getString("name")
             val isShared = doc.getBoolean("shared")

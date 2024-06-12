@@ -1,13 +1,20 @@
-package com.example.aitravelplanner
+package com.example.aitravelplanner.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.aitravelplanner.data.repository.travel.ITravelRepository
+import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.IUserRepository
+import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+abstract class TravelViewModel@Inject constructor(override val userRepository: IUserRepository = UserRepository.getInstance(), override val travelRepository: ITravelRepository = TravelRepository(),
+                                                  open val travelCardsSingleton: TravelCardsSingleton = TravelCardsSingleton.getInstance(), private val coroutineScopeProvider: CoroutineScope? = null) : BaseViewModel(userRepository,travelRepository, coroutineScopeProvider) {
 /**
  * Classe astratta che estende BaseViewModel. Fornisce funzionalità comuni
  * per la gestione dei dati relativi ai viaggi, inclusi la lista delle card di viaggi, il viaggio selezionato
@@ -15,9 +22,10 @@ import javax.inject.Inject
  *
  * @constructor Viene iniettato un costruttore utilizzando l'annotazione @Inject
  */
-abstract class TravelViewModel @Inject constructor() : BaseViewModel() {
-    protected var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
-    protected val travelCardsSingleton = TravelCardsSingleton.getInstance()
+    // Lista delle card di viaggi osservabile, inizializzata come una lista vuota.
+    public var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
+
+    // Viaggio selezionato attualmente, osservabile.
     protected var _selectedTravel = MutableLiveData<CardTravel>()
     val selectedTravel: LiveData<CardTravel>
         get() = _selectedTravel

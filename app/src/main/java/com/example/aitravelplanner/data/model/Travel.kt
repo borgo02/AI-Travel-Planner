@@ -11,7 +11,7 @@ import java.util.Date
  */
 data class Travel(
     @DocumentId var idTravel: String?,
-    @PropertyName("idUser") var idUser: DocumentReference?,
+    @PropertyName("idUser") var idUser: String?,
     @PropertyName("info") var info: String?,
     @PropertyName("name") var name: String?,
     @PropertyName("isShared") var isShared: Boolean?,

@@ -1,7 +1,7 @@
 package com.example.aitravelplanner.ui.interests
 
 import androidx.lifecycle.MutableLiveData
-import com.example.aitravelplanner.BaseViewModel
+import com.example.aitravelplanner.ui.BaseViewModel
 import javax.inject.Inject
 
 /**

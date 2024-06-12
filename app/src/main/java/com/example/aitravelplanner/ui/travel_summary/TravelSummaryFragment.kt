@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentTravelSummaryBinding
 import com.example.aitravelplanner.ui.BaseFragment
-import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
+import com.example.aitravelplanner.ui.components.stageCard.StageCardAdapter
 import com.example.aitravelplanner.ui.travel.TravelFormViewModel
 
 /**
@@ -34,7 +34,6 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
             viewModel.clearViewModel()
             viewModel.isFormEmpty.value = false
         }
-
         // Osserva le modifiche nella lista delle CardStage selezionate nel ViewModel
         viewModel.stageSelectedCardList.observe(viewLifecycleOwner) { newValue: ArrayList<StageCard> ->
             stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

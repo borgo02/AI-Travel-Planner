@@ -3,7 +3,9 @@ package com.example.aitravelplanner.ui.travel
 import androidx.lifecycle.MutableLiveData
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.example.aitravelplanner.data.repository.travel.ITravelRepository
 import com.example.aitravelplanner.data.repository.travel.TravelRepository
+import com.example.aitravelplanner.data.repository.user.IUserRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.components.stageCard.StageCard
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
@@ -15,13 +17,10 @@ import java.text.SimpleDateFormat
  /**
  * Singleton che gestisce la lista di CardTravel associate ai viaggi sia nella dashboard che nel profilo.
  */
-class TravelCardsSingleton() {
-
-    // Lista MutableLiveData di CardTravel
+class TravelCardsSingleton(private val travelRepository: ITravelRepository = TravelRepository(), private val userRepository: IUserRepository = UserRepository.getInstance()) {
     val travelCardsList = MutableLiveData(arrayListOf<CardTravel>())
+
     private val formatter = SimpleDateFormat("dd MMM yyyy")
-    private val travelRepository: TravelRepository = TravelRepository()
-    private val userRepository: UserRepository = UserRepository.getInstance()
 
     /**
      * Imposta le CardTravel per l'utente specificato.
@@ -31,19 +30,20 @@ class TravelCardsSingleton() {
         travelCardsList.value!!.clear()
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
-        addTravels(sharedTravels, userId)
-        addTravels(notSharedTravels, userId)
+        addTravels(sharedTravels)
+        addTravels(notSharedTravels)
         notifyChanges()
     }
 
     /**
-     * Aggiunge i viaggi specificati alla lista di CardTravel.
-     *
-     */
-    private suspend fun addTravels(travels: ArrayList<Travel>, userId: String){
+    * Aggiunge i viaggi specificati alla lista di CardTravel.
+    *
+    *
+    */
+    private suspend fun addTravels(travels: ArrayList<Travel>){
         for (travel in travels) {
-            val userTravel: User = travel.idUser?.path?.let { userRepository.getUserById(it.substringAfterLast("/"))}!!
-            val affinity = evaluateAffinity(userRepository.getUserById(userId)!!.interests!!, userTravel.interests!!)
+            val userTravel: User = travel.idUser?.let { userRepository.getUserById(it)}!!
+            val affinity = evaluateAffinity(userRepository.getUser()!!.interests!!, userTravel.interests!!)
             val stageCardList = arrayListOf<StageCard>()
             for (stage in travel.stageList!!)
                 stageCardList.add(StageCard(stageName = stage.name, stageImage = stage.imageUrl, stageAffinity = 11))
