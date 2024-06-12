@@ -43,11 +43,8 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     private fun popBusy(): Boolean
     {
         synchronized(_isBusyLock) {
-            val elem = _isBusy.removeLastOrNull()
-            if (elem ==  null)
-                return true
-            else
-                return false
+            _isBusy.removeLastOrNull()
+            return _isBusy.isEmpty()
         }
     }
 
@@ -64,8 +61,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         } catch (_: Exception) {
         }
         finally {
-            val status = popBusy()
-            if (status)
+            if (popBusy())
                 _isLoading.value = false
         }
     }
@@ -88,8 +84,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
             }
             finally {
                 withContext(Dispatchers.Main) {
-                    val status = popBusy()
-                    if (status)
+                    if (popBusy())
                         _isLoading.value = false
                 }
             }
