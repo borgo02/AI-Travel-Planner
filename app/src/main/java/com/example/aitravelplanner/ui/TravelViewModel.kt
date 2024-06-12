@@ -26,7 +26,7 @@ abstract class TravelViewModel@Inject constructor(override val userRepository: I
     public var _cardsList = MutableLiveData(arrayListOf<CardTravel>())
 
     // Viaggio selezionato attualmente, osservabile.
-    protected var _selectedTravel = MutableLiveData<CardTravel>()
+    var _selectedTravel = MutableLiveData<CardTravel>()
     val selectedTravel: LiveData<CardTravel>
         get() = _selectedTravel
 

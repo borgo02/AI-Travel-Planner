@@ -78,6 +78,9 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         })
     }
 
+    /** Questa funzione viene chiamata quando l'utente esegue il refresh della pagina scorrendo verso l'alto
+     *
+     */
     fun refreshItems()
     {
         executeWithLoadingSuspend(block ={

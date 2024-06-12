@@ -5,6 +5,7 @@ import com.example.aitravelplanner.InstantExecutorExtension
 import com.example.aitravelplanner.MainCoroutineRule
 import com.example.aitravelplanner.data.repository.travel.TravelRepositoryMock
 import com.example.aitravelplanner.data.repository.user.UserRepositoryMock
+import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
@@ -59,5 +60,17 @@ class DashboardViewModelTest  {
         viewModel.searchText.value = "test1"
         viewModel.search()
         assert(viewModel.searchedCardsList.value!!.size == 1)
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun testClickLike() = runTest {
+        viewModel.initialize().await()
+        advanceUntilIdle()
+        require(viewModel.initialized.get())
+        val selectedTravel = CardTravel(username = "User", userImage = "prova immagine", travelImage = "prova immagine", travelName = "Roma", affinityPerc = "100", travelLikes = 10, timestamp = "", isLiked = false, info = "prova info", stageCardList = arrayListOf(), userId = "1", travelId = "1", isShared = true)
+        viewModel._selectedTravel.value = selectedTravel
+        viewModel.clickLike()
+        assert(viewModel.selectedTravel.value!!.isLiked)
     }
 }
