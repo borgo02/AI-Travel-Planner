@@ -44,7 +44,7 @@ class TravelRepositoryMock : ITravelRepository {
     }
 
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel? {
-        return travels.find { it.idTravel == idTravel && it.idUser == mockk(idUser) }
+        return travels.find { it.idTravel == idTravel && it.idUser == idUser }
     }
 
     override suspend fun getFilteredStagesByCity(filter: String, city: String): ArrayList<Stage> {
@@ -56,7 +56,7 @@ class TravelRepositoryMock : ITravelRepository {
     }
 
     override suspend fun getTravelsCreatedByUser(user: User): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.idUser == mockk( user.idUser) })
+        return ArrayList(travels.filter { it.idUser == mockk(user.idUser) })
     }
 
     override suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {

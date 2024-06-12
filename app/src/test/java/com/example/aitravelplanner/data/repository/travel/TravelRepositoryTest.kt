@@ -1,4 +1,4 @@
-package com.example.aitravelplanner.data.repository.user
+package com.example.aitravelplanner.data.repository.travel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.aitravelplanner.InstantExecutorExtension
@@ -20,7 +20,7 @@ import org.junit.rules.TestRule
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @ExtendWith(InstantExecutorExtension::class)
-class UserRepositoryTest {
+class TravelRepositoryTest {
 
     @get:Rule
     private val testScope = TestScope()
@@ -44,23 +44,21 @@ class UserRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @org.junit.jupiter.api.Test
-    fun getTravelsByUserTest() = runBlocking {
-        val userRepositoryMock = UserRepositoryMock.getInstance()
-        val userId = "idUserTest1"
+    fun getTravelsTest() = runBlocking {
+        val travelRepositoryMock = TravelRepositoryMock()
+        val result = travelRepositoryMock.getTravels()
 
-        val result = userRepositoryMock.getTravelsByUser(userId)
-
-        assert(result.size == 1)
+        assert(result.size == 3)
     }
 
     @ExperimentalCoroutinesApi
     @org.junit.jupiter.api.Test
-    fun getSharedTravelsByUserTest() = runBlocking {
-        val userRepositoryMock = UserRepositoryMock.getInstance()
-        val userId = "idUserTest2"
-
-        val result = userRepositoryMock.getSharedTravelsByUser(userId)
-
-        assert(result.size == 2)
+    fun getTravelByIdTest () = runBlocking {
+        val travelRepositoryMock = TravelRepositoryMock()
+        val travelId = "3"
+        val userId = "idUserTest1"
+        val result = travelRepositoryMock.getTravelById(travelId, userId)
+        
+        assert(result != null)
     }
 }
