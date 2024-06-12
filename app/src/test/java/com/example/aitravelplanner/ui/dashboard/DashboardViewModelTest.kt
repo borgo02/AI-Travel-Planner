@@ -10,7 +10,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -20,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.rules.TestRule
+import kotlinx.coroutines.test.advanceUntilIdle
 
 
 @ExperimentalCoroutinesApi
@@ -38,25 +38,26 @@ class DashboardViewModelTest  {
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: DashboardViewModel
     private val userId: String = "1"
-    private lateinit var mockUserRepository: UserRepositoryMock
-    private lateinit var mockTravelRepository: TravelRepositoryMock
+    private var mockUserRepository: UserRepositoryMock= UserRepositoryMock.getInstance()
+    private var mockTravelRepository: TravelRepositoryMock = TravelRepositoryMock()
+    private lateinit var viewModel: DashboardViewModel
     private val testDispatcher = StandardTestDispatcher()
 
 
     @BeforeEach
-    fun setUp() = runBlocking {
+    fun setUp() {
         Dispatchers.setMain(testDispatcher)
         MockKAnnotations.init(this, relaxed = true)
-        mockUserRepository = UserRepositoryMock.getInstance()
-        mockTravelRepository = TravelRepositoryMock()
         viewModel = DashboardViewModel(mockUserRepository, mockTravelRepository, TravelCardsSingleton(mockTravelRepository, mockUserRepository), testScope)
     }
 
     @ExperimentalCoroutinesApi
     @Test
     fun testSearch() = runTest{
+        viewModel.initialize().await()
+        advanceUntilIdle() // Runs the new coroutine
+        require(viewModel.initialized.get())
         viewModel.searchText.value = "test1"
         viewModel.search()
         assert(viewModel.searchedCardsList.value!!.size == 1)

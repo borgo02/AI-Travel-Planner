@@ -31,7 +31,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
 
-    private val coroutineScope = getViewModelScope(null)
+    val coroutineScope = getViewModelScope(null)
     private var _isBusy: ArrayList<Int> = ArrayList<Int>()
     private var _isBusyLock: Any = Any()
 

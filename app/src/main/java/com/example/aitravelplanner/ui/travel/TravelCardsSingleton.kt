@@ -22,12 +22,12 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
         travelCardsList.value!!.clear()
         val sharedTravels = travelRepository.getSharedTravels(userId)
         val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
-        addTravels(sharedTravels, userId)
-        addTravels(notSharedTravels, userId)
+        addTravels(sharedTravels)
+        addTravels(notSharedTravels)
         notifyChanges()
     }
 
-    private suspend fun addTravels(travels: ArrayList<Travel>, userId: String){
+    private suspend fun addTravels(travels: ArrayList<Travel>){
         for (travel in travels) {
             val userTravel: User = travel.idUser?.let { userRepository.getUserById(it)}!!
             val affinity = evaluateAffinity(userRepository.getUser()!!.interests!!, userTravel.interests!!)
