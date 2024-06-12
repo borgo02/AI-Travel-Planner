@@ -28,7 +28,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
 
     init{
         executeWithLoadingSuspend(block = {
-            initialize()
+            initialize().await()
         })
     }
 
