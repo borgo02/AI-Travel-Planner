@@ -1,17 +1,26 @@
 package com.example.aitravelplanner.data.repository.user
 
 import com.example.aitravelplanner.data.model.Likes
+import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.google.firebase.firestore.DocumentReference
 import io.mockk.mockk
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.TimeZone
 
 class UserRepositoryMock: IUserRepository {
+    private val dateString = "10-10-2002"
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+    private val date: Date? = dateFormat.parse(dateString)
     private var currentUser: User = User("idUserTest1", "usertest1@mail", "User Test 1", true, mapOf("interest1" to 0.5f, "interest2" to 0.3f, ))
     private val users = mutableListOf<User>(currentUser)
-    private val travels = mutableListOf<Travel>()
+    private val travel1 = Travel(idTravel = "1", idUser = "idUserTest1", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
+    private val travel2 = Travel(idTravel = "1", idUser = "idUserTest2", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
+    private val travel3 = Travel(idTravel = "1", idUser = "idUserTest2", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
+    private val travels = mutableListOf<Travel>(travel1, travel2, travel3)
     private val likes = mutableListOf<Likes>()
 
     init{users.add(currentUser)}
@@ -47,11 +56,11 @@ class UserRepositoryMock: IUserRepository {
     }
 
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.idUser == mockk(idUser) })
+        return ArrayList(travels.filter { it.idUser == idUser })
     }
 
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.isShared == true })
+        return ArrayList(travels.filter { it.isShared == true && it.idUser == idUser})
     }
 
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
