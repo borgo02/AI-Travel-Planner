@@ -4,10 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navArgument
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
@@ -22,7 +20,7 @@ import com.example.aitravelplanner.ui.profile.ProfileViewModel
 class TravelFragment : Fragment() {
     private val args: TravelFragmentArgs by navArgs()
     private var _binding: FragmentTravelBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
+
     private val binding get() = _binding!!
     private lateinit var viewModel: TravelViewModel
     private lateinit var stageCardRecyclerView: RecyclerView
@@ -31,7 +29,7 @@ class TravelFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTravelBinding.inflate(inflater,container, false)
 
         viewModel = when (args.flag){
@@ -91,5 +89,4 @@ class TravelFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

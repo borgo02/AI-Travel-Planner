@@ -3,13 +3,10 @@ package com.example.aitravelplanner.ui.travel
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentTravelFormBinding
 import com.example.aitravelplanner.ui.BaseFragment
-import com.example.aitravelplanner.ui.profile.SharedTravelsFragmentDirections
 
 class TravelFormFragment : BaseFragment<FragmentTravelFormBinding, TravelFormViewModel>() {
     override val layoutId: Int = R.layout.fragment_travel_form

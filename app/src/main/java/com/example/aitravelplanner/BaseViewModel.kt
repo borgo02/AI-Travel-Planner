@@ -11,13 +11,12 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.example.aitravelplanner.data.repository.user.UserRepository
 import com.example.aitravelplanner.ui.dashboard.DashboardFragmentDirections
 import com.example.aitravelplanner.utils.Event
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-public open class BaseViewModel @Inject constructor() : ViewModel() {
+open class BaseViewModel @Inject constructor() : ViewModel() {
     val userRepository = UserRepository.getInstance()
     val travelRepository = TravelRepository()
     val currentUser: LiveData<User>
@@ -27,10 +26,30 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
             return userLive
         }
 
-    protected val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
 
+    private var _isBusy: ArrayList<Int> = ArrayList<Int>()
+    private var _isBusyLock: Any = Any()
+
+    private fun addBusy()
+    {
+        synchronized(_isBusyLock) {
+            _isBusy.add(1)
+        }
+    }
+
+    private fun popBusy(): Boolean
+    {
+        synchronized(_isBusyLock) {
+            val elem = _isBusy.removeLastOrNull()
+            if (elem ==  null)
+                return true
+            else
+                return false
+        }
+    }
 
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
@@ -39,13 +58,15 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
         block: () -> T
     ) {
         _isLoading.value = true
-
+        addBusy()
         try {
             block()
         } catch (_: Exception) {
         }
         finally {
-            _isLoading.value =false
+            val status = popBusy()
+            if (status)
+                _isLoading.value = false
         }
     }
 
@@ -53,19 +74,23 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
         block: suspend () -> T
     ) {
         _isLoading.value = true
-
+        addBusy()
         viewModelScope.launch {
             try {
                 block()
                 withContext(Dispatchers.Main) {
-                    _isLoading.value = false
+                    val status = popBusy()
+                    if (status)
+                        _isLoading.value = false
                 }
             } catch (_: Exception) {
 
             }
             finally {
                 withContext(Dispatchers.Main) {
-                    _isLoading.value = false
+                    val status = popBusy()
+                    if (status)
+                        _isLoading.value = false
                 }
             }
         }
@@ -78,7 +103,7 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun navigate(navDirections: NavDirections) {
+    private fun navigate(navDirections: NavDirections) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 
@@ -90,9 +115,8 @@ public open class BaseViewModel @Inject constructor() : ViewModel() {
         {
             navigate(DashboardFragmentDirections.actionNavigationDashboardToInterest())
         }
-        catch (e: Exception)
+        catch (_: Exception)
         {
-            val ex = e
         }
     }
 }
