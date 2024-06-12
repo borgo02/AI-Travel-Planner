@@ -14,10 +14,11 @@ import com.example.aitravelplanner.utils.OpenAIManager
 import com.example.aitravelplanner.utils.ImagesManager
 import com.example.aitravelplanner.utils.notifyObserver
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class TravelFormViewModel @Inject constructor(override val userRepository: UserRepository = UserRepository.getInstance(), override val travelRepository: TravelRepository = TravelRepository()) : BaseViewModel() {
+class TravelFormViewModel @Inject constructor(override val userRepository: UserRepository = UserRepository.getInstance(), override val travelRepository: TravelRepository = TravelRepository(), private val coroutineScopeProvider: CoroutineScope? = null) : BaseViewModel(userRepository, travelRepository, coroutineScopeProvider) {
     private var budget: String = ""
     var hasJsonError = MutableLiveData<Boolean>(false)
     var isFormCompleted = MutableLiveData<Boolean>(false)

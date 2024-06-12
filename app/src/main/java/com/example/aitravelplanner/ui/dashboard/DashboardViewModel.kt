@@ -10,9 +10,10 @@ import com.example.aitravelplanner.ui.TravelViewModel
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
 import com.example.aitravelplanner.utils.notifyObserver
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(override val userRepository: IUserRepository = UserRepository.getInstance(), override val travelRepository: ITravelRepository = TravelRepository(), override val travelCardsSingleton: TravelCardsSingleton = TravelCardsSingleton.getInstance()) : TravelViewModel(userRepository,travelRepository, travelCardsSingleton) {
+class DashboardViewModel @Inject constructor(override val userRepository: IUserRepository = UserRepository.getInstance(), override val travelRepository: ITravelRepository = TravelRepository(), override val travelCardsSingleton: TravelCardsSingleton = TravelCardsSingleton.getInstance(), private val coroutineScopeProvider: CoroutineScope? = null) : TravelViewModel(userRepository,travelRepository, travelCardsSingleton, coroutineScopeProvider) {
     private var _searchedCardsList = MutableLiveData(arrayListOf<CardTravel>())
     val searchedCardsList: LiveData<ArrayList<CardTravel>>
         get() = _searchedCardsList
