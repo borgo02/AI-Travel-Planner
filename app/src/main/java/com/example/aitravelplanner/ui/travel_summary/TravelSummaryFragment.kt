@@ -3,7 +3,6 @@ package com.example.aitravelplanner.ui.travel_summary
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aitravelplanner.R
@@ -31,7 +30,7 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
             viewModel.clearViewModel()
-            viewModel.isFormCompleted.value = false
+            viewModel.isFormEmpty.value = false
         }
         viewModel.stageSelectedCardList.observe(viewLifecycleOwner){newValue: ArrayList<StageCard> ->
             stageSelectedCardRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
@@ -52,11 +51,6 @@ class TravelSummaryFragment : BaseFragment<FragmentTravelSummaryBinding, TravelF
         viewModel.isTravelCreated.observe(viewLifecycleOwner){newValue: Boolean ->
             if(newValue)
                 requireActivity().supportFragmentManager.popBackStack()
-        }
-
-        viewModel.hasJsonError.observe(viewLifecycleOwner){it ->
-            if(it)
-                Toast.makeText(requireContext(), "Errore nel caricamento. Riprova", Toast.LENGTH_SHORT).show()
         }
     }
 }
