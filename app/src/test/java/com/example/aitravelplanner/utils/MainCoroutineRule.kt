@@ -1,4 +1,4 @@
-package com.example.aitravelplanner
+package com.example.aitravelplanner.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
