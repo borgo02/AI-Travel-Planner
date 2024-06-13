@@ -191,9 +191,8 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
     override suspend fun getUserByTravel(idTravel: String): User? {
         val travelRef = travelsCollectionReference.document(idTravel).get().await()
         return if(travelRef.exists()){
-            val idUserReferencePath = travelRef.getDocumentReference("idUser")?.path
-            val idUser = idUserReferencePath?.substringAfterLast("/")!!
-            val userRef = db.collection("users").document(idUser).get().await()
+            val idUser = travelRef.getString("idUser")
+            val userRef = db.collection("users").document(idUser!!).get().await()
             if(userRef.exists())
                 getUserById(idUser)
             else
