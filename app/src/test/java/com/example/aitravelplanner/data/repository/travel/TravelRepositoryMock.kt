@@ -39,7 +39,11 @@ class TravelRepositoryMock : ITravelRepository {
         return ArrayList(travels)
     }
 
-    override suspend fun getSharedTravels(idUser: String): ArrayList<Travel> {
+    override suspend fun getSharedTravels(
+        idUser: String,
+        resetPage: Boolean,
+        searchText: String
+    ): ArrayList<Travel> {
         return ArrayList(travels.filter { it.isShared == true })
     }
 
@@ -61,5 +65,17 @@ class TravelRepositoryMock : ITravelRepository {
 
     override suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean {
         return travels.find { it.idTravel == idTravel }?.isLiked ?: false
+    }
+
+    override suspend fun getTravelsBySearchText(
+        idUser: String,
+        searchText: String
+    ): ArrayList<Travel> {
+        return this.getSharedTravels(idUser, true, searchText)
+    }
+
+
+    override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
+        return ArrayList(travels.filter { it.idUser == idUser })
     }
 }

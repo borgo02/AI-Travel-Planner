@@ -59,14 +59,6 @@ class UserRepositoryMock: IUserRepository {
         return ArrayList(travels.filter { it.idUser == idUser })
     }
 
-    override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.isShared == true && it.idUser == idUser})
-    }
-
-    override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        return ArrayList(travels.filter { it.idUser == mockk(idUser) && it.isShared == false })
-    }
-
     override suspend fun getUsers(): ArrayList<User> {
         return ArrayList(users)
     }
