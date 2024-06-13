@@ -95,8 +95,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
-        val userRef = usersCollectionRef.document(idUser)
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -124,8 +123,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val userRef = usersCollectionRef.document(idUser)
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -140,8 +138,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val userRef = usersCollectionRef.document(idUser)
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", userRef).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val notSharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
