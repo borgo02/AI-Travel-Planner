@@ -36,16 +36,37 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     var isNavigating = false
 
     val coroutineScope = getViewModelScope(null)
-    private var _isBusy: ArrayList<Int> = ArrayList<Int>()
+    private var _runningThreads: Int = 0
+    private var _runningThreadsLock: Any = Any()
+
+    private var _isBusy: Boolean = false
     private var _isBusyLock: Any = Any()
+
+    /**
+     * Metodo utile per la gestione della paginazione
+     */
+    private fun setBusy(){
+        synchronized(_isBusyLock) {
+            _isBusy = true
+        }
+    }
+
+    /**
+     * Metodo utile per la gestione della paginazione
+     */
+    private fun resetBusy(){
+        synchronized(_isBusyLock) {
+            _isBusy = false
+        }
+    }
 
     /**
      * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
      */
     private fun addBusy()
     {
-        synchronized(_isBusyLock) {
-            _isBusy.add(1)
+        synchronized(_runningThreadsLock) {
+            _runningThreads++
         }
     }
 
@@ -54,9 +75,9 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
      */
     private fun popBusy(): Boolean
     {
-        synchronized(_isBusyLock) {
-            _isBusy.removeLastOrNull()
-            return _isBusy.isEmpty()
+        synchronized(_runningThreadsLock) {
+            _runningThreads--
+            return _runningThreads == 0
         }
     }
 

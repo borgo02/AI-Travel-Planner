@@ -64,7 +64,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         }
     }
 
-    /** Questa funzione viene chiamata quando l'utente cerca una tappa da inserire nel viaggio generato
+    /** Questa funzione viene chiamata quando l'utente cerca un viaggio generato
      *
      */
     fun search(){
