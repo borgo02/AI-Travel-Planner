@@ -30,7 +30,7 @@ interface ITravelRepository {
     /** Ritorna tutti i viaggi presenti nel database che sono stati pubblicati
      *
      */
-    suspend fun getSharedTravels(idUser: String): ArrayList<Travel>
+    suspend fun getSharedTravels(idUser: String, resetPage: Boolean = false): ArrayList<Travel>
 
     /** Ritorna un viaggio identificato da uno specifico id
      *
@@ -65,5 +65,4 @@ interface ITravelRepository {
      * Ritorna i viaggi di un utente specifico
      */
     suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
-    suspend fun mapDocumentToTravel(travel: DocumentSnapshot, idUser: String): Travel?
 }

@@ -28,17 +28,18 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
      */
     suspend fun setTravelCards(userId: String){
         travelCardsList.value!!.clear()
-        val sharedTravels = travelRepository.getSharedTravels(userId)               //getTravel(page=0, offset=10)
-        val notSharedTravels = travelRepository.getTravelsByUser(userId)            //getAllUsersTravel()
+        val sharedTravels = travelRepository.getSharedTravels(userId)
+        val notSharedTravels = travelRepository.getTravelsByUser(userId)
         addTravels(sharedTravels)
         addTravels(notSharedTravels)
         notifyChanges()
     }
 
-     //getTravels(page=10, offset=10)
-    suspend fun getNewTravels(userId: String, page: Number)
+    suspend fun getNewTravels(userId: String)
     {
         val sharedTravels = travelRepository.getSharedTravels(userId)
+        addTravels(sharedTravels)
+        notifyChanges()
     }
     /**
     * Aggiunge i viaggi specificati alla lista di CardTravel.

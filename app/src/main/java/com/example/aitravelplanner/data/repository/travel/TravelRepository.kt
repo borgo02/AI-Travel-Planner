@@ -71,7 +71,11 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     /** Ritorna tutti i viaggi presenti nel database che sono stati pubblicati
      *
      */
-    override suspend fun getSharedTravels(idUser: String): ArrayList<Travel> {
+    override suspend fun getSharedTravels(idUser: String, resetPage: Boolean): ArrayList<Travel> {
+        if (resetPage)
+        {
+            lastSnapshot = null
+        }
         var query = travelsCollectionReference.whereNotEqualTo("idUser", idUser).whereEqualTo("shared", true).orderBy("timestamp", Query.Direction.DESCENDING)
         if (lastSnapshot != null)
         {
@@ -98,7 +102,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         return this.mapDocumentToTravel(doc, idUser)
     }
 
-    override suspend fun mapDocumentToTravel(travel: DocumentSnapshot, idUser: String): Travel? {
+    suspend fun mapDocumentToTravel(travel: DocumentSnapshot, idUser: String): Travel? {
         return if (travel.exists()) {
             val idUserRef = travel.getString("idUser")
             val info = travel.getString("info")
