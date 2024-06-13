@@ -9,6 +9,7 @@
             type="com.example.aitravelplanner.ui.interests.InterestsViewModel" />
     </data>
     <ScrollView
+        android:id="@+id/interest_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:autofillHints="@string/app_name"

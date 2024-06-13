@@ -1,10 +1,19 @@
 package com.example.aitravelplanner
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.example.aitravelplanner.ui.components.interest.InterestComponent
+import com.google.android.material.slider.Slider
 import org.junit.Rule
 import org.junit.Test
 
@@ -14,19 +23,24 @@ class LikeTest {
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun testLike() {
-        val previousLikeCount = getLikeCount()
-        onView(withId(R.id.likesImage)).perform(click())
-        val updatedLikeCount = getLikeCount()
+    fun test_click_continue(){
+        onView(withId(R.id.story))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
 
-        assert(previousLikeCount != updatedLikeCount)
+        onView(withId(R.id.story))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+        //onView(withId(R.id.story)).
+        //onView(withId(R.id.interest_scroll)).perform(ViewActions.scrollTo())
+        //onView(withId(R.id.button)).perform(scrollTo(),click())
     }
 
-    private fun getLikeCount(): Int {
-        val likeText = onView(withId(R.id.likesNumber))
-            .check(matches(isDisplayed()))
-            .toString()
-
-        return likeText.filter { it.isDigit() }.toInt()
-    }
 }
