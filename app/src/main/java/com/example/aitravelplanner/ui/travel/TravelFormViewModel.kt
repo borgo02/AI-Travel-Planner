@@ -17,6 +17,8 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class TravelFormViewModel @Inject constructor(override val userRepository: UserRepository = UserRepository.getInstance(), override val travelRepository: TravelRepository = TravelRepository(), private val coroutineScopeProvider: CoroutineScope? = null) : BaseViewModel(userRepository, travelRepository, coroutineScopeProvider) {
     private var budget: String = ""
@@ -256,8 +258,9 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                 description += stage.name + ": "
                 description += stage.description + "\n"
             }
-
-            val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+            val date: Date? = dateFormat.parse(Timestamp.now().toDate().toString())
+            val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = date, numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
             TravelCardsSingleton.getInstance().addTravel(travel, currentUser.value!!)
