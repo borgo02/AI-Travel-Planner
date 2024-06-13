@@ -41,6 +41,14 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
         addTravels(sharedTravels)
         notifyChanges()
     }
+
+     suspend fun searchItems(userId: String, searchText: String)
+     {
+         travelCardsList.value!!.clear()
+         val searchedTravel = travelRepository.getTravelsBySearchText(userId, searchText)
+         addTravels(searchedTravel)
+         notifyChanges()
+     }
     /**
     * Aggiunge i viaggi specificati alla lista di CardTravel.
     *

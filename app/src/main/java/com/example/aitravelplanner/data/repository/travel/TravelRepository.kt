@@ -71,19 +71,30 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     /** Ritorna tutti i viaggi presenti nel database che sono stati pubblicati
      *
      */
-    override suspend fun getSharedTravels(idUser: String, resetPage: Boolean): ArrayList<Travel> {
+    override suspend fun getSharedTravels(idUser: String, resetPage: Boolean, searchText: String): ArrayList<Travel> {
         if (resetPage)
         {
             lastSnapshot = null
         }
-        var query = travelsCollectionReference.whereNotEqualTo("idUser", idUser).whereEqualTo("shared", true).orderBy("timestamp", Query.Direction.DESCENDING)
+        var query = travelsCollectionReference.whereNotEqualTo("idUser", idUser).whereEqualTo("shared", true)
+        if (searchText != "")
+        {
+            val endFilter = "$searchText\\uf8ff"
+            query = query.orderBy("name").startAt(searchText).endAt(endFilter)
+        }
+        query = query.orderBy("timestamp", Query.Direction.DESCENDING)
         if (lastSnapshot != null)
         {
             query = query.startAfter(lastSnapshot!!)
         }
-        query = query.limit(pageOffset)
+        if (searchText == "") {
+            query = query.limit(pageOffset)
+        }
         val travelRef = query.get().await()
-        lastSnapshot = travelRef.documents[travelRef.documents.size - 1]
+        if (travelRef.documents.size > 0)
+        {
+            lastSnapshot = travelRef.documents[travelRef.documents.size - 1]
+        }
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = this.mapDocumentToTravel(travel, idUser)
@@ -92,6 +103,14 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         }
 
         return sharedTravelList
+    }
+
+    /** Ritorna tutti i viaggi condivisi utilizzando il filtro
+     *
+     */
+    override suspend fun getTravelsBySearchText(idUser: String, searchText: String): ArrayList<Travel>
+    {
+        return getSharedTravels(idUser, true, searchText)
     }
 
     /** Ritorna un viaggio identificato da uno specifico id

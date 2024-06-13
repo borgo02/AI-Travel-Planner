@@ -68,7 +68,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
      *
      */
     fun search(){
-        executeWithLoading(block = {
+        executeWithLoadingSuspend(block = {
             _searchedCardsList.value!!.clear()
             for(card in _cardsList.value!!) {
                 if (searchText.value.toString().lowercase() in card.travelName.lowercase())
@@ -86,7 +86,6 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
         executeWithLoadingSuspend(block ={
             if (currentUser.value != null) {
                 travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
-                setTravelCards()
             }
         })
     }
