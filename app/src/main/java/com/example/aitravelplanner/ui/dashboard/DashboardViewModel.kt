@@ -68,7 +68,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
      *
      */
     fun search(){
-        executeWithLoadingSuspend(block = {
+        executeWithLoading(block = {
             _searchedCardsList.value!!.clear()
             for(card in _cardsList.value!!) {
                 if (searchText.value.toString().lowercase() in card.travelName.lowercase())
@@ -88,6 +88,17 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
                 travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
             }
         })
+    }
+
+    fun getNewItems()
+    {
+        executeWithLoadingSuspend(block ={
+            if (currentUser.value != null) {
+                travelCardsSingleton.getNewTravels(currentUser.value!!.idUser)
+            }
+        },
+        showLoading = false,
+        handleIsBusy = true)
     }
 
     /** Questa funzione viene chiamata quando l'utente clicca il bottone di like di uno specifico viaggio

@@ -36,8 +36,8 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     var isNavigating = false
 
     val coroutineScope = getViewModelScope(null)
-    private var _runningThreads: Int = 0
-    private var _runningThreadsLock: Any = Any()
+    private var _runningRequests: Int = 0
+    private var _runningRequestsLock: Any = Any()
 
     private var _isBusy: Boolean = false
     private var _isBusyLock: Any = Any()
@@ -63,21 +63,23 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     /**
      * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
      */
-    private fun addBusy()
+    private fun addRunningRequest()
     {
-        synchronized(_runningThreadsLock) {
-            _runningThreads++
+        synchronized(_runningRequestsLock) {
+            _runningRequests++
         }
     }
 
     /**
      * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
      */
-    private fun popBusy(): Boolean
+    private fun popRunningRequest(): Boolean
     {
-        synchronized(_runningThreadsLock) {
-            _runningThreads--
-            return _runningThreads == 0
+        synchronized(_runningRequestsLock) {
+            _runningRequests--
+            if (_runningRequests< 0)
+                _runningRequests = 0
+            return _runningRequests == 0
         }
     }
 
@@ -91,13 +93,13 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
         block: () -> T
     ) {
         _isLoading.value = true
-        addBusy()
+        addRunningRequest()
         try {
             block()
         } catch (_: Exception) {
         }
         finally {
-            if (popBusy())
+            if (popRunningRequest())
                 _isLoading.value = false
         }
     }
@@ -106,25 +108,44 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     * Esegue un blocco di codice suspend con una progress bar visibile.
     */
     protected fun <T> executeWithLoadingSuspend(
-        block: suspend () -> T
+        block: suspend () -> T,
+        showLoading: Boolean = true,
+        handleIsBusy: Boolean = false
     ) {
-        _isLoading.value = true
-        addBusy()
+        if (handleIsBusy)
+        {
+            if (_isBusy)
+                return
+            setBusy()
+        }
+        if (showLoading)
+        {
+            _isLoading.value = true
+            addRunningRequest()
+        }
+
         coroutineScope.launch {
             try {
                 block()
                 withContext(Dispatchers.Main) {
-                    val status = popBusy()
-                    if (status)
-                        _isLoading.value = false
+                    if (showLoading)
+                    {
+                        if (popRunningRequest())
+                            _isLoading.value = false
+                    }
                 }
             } catch (_: Exception) {
 
             }
             finally {
                 withContext(Dispatchers.Main) {
-                    if (popBusy())
-                        _isLoading.value = false
+                    if (showLoading)
+                    {
+                        if (popRunningRequest())
+                            _isLoading.value = false
+                    }
+                    if (handleIsBusy)
+                        resetBusy()
                 }
             }
         }
