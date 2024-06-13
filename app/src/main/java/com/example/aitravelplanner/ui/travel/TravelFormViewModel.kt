@@ -258,9 +258,8 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                 description += stage.name + ": "
                 description += stage.description + "\n"
             }
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
-            val date: Date? = dateFormat.parse(Timestamp.now().toDate().toString())
-            val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = date, numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
+
+            val travel = Travel(idTravel = null, idUser = currentUser.value!!.idUser, info = description, name = travelName.value, isShared = false, timestamp = Timestamp.now().toDate(), numberOfLikes = 0, imageUrl = stageImagesUrl[0], stageList = stageList, isLiked = false)
             travelRepository.setTravel(travel)
             isTravelCreated.value = true
             TravelCardsSingleton.getInstance().addTravel(travel, currentUser.value!!)
