@@ -40,6 +40,7 @@ class OpenAIManager {
                 4. "Places to visit" for the list of places to visit in that city
                 5. "Place" for the place name
                 6. "Description" for the place description
+                You must use italian language.
             """.trimIndent()
         else
             systemPrompt = """
@@ -62,6 +63,7 @@ class OpenAIManager {
                 4. "Places to visit" for the list of places to visit in that city
                 5. "Place" for the place name
                 6. "Description" for the place description
+                You must use italian language.
             """.trimIndent()
 
         val url = URL("https://api.openai.com/v1/chat/completions")

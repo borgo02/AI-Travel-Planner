@@ -1,5 +1,6 @@
 package com.example.aitravelplanner.ui.travel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,8 +18,6 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class TravelFormViewModel @Inject constructor(override val userRepository: UserRepository = UserRepository.getInstance(), override val travelRepository: TravelRepository = TravelRepository(), private val coroutineScopeProvider: CoroutineScope? = null) : BaseViewModel(userRepository, travelRepository, coroutineScopeProvider) {
     private var budget: String = ""
@@ -103,6 +102,8 @@ class TravelFormViewModel @Inject constructor(override val userRepository: UserR
                         "SportInterests: ${interests["sport"]}," +
                         "HistoryInterests: ${interests["story"]}," +
                         "Just visited cities: $justVisitedCities"
+
+                Log.d("Prova", "$justVisitedCities")
 
                 json = if(travelMap["Destination"] == "generate automatic destination")
                     openAIManager.preProcessTravel(travelPrompt, true)

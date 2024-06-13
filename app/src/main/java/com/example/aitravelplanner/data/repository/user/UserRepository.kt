@@ -8,6 +8,7 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -95,7 +96,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -123,7 +124,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -138,7 +139,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
         val notSharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
