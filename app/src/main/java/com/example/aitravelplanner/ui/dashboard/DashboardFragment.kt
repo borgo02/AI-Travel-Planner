@@ -1,8 +1,6 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +10,6 @@ import com.example.aitravelplanner.R
 import com.example.aitravelplanner.databinding.FragmentDashboardBinding
 import com.example.aitravelplanner.ui.BaseFragment
 import com.example.aitravelplanner.ui.components.travelCard.CardAdapter
-import kotlin.math.log
 
 /** Fragment che si occupa della visualizzazione della dashboard in cui sono presenti i viaggi pubblicati dagli utenti
  *
@@ -22,7 +19,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     override val layoutId: Int = R.layout.fragment_dashboard
     override val viewModel: DashboardViewModel by activityViewModels()
     private lateinit var cardAdapter: CardAdapter
-    var count: Int = 0
 
     private val searchTextObserver = Observer<String> { _ ->
         viewModel.search()
@@ -47,7 +43,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
         // Osserva le modifiche effettuate alla lista searchedCardsList del Dashboard View Model
         viewModel.searchedCardsList.observe(viewLifecycleOwner) { newValue ->
+            val currentSize = cardAdapter.itemCount - 1
             cardAdapter.updateData(newValue)
+            cardAdapter.notifyItemChanged(currentSize)
         }
 
         viewModel.checkIfUserHaveInterest()
