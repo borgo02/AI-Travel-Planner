@@ -3,6 +3,7 @@ package com.example.aitravelplanner.data.repository.travel
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
+import com.google.firebase.firestore.DocumentSnapshot
 
 interface ITravelRepository {
     /** Inserisce un nuovo viaggio nel database Firestore
@@ -59,4 +60,10 @@ interface ITravelRepository {
      *
      */
     suspend fun isTravelLikedByUser(idTravel: String, idUser: String): Boolean
+
+    /**
+     * Ritorna i viaggi di un utente specifico
+     */
+    suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
+    suspend fun mapDocumentToTravel(travel: DocumentSnapshot, idUser: String): Travel?
 }

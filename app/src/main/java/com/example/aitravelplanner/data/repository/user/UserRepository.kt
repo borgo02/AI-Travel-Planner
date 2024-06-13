@@ -8,6 +8,8 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -23,6 +25,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class UserRepository @Inject private constructor(): IUserRepository, BaseRepository(){
+    private val pageOffset: Long = 10
+    private var lastSnapshot: DocumentSnapshot? = null
     private var currentUser: User? = null
     var travelRepository: TravelRepository = TravelRepository()
     var usersCollectionRef: CollectionReference = db.collection("users")
@@ -119,35 +123,6 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             null
     }
 
-    /** Ritorna i viaggi pubblicati da un utente specifico
-     *
-     */
-    override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
-        val sharedTravelList: ArrayList<Travel> = arrayListOf()
-        for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id, idUser)
-            if(travelData != null && travelData.isShared!!)
-                sharedTravelList.add(travelData)
-        }
-
-        return sharedTravelList
-    }
-
-    /** Ritorna i viaggi non pubblicati da un utente specifico
-     *
-     */
-    override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
-        val notSharedTravelList: ArrayList<Travel> = arrayListOf()
-        for(travel in travelRef.documents){
-            val travelData = travelRepository.getTravelById(travel.id, idUser)
-            if(travelData != null && !travelData.isShared!!)
-                notSharedTravelList.add(travelData)
-        }
-
-        return notSharedTravelList
-    }
 
     /** Ritorna tutti gli utenti presenti nel database
      *

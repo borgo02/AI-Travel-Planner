@@ -28,13 +28,18 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
      */
     suspend fun setTravelCards(userId: String){
         travelCardsList.value!!.clear()
-        val sharedTravels = travelRepository.getSharedTravels(userId)
-        val notSharedTravels = userRepository.getNotSharedTravelsByUser(userId)
+        val sharedTravels = travelRepository.getSharedTravels(userId)               //getTravel(page=0, offset=10)
+        val notSharedTravels = travelRepository.getTravelsByUser(userId)            //getAllUsersTravel()
         addTravels(sharedTravels)
         addTravels(notSharedTravels)
         notifyChanges()
     }
 
+     //getTravels(page=10, offset=10)
+    suspend fun getNewTravels(userId: String, page: Number)
+    {
+        val sharedTravels = travelRepository.getSharedTravels(userId)
+    }
     /**
     * Aggiunge i viaggi specificati alla lista di CardTravel.
     *
@@ -42,6 +47,10 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
     */
     private suspend fun addTravels(travels: ArrayList<Travel>){
         for (travel in travels) {
+            if (travelCardsList.value!!.find { it.travelId == travel.idTravel } != null)
+            {
+                continue
+            }
             val userTravel: User = travel.idUser?.let { userRepository.getUserById(it)}!!
             val affinity = evaluateAffinity(userRepository.getUser()!!.interests!!, userTravel.interests!!)
             val stageCardList = arrayListOf<StageCard>()

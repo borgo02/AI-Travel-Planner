@@ -31,16 +31,6 @@ interface IUserRepository {
      */
     suspend fun getTravelsByUser(idUser: String): ArrayList<Travel>
 
-    /** Ritorna i viaggi pubblicati da un utente specifico
-     *
-     */
-    suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel>
-
-    /** Ritorna i viaggi non pubblicati da un utente specifico
-     *
-     */
-    suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel>
-
     /** Ritorna tutti gli utenti presenti nel database
      *
      */
