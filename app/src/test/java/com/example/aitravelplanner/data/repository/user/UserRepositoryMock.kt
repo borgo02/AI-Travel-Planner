@@ -15,12 +15,12 @@ class UserRepositoryMock: IUserRepository {
     private val dateString = "10-10-2002"
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy")
     private val date: Date? = dateFormat.parse(dateString)
-    private var currentUser: User = User("idUserTest1", "usertest1@mail", "User Test 1", true, mapOf("interest1" to 0.5f, "interest2" to 0.3f, ))
-    private val users = mutableListOf<User>(currentUser)
+    private var currentUser= User("idUserTest1", "usertest1@mail", "User Test 1", true, mapOf("interest1" to 0.5f, "interest2" to 0.3f, ))
+    private val users = arrayListOf<User>()
     private val travel1 = Travel(idTravel = "1", idUser = "idUserTest1", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
     private val travel2 = Travel(idTravel = "1", idUser = "idUserTest2", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
     private val travel3 = Travel(idTravel = "1", idUser = "idUserTest2", info = "Info", name = "test1", isShared = true, timestamp = date, numberOfLikes = 0, imageUrl = "imageURL", stageList = ArrayList<Stage>(), isLiked = false)
-    private val travels = mutableListOf<Travel>(travel1, travel2, travel3)
+    private val travels = arrayListOf<Travel>(travel1, travel2, travel3)
     private val likes = mutableListOf<Likes>()
 
     init{users.add(currentUser)}

@@ -50,12 +50,10 @@ class UserRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @org.junit.jupiter.api.Test
-    fun getSharedTravelsByUserTest() = runBlocking {
+    fun getUsersTest() = runBlocking {
         val userRepositoryMock = UserRepositoryMock.getInstance()
-        val userId = "idUserTest2"
+        val result = userRepositoryMock.getUsers()
 
-        val result = userRepositoryMock.getSharedTravelsByUser(userId)
-
-        assert(result.size == 2)
+        assert(result.size == 1)
     }
 }
