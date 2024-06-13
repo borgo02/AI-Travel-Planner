@@ -18,6 +18,10 @@ class InterestsViewModel @Inject constructor() : BaseViewModel() {
     val sportValue = MutableLiveData(5.0f)
     val shoppingValue = MutableLiveData(5.0f)
 
+    init {
+        _isLoading.value = false
+        popRunningRequest()
+    }
     /**
      * Metodo chiamato quando viene confermata la selezione degli interessi.
      * Aggiorna gli interessi dell'utente nel repository.

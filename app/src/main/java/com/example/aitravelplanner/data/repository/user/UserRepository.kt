@@ -150,7 +150,11 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
             val email = userDoc.getString("email")
             val isInit = userDoc.getBoolean("initialized")
             val fullname = userDoc.getString("fullname")
-            val interests = userDoc.get("interests") as Map<String, Float>
+            var interests: Map<String, Float>? = null
+            if (userDoc.get("interests") != null)
+            {
+                interests = userDoc.get("interests") as Map<String, Float>
+            }
             likedTravelList = this.getLikesByUser(idUser)
             val user = User(idUser, email!!, fullname!!, isInit!!, interests, likedTravelList)
             if (isCurrentUser)

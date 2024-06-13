@@ -33,7 +33,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
     }
 
     fun initialize() = coroutineScope.async {
-        if (currentUser.value != null) {
+        if (currentUser.value != null && !initialized.get()) {
             travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
             setTravelCards()
             initialized.set(true)
