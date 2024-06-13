@@ -8,7 +8,6 @@ import com.example.aitravelplanner.data.repository.travel.TravelRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -81,13 +80,13 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
                         transaction.update(travelRef, "numberOfLikes", currentLikesValue + 1)
                         likedTravelsRef.document().set(like)
                     }
-                else
-                    for (like in likedTravelQuery.documents) {
-                        val idLike = like.id
-                        transaction.update(travelRef, "numberOfLikes", currentLikesValue - 1)
-                        likedTravelsRef.document(idLike).delete()
-                        break
-                    }
+                    else
+                        for (like in likedTravelQuery.documents) {
+                            val idLike = like.id
+                            transaction.update(travelRef, "numberOfLikes", currentLikesValue - 1)
+                            likedTravelsRef.document(idLike).delete()
+                            break
+                        }
             }.await()
         }
     }
@@ -96,7 +95,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -124,7 +123,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val sharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
@@ -139,7 +138,7 @@ class UserRepository @Inject private constructor(): IUserRepository, BaseReposit
      *
      */
     override suspend fun getNotSharedTravelsByUser(idUser: String): ArrayList<Travel> {
-        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).orderBy("timestamp", Query.Direction.DESCENDING).get().await()
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
         val notSharedTravelList: ArrayList<Travel> = arrayListOf()
         for(travel in travelRef.documents){
             val travelData = travelRepository.getTravelById(travel.id, idUser)
