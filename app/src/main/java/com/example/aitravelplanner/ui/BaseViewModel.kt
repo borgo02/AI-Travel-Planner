@@ -31,7 +31,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
             return userLive
         }
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
     var isNavigating = false
 
@@ -45,7 +45,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     /**
      * Metodo utile per la gestione della paginazione
      */
-    private fun setBusy(){
+    protected fun setBusy(){
         synchronized(_isBusyLock) {
             _isBusy = true
         }
@@ -54,7 +54,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     /**
      * Metodo utile per la gestione della paginazione
      */
-    private fun resetBusy(){
+    protected fun resetBusy(){
         synchronized(_isBusyLock) {
             _isBusy = false
         }
@@ -63,7 +63,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     /**
      * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
      */
-    private fun addRunningRequest()
+    protected fun addRunningRequest()
     {
         synchronized(_runningRequestsLock) {
             _runningRequests++
@@ -73,7 +73,7 @@ open class BaseViewModel @Inject constructor(open val userRepository: IUserRepos
     /**
      * Metodo utile per la gestione del caricamento quando si eseguono blocchi di codice suspend
      */
-    private fun popRunningRequest(): Boolean
+    protected fun popRunningRequest(): Boolean
     {
         synchronized(_runningRequestsLock) {
             _runningRequests--
