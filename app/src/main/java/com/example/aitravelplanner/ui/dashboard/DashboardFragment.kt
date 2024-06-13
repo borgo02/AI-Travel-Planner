@@ -40,10 +40,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                 val totalItemCount = layoutManager!!.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
                 if (!recyclerView.canScrollVertically(1) || lastVisibleItem >= totalItemCount - 5) {
-                    count++
-                    Log.e("Count: ", count.toString())
-                    //binding.progressBarView.visibility = View.VISIBLE
-                    //loadMoreData()
+                    viewModel.getNewItems()
                 }
             }
         })
