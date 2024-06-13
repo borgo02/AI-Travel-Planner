@@ -1,16 +1,15 @@
 package com.example.aitravelplanner.data.repository.user
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.aitravelplanner.InstantExecutorExtension
-import com.example.aitravelplanner.MainCoroutineRule
-import com.example.aitravelplanner.ui.dashboard.MainDispatcherRule
+import com.example.aitravelplanner.utils.InstantExecutorExtension
+import com.example.aitravelplanner.utils.MainCoroutineRule
+import com.example.aitravelplanner.utils.MainDispatcherRule
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.setMain
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
@@ -21,10 +20,6 @@ import org.junit.rules.TestRule
 @ExtendWith(MockKExtension::class)
 @ExtendWith(InstantExecutorExtension::class)
 class UserRepositoryTest {
-
-    @get:Rule
-    private val testScope = TestScope()
-
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 

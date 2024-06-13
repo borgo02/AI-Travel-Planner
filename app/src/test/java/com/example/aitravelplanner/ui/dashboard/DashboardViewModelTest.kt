@@ -1,12 +1,13 @@
 package com.example.aitravelplanner.ui.dashboard
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.aitravelplanner.InstantExecutorExtension
-import com.example.aitravelplanner.MainCoroutineRule
+import com.example.aitravelplanner.utils.InstantExecutorExtension
+import com.example.aitravelplanner.utils.MainCoroutineRule
 import com.example.aitravelplanner.data.repository.travel.TravelRepositoryMock
 import com.example.aitravelplanner.data.repository.user.UserRepositoryMock
 import com.example.aitravelplanner.ui.components.travelCard.CardTravel
 import com.example.aitravelplanner.ui.travel.TravelCardsSingleton
+import com.example.aitravelplanner.utils.MainDispatcherRule
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 @ExtendWith(MockKExtension::class)
 @ExtendWith(InstantExecutorExtension::class)
 class DashboardViewModelTest  {
-    @get:Rule
     private val testScope = TestScope()
 
     @get:Rule
@@ -38,7 +38,6 @@ class DashboardViewModelTest  {
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
-    private val userId: String = "1"
     private var mockUserRepository: UserRepositoryMock= UserRepositoryMock.getInstance()
     private var mockTravelRepository: TravelRepositoryMock = TravelRepositoryMock()
     private lateinit var viewModel: DashboardViewModel
