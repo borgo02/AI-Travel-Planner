@@ -95,7 +95,7 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
             userImage = "https://cdn-icons-png.flaticon.com/512/8847/8847419.png",
             travelImage = travel.imageUrl ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfAxGV-fZxGL9elM_hQ2tp7skLeSwMyUiwo4lMm1zyA&s",
             travelName = travel.name!!,
-            affinityPerc = "",
+            affinityPerc = "100%",
             travelLikes = travel.numberOfLikes,
             timestamp = formatter.format(travel.timestamp!!).toString(),
             isLiked = travel.isLiked!!,
