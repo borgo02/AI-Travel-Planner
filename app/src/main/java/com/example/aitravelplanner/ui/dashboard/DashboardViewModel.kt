@@ -50,7 +50,7 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
             val newSearchedTravelList = arrayListOf<CardTravel>()
             val newCardList = arrayListOf<CardTravel>()
             for (cardTravel in it)
-                if (cardTravel.isShared) {
+                if (cardTravel.isShared && cardTravel.userId != currentUser.value!!.idUser) {
                     newCardList.add(cardTravel)
                     if(searchText.value == "")
                         newSearchedTravelList.add(cardTravel)
