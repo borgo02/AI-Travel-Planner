@@ -33,11 +33,13 @@ class DashboardViewModel @Inject constructor(override val userRepository: IUserR
     }
 
     fun initialize() = coroutineScope.async {
-        if (currentUser.value != null && !initialized.get()) {
-            travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
-            setTravelCards()
-            initialized.set(true)
-        }
+        executeWithLoadingSuspend(block= {
+            if (currentUser.value != null && !initialized.get()) {
+                travelCardsSingleton.setTravelCards(currentUser.value!!.idUser)
+                setTravelCards()
+                initialized.set(true)
+            }
+        })
     }
 
     /** Questa funzione imposta la lista di viaggi da visualizzare nella dashboard.

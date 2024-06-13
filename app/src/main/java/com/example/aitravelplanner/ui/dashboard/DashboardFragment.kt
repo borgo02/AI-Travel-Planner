@@ -25,6 +25,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
+        viewModel.initialize()
         val pullToRefresh: SwipeRefreshLayout = requireActivity().findViewById(R.id.pullToRefresh)
         cardAdapter = CardAdapter(mutableListOf(), viewModel::isLiked, this, viewModel::loadSelectedTravel)
         binding.travelCardsRecyclerView.layoutManager = LinearLayoutManager(requireContext())

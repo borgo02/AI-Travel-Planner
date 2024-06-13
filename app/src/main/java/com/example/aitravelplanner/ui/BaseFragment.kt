@@ -27,7 +27,7 @@ abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel>() : F
     protected abstract val layoutId: Int
     protected abstract val viewModel: VM
     protected lateinit var binding: BINDING
-    private lateinit var progressBar: ProgressBar
+    protected lateinit var progressBar: ProgressBar
 
     protected abstract fun onReady(savedInstanceState: Bundle?)
 

@@ -17,6 +17,9 @@ class InterestsFragment : BaseFragment<FragmentInterestsBinding, InterestsViewMo
     private var navBar: BottomNavigationView? = null
 
     override fun onReady(savedInstanceState: Bundle?) {
+        if(progressBar.visibility == View.VISIBLE)
+            progressBar.visibility = View.GONE
+
         navBar = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         navBar!!.visibility = View.GONE
     }
