@@ -43,9 +43,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
         // Osserva le modifiche effettuate alla lista searchedCardsList del Dashboard View Model
         viewModel.searchedCardsList.observe(viewLifecycleOwner) { newValue ->
-            val currentSize = cardAdapter.itemCount - 1
             cardAdapter.updateData(newValue)
-            cardAdapter.notifyItemChanged(currentSize)
         }
 
         viewModel.checkIfUserHaveInterest()

@@ -192,10 +192,12 @@ class CardAdapter(
      *
      */
     fun updateData(newCardList: List<CardTravel>) {
+        val currentSize = itemCount - 1
         val oldCards = ArrayList(cards)
         cards.clear()
         cards.addAll(newCardList)
         val diffResult = DiffUtil.calculateDiff(CardDiffCallback(oldCards, newCardList))
         diffResult.dispatchUpdatesTo(this)
+        notifyItemChanged(currentSize)
     }
 }
