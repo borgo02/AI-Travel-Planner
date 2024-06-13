@@ -28,7 +28,7 @@ class TravelCardsSingleton(private val travelRepository: ITravelRepository = Tra
      */
     suspend fun setTravelCards(userId: String){
         travelCardsList.value!!.clear()
-        val sharedTravels = travelRepository.getSharedTravels(userId)
+        val sharedTravels = travelRepository.getSharedTravels(userId, true)
         val notSharedTravels = travelRepository.getTravelsByUser(userId)
         addTravels(sharedTravels)
         addTravels(notSharedTravels)
