@@ -38,9 +38,97 @@ class LikeTest {
                     throw AssertionError("Non è un interest component")
                 }
             }
-        //onView(withId(R.id.story)).
-        //onView(withId(R.id.interest_scroll)).perform(ViewActions.scrollTo())
-        //onView(withId(R.id.button)).perform(scrollTo(),click())
+
+        onView(withId(R.id.art))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.art))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
+        onView(withId(R.id.party))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.party))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
+        onView(withId(R.id.nature))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.nature))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
+        onView(withId(R.id.entertainment))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.entertainment))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
+        onView(withId(R.id.sport))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.sport))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
+        onView(withId(R.id.shopping))
+            .check(matches(isAssignableFrom(InterestComponent::class.java)))
+
+        onView(withId(R.id.shopping))
+            .perform(scrollTo())
+            .check { view, _ ->
+                if (view is InterestComponent) {
+                    val slider = view.findViewById<Slider>(R.id.slider)
+                    // Assert the slider's current value
+                    assert(slider.value == 5.0f)
+                } else {
+                    throw AssertionError("Non è un interest component")
+                }
+            }
+
     }
 
 }
