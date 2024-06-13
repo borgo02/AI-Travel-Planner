@@ -1,15 +1,17 @@
 package com.example.aitravelplanner.data.repository.travel
 
-import android.util.Log
 import com.example.aitravelplanner.data.model.Stage
 import com.example.aitravelplanner.data.model.Travel
 import com.example.aitravelplanner.data.model.User
 import com.example.aitravelplanner.data.repository.BaseRepository
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 
 class TravelRepository: ITravelRepository, BaseRepository() {
+    private val pageOffset: Long = 10
+    private var lastSnapshot: DocumentSnapshot? = null
     private val usersCollectionRef: CollectionReference = db.collection("users")
     var travelsCollectionReference: CollectionReference = db.collection("travels")
 
@@ -58,8 +60,7 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         val travelsDoc = travelsCollectionReference.get().await()
         val travelList: ArrayList<Travel> = arrayListOf()
         for (doc in travelsDoc.documents) {
-            val idTravel = doc.id
-            val travelData = this.getTravelById(idTravel, "")
+            val travelData = this.mapDocumentToTravel(doc, "")
             if (travelData != null)
                     travelList.add(travelData)
         }
@@ -70,41 +71,71 @@ class TravelRepository: ITravelRepository, BaseRepository() {
     /** Ritorna tutti i viaggi presenti nel database che sono stati pubblicati
      *
      */
-    override suspend fun getSharedTravels(idUser: String): ArrayList<Travel>{
-        val travelsDoc = travelsCollectionReference.get().await()
-        val travelList: ArrayList<Travel> = arrayListOf()
-        for (doc in travelsDoc.documents) {
-            val idTravel = doc.id
-            val travelData = this.getTravelById(idTravel, idUser)
-            if (travelData != null) {
-                if(travelData.isShared == true)
-                    travelList.add(travelData)
-            }
+    override suspend fun getSharedTravels(idUser: String, resetPage: Boolean, searchText: String): ArrayList<Travel> {
+        if (resetPage)
+        {
+            lastSnapshot = null
+        }
+        var query = travelsCollectionReference.whereNotEqualTo("idUser", idUser).whereEqualTo("shared", true)
+        if (searchText != "")
+        {
+            val endFilter = "$searchText\\uf8ff"
+            query = query.orderBy("name").startAt(searchText).endAt(endFilter)
+        }
+        query = query.orderBy("timestamp", Query.Direction.DESCENDING)
+        if (lastSnapshot != null)
+        {
+            query = query.startAfter(lastSnapshot!!)
+        }
+        if (searchText == "") {
+            query = query.limit(pageOffset)
+        }
+        val travelRef = query.get().await()
+        if (travelRef.documents.size > 0)
+        {
+            lastSnapshot = travelRef.documents[travelRef.documents.size - 1]
+        }
+        val sharedTravelList: ArrayList<Travel> = arrayListOf()
+        for(travel in travelRef.documents){
+            val travelData = this.mapDocumentToTravel(travel, idUser)
+            if(travelData != null)
+                sharedTravelList.add(travelData)
         }
 
-        return travelList
+        return sharedTravelList
+    }
+
+    /** Ritorna tutti i viaggi condivisi utilizzando il filtro
+     *
+     */
+    override suspend fun getTravelsBySearchText(idUser: String, searchText: String): ArrayList<Travel>
+    {
+        return getSharedTravels(idUser, true, searchText)
     }
 
     /** Ritorna un viaggio identificato da uno specifico id
      *
      */
     override suspend fun getTravelById(idTravel: String, idUser: String): Travel?{
-        var isLiked: Boolean
         val doc = travelsCollectionReference.document(idTravel).get().await()
-        return if (doc.exists()) {
-            val idUserRef = doc.getString("idUser")
-            val info = doc.getString("info")
-            val name = doc.getString("name")
-            val isShared = doc.getBoolean("shared")
-            val numberOfLikes = doc.getLong("numberOfLikes")?.toInt()
-            val imageUrl = doc.getString("imageUrl")
-            val timestamp = doc.getTimestamp("timestamp")?.toDate()
-            isLiked = if(idUser != "")
-                this.isTravelLikedByUser(idTravel, idUser)
+        return this.mapDocumentToTravel(doc, idUser)
+    }
+
+    suspend fun mapDocumentToTravel(travel: DocumentSnapshot, idUser: String): Travel? {
+        return if (travel.exists()) {
+            val idUserRef = travel.getString("idUser")
+            val info = travel.getString("info")
+            val name = travel.getString("name")
+            val isShared = travel.getBoolean("shared")
+            val numberOfLikes = travel.getLong("numberOfLikes")?.toInt()
+            val imageUrl = travel.getString("imageUrl")
+            val timestamp = travel.getTimestamp("timestamp")?.toDate()
+            val isLiked = if(idUser != "")
+                this.isTravelLikedByUser(travel.id, idUser)
             else
                 false
-            val stages = this.getStagesByTravel(idTravel)
-            Travel(idTravel, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
+            val stages = this.getStagesByTravel(travel.id)
+            Travel(travel.id, idUserRef, info, name, isShared, timestamp, numberOfLikes, imageUrl, stages, isLiked)
         } else
             null
     }
@@ -180,5 +211,20 @@ class TravelRepository: ITravelRepository, BaseRepository() {
         }
 
         return isTravelLiked
+    }
+
+    /**
+     * Ritorna i viaggi di un utente specifico
+     */
+    override suspend fun getTravelsByUser(idUser: String): ArrayList<Travel> {
+        val travelRef = travelsCollectionReference.whereEqualTo("idUser", idUser).get().await()
+        val userTravelList: ArrayList<Travel> = arrayListOf()
+        for(travel in travelRef.documents){
+            val travelData = this.mapDocumentToTravel(travel, idUser)
+            if(travelData != null)
+                userTravelList.add(travelData)
+        }
+
+        return userTravelList
     }
 }
